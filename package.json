@@ -1,0 +1,41 @@
+{
+  "name": "apd",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "authors": {
+    "name": "stevenkwok",
+    "email": "guozhaolong@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guozhaolong/apd.git"
+  },
+  "scripts": {
+    "dev": "umi-lib doc dev",
+    "build": "umi-lib build"
+  },
+  "peerDependencies": {
+    "react": "16.x"
+  },
+  "devDependencies": {
+    "umi-library": "^1.6.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-regular-svg-icons": "^5.8.1",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "react-contextmenu": "^2.11.0",
+    "react-dnd": "^9.3.2",
+    "react-dnd-html5-backend": "^9.3.2",
+    "react-dom": "^16.8.6",
+    "redux": "^4.0.4",
+    "redux-react-hook": "^3.3.2",
+    "umi": "^2.8.15"
+  }
+}

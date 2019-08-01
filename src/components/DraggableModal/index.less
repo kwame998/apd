@@ -1,0 +1,28 @@
+.root {
+  background-color: #fff;
+  display: inline-block;
+  position: absolute;
+  border: 1px solid #000;
+  border-radius: 3px;
+  z-index: 9999;
+  box-shadow: 0 10px 20px rgba(0,0,0,.3), 0 0 0 1px #eee;
+  .header {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ccc;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    > div {
+      > svg {
+        cursor: pointer;
+        font-size: 14px;
+        color: rgba(0,0,0,.45);
+      }
+    }
+  }
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 0 16px 16px;
+  }
+}
