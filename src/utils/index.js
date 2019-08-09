@@ -21,3 +21,15 @@ export function getWidgetComponent(widget) {
       return null;
   }
 }
+
+export function getWidgetDOMPosition(value,children = [],byX = false) {
+  let position = children.length;
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    if (byX && child.offsetLeft > value || !byX && child.offsetTop > value) {
+      position = i;
+      break;
+    }
+  }
+  return position;
+}
