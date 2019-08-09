@@ -62,7 +62,7 @@ const Canvas = ({item}) => {
     drop: (child, monitor) => {
       const didDrop = monitor.didDrop();
       if(!didDrop){
-        let y = monitor.getSourceClientOffset().y;
+        let y = monitor.getClientOffset().y+rootRef.current.scrollTop+window.scrollY;
         const idx = getWidgetDOMPosition(y,rootRef.current.children);
         dispatch({ type: 'addWidget', payload: { ...child, parentId: id, idx } });
       }
@@ -88,6 +88,7 @@ const Canvas = ({item}) => {
     () => ({
       height,
       padding:16,
+      overflow:'auto',
       border:'1px solid #ddd',
       backgroundColor: isOverCurrent ? DROP_COLOR : '#fff',
     }),

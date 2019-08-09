@@ -22,7 +22,7 @@ const SectionRow = ({widget}) => {
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop();
       if (!didDrop) {
-        let x = monitor.getSourceClientOffset().x;
+        let x = monitor.getClientOffset().x+rootRef.current.scrollLeft+window.scrollX;
         const idx = getWidgetDOMPosition(x,rootRef.current.children);
         dispatch({ type: 'addWidget', payload: { ...item, parentId: widget.id, idx } });
       }
