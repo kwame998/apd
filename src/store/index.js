@@ -31,10 +31,17 @@ export function makeStore() {
           children.splice(idx,0,widget);
           const others = state.widgets.filter(w => widget.parentId !== w.parentId && w.id !== widget.id);
           let widgets = [...others,...children];
-          if(isAdd && widget.type === 'tabgroup'){
-            widgets = [...widgets,
-              { type: 'tab', title: '标签一', id: `${widget.id}_tab_1`, parentId: widget.id},
-              { type: 'tab', title: '标签二', id: `${widget.id}_tab_2`, parentId: widget.id}];
+          if(isAdd){
+            if(widget.type === 'tabgroup')
+              widgets = [...widgets,
+                { type: 'tab', title: '标签一', id: `${widget.id}_tab_1`, parentId: widget.id},
+                { type: 'tab', title: '标签二', id: `${widget.id}_tab_2`, parentId: widget.id}];
+            else if(widget.type === 'table')
+              widgets = [...widgets,
+                { type: 'tablecol', title: '列一', id: `${widget.id}_tablecol_1`, parentId: widget.id},
+                { type: 'tablecol', title: '列二', id: `${widget.id}_tablecol_2`, parentId: widget.id}];
+            else if(widget.type === 'buttongroup')
+              widgets = [...widgets, { type: 'pushbutton', title: '按钮', id: `${widget.id}_pushbutton_1`,detail:{ label: '按钮'}, parentId: widget.id}];
           }
           return { ...state, widgets: widgets  };
         }

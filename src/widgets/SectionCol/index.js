@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import { useDispatch, useMappedState } from 'redux-react-hook';
-import { getWidgetComponent, getWidgetDOMPosition } from '../../utils';
+import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from "react-contextmenu";
 import styles from './index.less'
@@ -18,7 +18,7 @@ const SectionCol = ({widget}) => {
   const rootRef = useRef();
   const [collectProps, drag] = useDrag({item: widget});
   const [{ isOver, isOverCurrent }, drop] = useDrop({
-    accept: ['section','textbox','table','tabgroup'],
+    accept: getWidgetAccept(widget),
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop();
       if (!didDrop) {
@@ -40,7 +40,7 @@ const SectionCol = ({widget}) => {
   const rootStyle = useMemo(
     () => ({
       width,
-      backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : '#fff',
+      backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : null,
     }),
     [isOverCurrent,selected,width],);
   return (

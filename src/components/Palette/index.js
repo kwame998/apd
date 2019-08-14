@@ -3,94 +3,37 @@ import { useDrag } from 'react-dnd'
 import styles from './index.less'
 import DraggableModal from '../DraggableModal';
 
-const SectionIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'section', title: '部分', }});
-  return (
-    <img ref={drag} src={require('../assets/section.gif')} />
-  )
-};
-
-const SectionRowIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'sectionrow', title: '部分行', }});
-  return (
-    <img ref={drag} src={require('../assets/sectionrow.gif')} />
-  )
-};
-
-const SectionColIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'sectioncol', title: '部分列', }});
-  return (
-    <img ref={drag} src={require('../assets/sectioncol.gif')} />
-  )
-};
-
-const TabGroupIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'tabgroup', title: '标签组', }});
-  return (
-    <img ref={drag} src={require('../assets/tabgroup.gif')} />
-  )
-};
-
-const TabIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'tab', title: '标签', }});
-  return (
-    <img ref={drag} src={require('../assets/tab.gif')} />
-  )
-};
-
-const TableIcon = () => {
-  const [collectProps, drag] = useDrag({
-    item: {
-      type: 'table',
-      title: '列表',
-      detail: {
-        columns:[{
-          title: '列1',
-          dataIndex: 'col1'
-        },{
-          title: '列2',
-          dataIndex: 'col2'
-        }]
-      }
-    }
-  });
-  return (
-    <img ref={drag} src={require('../assets/table.gif')} />
-  )
-};
-
-const TextboxIcon = () => {
-  const [collectProps, drag] = useDrag({
-    item: {
-      type: 'textbox',
-      title: '文本框',
-      detail: {
-        label: "文本框",
-        length: 200
-      }
-    }
-  });
-  return (
-    <img ref={drag} src={require('../assets/textbox.gif')} />
-  )
-};
-
 const widgets = [
-  { title:'部分', component: <SectionIcon /> },
-  { title:'部分行', component: <SectionRowIcon /> },
-  { title:'部分列', component: <SectionColIcon /> },
-  { title:'列表', component: <TableIcon /> },
-  { title:'文本框', component: <TextboxIcon /> },
-  { title:'标签组', component: <TabGroupIcon /> },
-  { title:'标签', component: <TabIcon /> },
+  { type: 'tabgroup', title: '标签组',detail: { label: '标签组', }, icon:require('../assets/tabgroup.gif') },
+  { type: 'tab', title: '标签',detail: { label: '标签', }, icon:require('../assets/tab.gif') },
+  { type: 'attachments', title: '附件', detail: { label: '附件', }, icon:require('../assets/attachments.gif')},
+  { type: 'section', title: '部分',detail: { label: '部分', }, icon:require('../assets/section.gif') },
+  { type: 'sectionrow', title: '部分行',detail: { label: '部分行', }, icon:require('../assets/sectionrow.gif') },
+  { type: 'sectioncol', title: '部分列',detail: { label: '部分列', }, icon:require('../assets/sectioncol.gif') },
+  { type: 'table', title: '表格', detail: { label: '表格', }, icon:require('../assets/table.gif') },
+  { type: 'tablecol', title: '表格列', detail: { label: '表格列', }, icon:require('../assets/tablecol.gif') },
+  { type: 'combobox', title: '下拉框', detail: { label: '下拉框', }, icon:require('../assets/combobox.gif')},
+  { type: 'pushbutton', title: '按钮', detail: { label: '按钮', }, icon:require('../assets/pushbutton.gif')},
+  { type: 'buttongroup', title: '按钮组', detail: { label: '按钮组', }, icon:require('../assets/buttongroup.gif')},
+  { type: 'checkbox', title: '复选框', detail: { label: '选项一', }, icon:require('../assets/checkbox.gif')},
+  { type: 'radiobuttongroup', title: '单选框组', detail: { label: '单选框', }, icon:require('../assets/radiobuttongroup.gif')},
+  { type: 'radiobutton', title: '单选框', detail: { label: '选项一', }, icon:require('../assets/radiobutton.gif')},
+  { type: 'hyperlink', title: '链接', detail: { label: '链接', },icon:require('../assets/hyperlink.gif')},
+  { type: 'textbox', title: '文本框', detail: { label: "文本框", }, icon:require('../assets/textbox.gif') },
+  { type: 'multilinetextbox', title: '多行文本框', detail: { label: '文本框' }, icon:require('../assets/multilinetextbox.gif') },
 ];
+
+function getDragImg(item){
+  const [collectProps, drag] = useDrag({ item });
+  return <img ref={drag} src={item.icon} />
+}
 
 const Palette = ({visible,onCancel}) => {
   return (
-    <DraggableModal visible={visible} onCancel={onCancel} width={186} title="控件">
-      {widgets.map((w,i) => <div className={styles.widget} key={`widget_${i}`}>
-          <div className={styles.widgetImg}>{w.component}</div>
-          <div className={styles.widgetTitle}>{w.title}</div>
+    <DraggableModal visible={visible} onCancel={onCancel} width={270} title="控件">
+      {widgets.map((item,i) => <div className={styles.widget} key={`widget_${i}`}>
+          <div className={styles.widgetImg}>{getDragImg(item)}</div>
+          <div className={styles.widgetTitle}>{item.title}</div>
         </div>
       )}
     </DraggableModal>

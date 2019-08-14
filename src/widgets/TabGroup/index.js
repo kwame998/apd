@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import { useDispatch, useMappedState } from 'redux-react-hook';
-import { getWidgetComponent, getWidgetDOMPosition } from '../../utils';
+import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import classNames from 'classnames';
 import { ContextMenuTrigger } from "react-contextmenu";
@@ -26,7 +26,7 @@ const TabPane = ({widget,className}) => {
   const tabPaneRef = useRef();
   const dispatch = useDispatch();
   const [{ isOver, isOverCurrent }, drop] = useDrop({
-    accept: ['textbox', 'section','sectionrow', 'table',],
+    accept: getWidgetAccept(widget),
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop();
       if (!didDrop) {
@@ -45,7 +45,7 @@ const TabPane = ({widget,className}) => {
   },[]);
   const rootStyle = useMemo(
     () => ({
-      backgroundColor: isOverCurrent ? DROP_COLOR : '#fff',
+      backgroundColor: isOverCurrent ? DROP_COLOR : null,
     }),
     [isOverCurrent,],);
   return (
@@ -64,7 +64,7 @@ const TabGroup = ({widget}) => {
   const tabsBarRef = useRef();
   const [collectProps, drag] = useDrag({item: widget});
   const [{ isOver, isOverCurrent }, tabsBarDrop] = useDrop({
-    accept: ['tab'],
+    accept: getWidgetAccept(widget),
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop();
       if (!didDrop) {
@@ -84,7 +84,7 @@ const TabGroup = ({widget}) => {
   },[]);
   const rootStyle = useMemo(
     () => ({
-      backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : '#fff',
+      backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : null,
     }),
     [isOverCurrent,selected],);
   return (

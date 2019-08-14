@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import styles from './index.less'
 import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
-import { getWidgetComponent,getWidgetDOMPosition } from '../../utils';
+import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import _ from 'lodash';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -58,7 +58,7 @@ const Canvas = ({item,height}) => {
   const { widgets } = useMappedState(mapState);
   const dispatch = useDispatch();
   const [{ isOver, isOverCurrent }, drop] = useDrop({
-    accept: ['textbox','section','sectionrow','table','tabgroup'],
+    accept: getWidgetAccept(item),
     drop: (child, monitor) => {
       const didDrop = monitor.didDrop();
       if(!didDrop){

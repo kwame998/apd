@@ -9,18 +9,23 @@ const mapState = state => ({
   widgets: state.widgets,
 });
 
-const Textbox = ({widget}) => {
+const MultilineTextbox = ({widget}) => {
   const { widgets } = useMappedState(mapState);
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
   const [collectProps, drag] = useDrag({item: widget});
   const rootStyle = useMemo(
     () => ({
-      backgroundColor: selected ? SELECTED_COLOR : null,
+      backgroundColor: selected ? SELECTED_COLOR : '#fff',
     }),
     [selected],);
   const { detail } = widget;
-  const { label } = detail;
+  const { label,rows = 3 } = detail;
+  const inputStyle = useMemo(
+    () => ({
+      height: 30 * rows,
+    }),
+    [rows],);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({widgetId:widget.id})}>
       <div
@@ -33,10 +38,10 @@ const Textbox = ({widget}) => {
         }}
       >
         <label className={styles.label}>{`${label}: `}</label>
-        <div className={styles.input}/>
+        <div className={styles.input} style={inputStyle} />
       </div>
     </ContextMenuTrigger>
   )
 };
 
-export default Textbox;
+export default MultilineTextbox;
