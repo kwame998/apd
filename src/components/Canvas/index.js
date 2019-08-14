@@ -39,7 +39,7 @@ const Menu = () => {
     <MenuItem onClick={()=>{}}>
       <FontAwesomeIcon icon="paste" style={{fontSize: 16,marginRight: 8,color:'#eb2f96'}} />粘 贴
     </MenuItem>
-    <MenuItem onClick={(e,{widgetId},target)=> dispatch({ type: 'removeWidget', payload: widgetId })}>
+    <MenuItem onClick={(e,{widget},target)=> dispatch({ type: 'removeWidget', payload: widget })}>
       <FontAwesomeIcon icon="trash-alt" style={{fontSize: 16,marginRight: 8,color:'#ffa39e'}} />删 除
     </MenuItem>
   </ContextMenu>

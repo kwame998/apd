@@ -22,7 +22,7 @@ const Textbox = ({widget}) => {
   const { detail } = widget;
   const { label } = detail;
   return (
-    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({widgetId:widget.id})}>
+    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
       <div
         ref={drag}
         className={styles.root}

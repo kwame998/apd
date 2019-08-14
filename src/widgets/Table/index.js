@@ -22,11 +22,15 @@ const TableCol = ({widget,children}) => {
     [selected],);
   return (
     <td ref={drag}
-      style={tdStyle}
-      onClick={(e)=>{
-        dispatch({ type: 'selectWidget', payload: widget.id });
-        e.stopPropagation()
-      }}>{children}</td>
+        style={tdStyle}
+        onClick={(e)=>{
+          dispatch({ type: 'selectWidget', payload: widget.id });
+          e.stopPropagation()
+        }} >
+      <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
+        {children}
+      </ContextMenuTrigger>
+    </td>
   )
 };
 
@@ -63,6 +67,7 @@ const Table = ({widget}) => {
   const { detail } = widget;
   const { label } = detail;
   return (
+    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
            onClick={(e)=>{
              dispatch({ type: 'selectWidget', payload: widget.id });
@@ -82,12 +87,13 @@ const Table = ({widget}) => {
           <tbody>
             <tr>
               {widgets && widgets.filter(d => d.parentId === widget.id).map((column,i) => (
-                <TableCol key={`${i}`} widget={column} />
+                <TableCol key={`${i}`} widget={column}> </TableCol>
               ))}
             </tr>
           </tbody>
         </table>
       </div>
+    </ContextMenuTrigger>
   );
 };
 

@@ -41,7 +41,7 @@ const SectionRow = ({widget}) => {
     }),
     [isOverCurrent,selected],);
   return (
-    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({widgetId:widget.id})}>
+    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
       <div
         ref={rootRef}
         onClick={(e)=>{

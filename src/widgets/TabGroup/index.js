@@ -15,9 +15,11 @@ const mapState = state => ({
 const Tab = ({widget,className,onClick}) => {
   const [collectProps, drag] = useDrag({item: widget});
   return (
-    <div className={className} onClick={onClick} ref={drag}>
-      {widget.title}
-    </div>
+    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
+      <div className={className} onClick={onClick} ref={drag}>
+        {widget.title}
+      </div>
+    </ContextMenuTrigger>
   )
 };
 
@@ -88,6 +90,7 @@ const TabGroup = ({widget}) => {
     }),
     [isOverCurrent,selected],);
   return (
+    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
            onClick={(e) => {
              dispatch({ type: 'selectWidget', payload: widget.id });
@@ -114,6 +117,7 @@ const TabGroup = ({widget}) => {
           )}
         </div>
       </div>
+    </ContextMenuTrigger>
   );
 };
 
