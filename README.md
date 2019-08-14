@@ -10,3 +10,14 @@
 https://guozhaolong.github.io/apd/
 
 ## Usage
+```
+import React, { useState } from 'react';
+import AppDesigner from 'apd'
+
+export default function() {
+  return (
+    <AppDesigner height={600}/>
+  );
+}
+
+```
