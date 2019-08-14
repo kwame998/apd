@@ -4,6 +4,7 @@ import SectionRow from '../widgets/SectionRow';
 import SectionCol from '../widgets/SectionCol';
 import Table from '../widgets/Table';
 import Textbox from '../widgets/Textbox';
+import TabGroup from '../widgets/TabGroup';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -17,6 +18,8 @@ export function getWidgetComponent(widget) {
       return <Table widget={widget} key={widget.id} />;
     case 'textbox':
       return <Textbox widget={widget} key={widget.id} />;
+    case 'tabgroup':
+      return <TabGroup widget={widget} key={widget.id} />;
     default:
       return null;
   }

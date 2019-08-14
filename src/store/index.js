@@ -20,14 +20,23 @@ export function makeStore() {
       case 'addWidget': {
         const widget = action.payload;
         const { idx } = widget;
-        if (!widget.id && widget.parentId)
+        let isAdd = false;
+        if (!widget.id && widget.parentId) {
           widget.id = _.uniqueId(`${widget.parentId}_${widget.type}_${state.widgets.length + 1}`);
+          isAdd = true;
+        }
         const parent = state.widgets.find(w => widget.parentId === w.id);
         if(parent) {
           const children = state.widgets.filter(w => widget.parentId === w.parentId && w.id !== widget.id);
           children.splice(idx,0,widget);
           const others = state.widgets.filter(w => widget.parentId !== w.parentId && w.id !== widget.id);
-          return { ...state, widgets: [...others,...children]  };
+          let widgets = [...others,...children];
+          if(isAdd && widget.type === 'tabgroup'){
+            widgets = [...widgets,
+              { type: 'tab', title: '标签一', id: `${widget.id}_tab_1`, parentId: widget.id},
+              { type: 'tab', title: '标签二', id: `${widget.id}_tab_2`, parentId: widget.id}];
+          }
+          return { ...state, widgets: widgets  };
         }
         return { ...state, widgets: [...state.widgets, widget] };
       }

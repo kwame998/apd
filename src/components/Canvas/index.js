@@ -49,8 +49,8 @@ const mapState = state => ({
   widgets: state.widgets,
 });
 
-const Canvas = ({item}) => {
-  const {id,height = 800} = item;
+const Canvas = ({item,height}) => {
+  const { id } = item;
   const toolbarWidth = 80;
   const toolbarHeight = 32;
   const rootRef = useRef();
@@ -58,7 +58,7 @@ const Canvas = ({item}) => {
   const { widgets } = useMappedState(mapState);
   const dispatch = useDispatch();
   const [{ isOver, isOverCurrent }, drop] = useDrop({
-    accept: ['textbox','section','sectionrow','table'],
+    accept: ['textbox','section','sectionrow','table','tabgroup'],
     drop: (child, monitor) => {
       const didDrop = monitor.didDrop();
       if(!didDrop){

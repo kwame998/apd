@@ -18,7 +18,7 @@ const Section = ({ widget }) => {
   const rootRef = useRef();
   const [collectProps, drag] = useDrag({ item: widget });
   const [{ isOver, isOverCurrent }, drop] = useDrop({
-    accept: ['textbox', 'sectionrow', 'table'],
+    accept: ['textbox', 'sectionrow', 'table','tabgroup'],
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop();
       if (!didDrop) {

@@ -4,23 +4,37 @@ import styles from './index.less'
 import DraggableModal from '../DraggableModal';
 
 const SectionIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'section', title: '部分', height: 50, innerX: 16, innerY: 16,}});
+  const [collectProps, drag] = useDrag({item: { type: 'section', title: '部分', }});
   return (
     <img ref={drag} src={require('../assets/section.gif')} />
   )
 };
 
 const SectionRowIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'sectionrow', title: '部分行', height: 50, innerX: 16, innerY: 16,}});
+  const [collectProps, drag] = useDrag({item: { type: 'sectionrow', title: '部分行', }});
   return (
     <img ref={drag} src={require('../assets/sectionrow.gif')} />
   )
 };
 
 const SectionColIcon = () => {
-  const [collectProps, drag] = useDrag({item: { type: 'sectioncol', title: '部分列', height: 34, innerX: 16, innerY: 16}});
+  const [collectProps, drag] = useDrag({item: { type: 'sectioncol', title: '部分列', }});
   return (
     <img ref={drag} src={require('../assets/sectioncol.gif')} />
+  )
+};
+
+const TabGroupIcon = () => {
+  const [collectProps, drag] = useDrag({item: { type: 'tabgroup', title: '标签组', }});
+  return (
+    <img ref={drag} src={require('../assets/tabgroup.gif')} />
+  )
+};
+
+const TabIcon = () => {
+  const [collectProps, drag] = useDrag({item: { type: 'tab', title: '标签', }});
+  return (
+    <img ref={drag} src={require('../assets/tab.gif')} />
   )
 };
 
@@ -29,9 +43,6 @@ const TableIcon = () => {
     item: {
       type: 'table',
       title: '列表',
-      height: 78,
-      innerX: 0,
-      innerY: 0,
       detail: {
         columns:[{
           title: '列1',
@@ -53,9 +64,6 @@ const TextboxIcon = () => {
     item: {
       type: 'textbox',
       title: '文本框',
-      height: 64,
-      innerX: 0,
-      innerY: 0,
       detail: {
         label: "文本框",
         length: 200
@@ -73,6 +81,8 @@ const widgets = [
   { title:'部分列', component: <SectionColIcon /> },
   { title:'列表', component: <TableIcon /> },
   { title:'文本框', component: <TextboxIcon /> },
+  { title:'标签组', component: <TabGroupIcon /> },
+  { title:'标签', component: <TabIcon /> },
 ];
 
 const Palette = ({visible,onCancel}) => {

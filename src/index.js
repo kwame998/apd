@@ -9,11 +9,11 @@ import Canvas from './components/Canvas';
 const store = makeStore();
 
 const AppDesigner = ({height = 800}) => {
-  const canvas = { type: 'canvas', id: 'canvas', height, x:0, y: 0, innerX: 16, innerY: 16 };
+  const canvas = { type: 'canvas', id: 'canvas',};
   return (
     <DndProvider backend={HTML5Backend}>
       <StoreContext.Provider value={store}>
-        <Canvas item={canvas} />
+        <Canvas item={canvas} height={height}/>
       </StoreContext.Provider>
     </DndProvider>
   );

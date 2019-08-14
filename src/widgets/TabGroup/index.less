@@ -1,0 +1,68 @@
+.tabs {
+  padding: 0;
+  color: rgba(0,0,0,0.65);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden;
+  margin-bottom:16px;
+  .tabsBar {
+    border-bottom: 1px solid #e8e8e8;
+    height: 40px;
+    .tabsNav {
+      width: 100%;
+      margin-bottom: -1px;
+      overflow: hidden;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: nowrap;
+      zoom: 1;
+      display: inline-block;
+      padding-left: 0;
+      .tabsTabActive {
+        cursor: default !important;
+        height: 40px;
+        font-weight: 600;
+        background: #fff !important;
+        border-color: #e8e8e8;
+        border-bottom: 1px solid #fff !important;
+      }
+      .tabsTab {
+        height: 39px;
+        margin: 0 2px 0 0;
+        padding: 0 16px;
+        line-height: 38px;
+        background: #fafafa;
+        border: 1px solid #e8e8e8;
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+
+      }
+    }
+  }
+
+  .tabsContent {
+    border: 1px solid #e8e8e8;
+    border-top: 0;
+    .tabsTabPane {
+      transition: none !important;
+      flex-shrink: 0;
+      opacity: 1;
+      min-height: 60px;
+      padding: 16px;
+    }
+    .tabsTabPaneActive {
+
+    }
+    .tabsTabPaneInactive {
+      height: 0;
+      padding: 0 !important;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
