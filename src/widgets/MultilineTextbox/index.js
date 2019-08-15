@@ -16,7 +16,7 @@ const MultilineTextbox = ({widget}) => {
   const [collectProps, drag] = useDrag({item: widget});
   const rootStyle = useMemo(
     () => ({
-      backgroundColor: selected ? SELECTED_COLOR : '#fff',
+      backgroundColor: selected ? SELECTED_COLOR : null,
     }),
     [selected],);
   const { detail } = widget;

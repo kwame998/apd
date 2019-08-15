@@ -17,14 +17,20 @@ const Checkbox = ({widget}) => {
   const [collectProps, drag] = useDrag({item: widget});
   const rootStyle = useMemo(
     () => ({
-      backgroundColor: selected ? SELECTED_COLOR : '#fff',
+      backgroundColor: selected ? SELECTED_COLOR : null,
     }),
     [selected],);
   const { detail } = widget;
   const { label } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
-      <label className={styles.root}>
+      <label ref={drag}
+             onClick={(e) => {
+               dispatch({ type: 'selectWidget', payload: widget.id });
+               e.stopPropagation();
+             }}
+             className={styles.root}
+             style={rootStyle}>
         <span className={classNames(styles.icon,styles.checked)}>
           <input type="checkbox" />
           <span className={styles.inner}/>
