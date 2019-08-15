@@ -15,12 +15,12 @@ const widgets = [
   { type: 'combobox', title: '下拉框', detail: { label: '下拉框', }, icon:require('../assets/combobox.gif')},
   { type: 'pushbutton', title: '按钮', detail: { label: '按钮', }, icon:require('../assets/pushbutton.gif')},
   { type: 'buttongroup', title: '按钮组', detail: { label: '按钮组', }, icon:require('../assets/buttongroup.gif')},
-  { type: 'checkbox', title: '复选框', detail: { label: '选项一', }, icon:require('../assets/checkbox.gif')},
-  { type: 'radiobuttongroup', title: '单选框组', detail: { label: '单选框', }, icon:require('../assets/radiobuttongroup.gif')},
-  { type: 'radiobutton', title: '单选框', detail: { label: '选项一', }, icon:require('../assets/radiobutton.gif')},
+  { type: 'checkbox', title: '复选框', detail: { label: '复选框', }, icon:require('../assets/checkbox.gif')},
+  { type: 'radiobuttongroup', title: '单选框组', detail: { label: '单选框组', }, icon:require('../assets/radiobuttongroup.gif')},
+  { type: 'radiobutton', title: '单选框', detail: { label: '单选框', }, icon:require('../assets/radiobutton.gif')},
   { type: 'hyperlink', title: '链接', detail: { label: '链接', },icon:require('../assets/hyperlink.gif')},
   { type: 'textbox', title: '文本框', detail: { label: "文本框", }, icon:require('../assets/textbox.gif') },
-  { type: 'multilinetextbox', title: '多行文本框', detail: { label: '文本框' }, icon:require('../assets/multilinetextbox.gif') },
+  { type: 'multilinetextbox', title: '多行文本框', detail: { label: '多行文本框' }, icon:require('../assets/multilinetextbox.gif') },
 ];
 
 function getDragImg(item){

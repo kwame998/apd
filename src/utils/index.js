@@ -8,6 +8,7 @@ import TabGroup from '../widgets/TabGroup';
 import MultilineTextbox from '../widgets/MultilineTextbox';
 import PushButton from '../widgets/PushButton';
 import ButtonGroup from '../widgets/ButtonGroup';
+import Checkbox from '../widgets/Checkbox';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -29,6 +30,8 @@ export function getWidgetComponent(widget) {
       return <PushButton widget={widget} key={widget.id} />;
     case 'buttongroup':
       return <ButtonGroup widget={widget} key={widget.id} />;
+    case 'checkbox':
+      return <Checkbox widget={widget} key={widget.id} />;
     default:
       return null;
   }
@@ -37,19 +40,19 @@ export function getWidgetComponent(widget) {
 export function getWidgetAccept(widget) {
   switch (widget.type){
     case 'canvas':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
     case 'section':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
     case 'sectionrow':
       return ['sectioncol'];
     case 'sectioncol':
-      return ['tabgroup','section','table','textbox','multilinetextbox','pushbutton','buttongroup'];
+      return ['tabgroup','section','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
     case 'table':
       return ['tablecol'];
     case 'tabgroup':
       return ['tab'];
     case 'tab':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
     case 'buttongroup':
       return ['pushbutton'];
     default:
