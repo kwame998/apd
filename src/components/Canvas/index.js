@@ -1,46 +1,29 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useDrop } from 'react-dnd'
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenu, MenuItem, } from "react-contextmenu";
 import styles from './index.less'
-import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
+import { useDispatch, useMappedState } from 'redux-react-hook';
 import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
-import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
-import _ from 'lodash';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faListAlt,
-  faCut,
-  faCopy,
-  faPaste,
-  faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { DROP_COLOR, } from '../../constants';
 import Toolbar from '../Toolbar';
-library.add(
-  faListAlt,
-  faCut,
-  faCopy,
-  faPaste,
-  faTrashAlt
-);
 
 const Menu = () => {
   const dispatch = useDispatch();
   return <ContextMenu id="rightMenu" className={styles.menu}>
     <MenuItem onClick={()=>{}}>
-      <FontAwesomeIcon icon="list-alt" style={{fontSize: 16,marginRight: 8,color:'#faad14'}} />属 性
+      <span className="iconfont icon-detail-fill" style={{fontSize: 16,marginRight: 8,color:'#faad14'}} />属 性
     </MenuItem>
     <MenuItem disabled onClick={()=>{}}>
-      <FontAwesomeIcon icon="cut" style={{fontSize: 16,marginRight: 8,color:'#73d13d'}} />剪 切
+      <span className="iconfont icon-scissor" style={{fontSize: 16,marginRight: 8,color:'#73d13d'}} />剪 切
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <FontAwesomeIcon icon="copy" style={{fontSize: 16,marginRight: 8,color:'#69c0ff'}} />复 制
+      <span className="iconfont icon-file-copy" style={{fontSize: 16,marginRight: 8,color:'#69c0ff'}} />复 制
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <FontAwesomeIcon icon="paste" style={{fontSize: 16,marginRight: 8,color:'#eb2f96'}} />粘 贴
+      <span className="iconfont icon-snippets" style={{fontSize: 16,marginRight: 8,color:'#eb2f96'}} />粘 贴
     </MenuItem>
     <MenuItem onClick={(e,{widget},target)=> dispatch({ type: 'removeWidget', payload: widget })}>
-      <FontAwesomeIcon icon="trash-alt" style={{fontSize: 16,marginRight: 8,color:'#ffa39e'}} />删 除
+      <span className="iconfont icon-delete" style={{fontSize: 16,marginRight: 8,color:'#ffa39e'}} />删 除
     </MenuItem>
   </ContextMenu>
 };

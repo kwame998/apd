@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';

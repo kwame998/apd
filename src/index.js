@@ -1,8 +1,8 @@
-import React,{Component} from 'react';
+import React from 'react';
 import './index.css';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { StoreContext, useDispatch } from 'redux-react-hook';
+import { StoreContext, } from 'redux-react-hook';
 import {makeStore} from './store'
 import Canvas from './components/Canvas';
 

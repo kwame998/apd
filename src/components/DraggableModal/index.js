@@ -1,9 +1,5 @@
 import React, { useMemo, useState,useEffect } from 'react';
 import { useDrag } from 'react-dnd'
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-library.add(faTimes);
 import styles from './index.less'
 
 const DraggableModal = ({visible,onCancel,width,title,children}) => {
@@ -37,7 +33,7 @@ const DraggableModal = ({visible,onCancel,width,title,children}) => {
     <div ref={preview} className={styles.root} style={rootStyle}>
       <div ref={drag} className={styles.header}>
         <div>{title}</div>
-        <div>{onCancel !== undefined && <FontAwesomeIcon icon="times" onClick={onCancel} />}</div>
+        <div>{onCancel !== undefined && <span className="iconfont icon-close" onClick={onCancel} />}</div>
       </div>
       <div className={styles.body}>
         {children}

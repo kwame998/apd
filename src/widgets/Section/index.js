@@ -5,7 +5,6 @@ import { getWidgetComponent, getWidgetDOMPosition,getWidgetAccept } from '../../
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import styles from './index.less';
-import { findDOMNode } from 'react-dom';
 
 const mapState = state => ({
   widgets: state.widgets,

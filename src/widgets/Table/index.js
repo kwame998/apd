@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import {findDOMNode} from 'react-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import styles from './index.less'

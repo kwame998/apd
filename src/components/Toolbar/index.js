@@ -1,20 +1,8 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, } from 'react';
 import { useDrag } from 'react-dnd'
 import styles from './index.less'
 import Palette from '../Palette';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPalette,
-  faListAlt,
-  faCommentAlt
-} from '@fortawesome/free-solid-svg-icons';
 import Detail from '../Detail';
-library.add(
-  faPalette,
-  faListAlt,
-  faCommentAlt
-);
 
 const Toolbar = ({width = 80,minX = 0,minY = 0,maxX = 0, maxY = 0}) => {
   const [paletteVisible,setPaletteVisible] = useState(false);
@@ -55,9 +43,9 @@ const Toolbar = ({width = 80,minX = 0,minY = 0,maxX = 0, maxY = 0}) => {
   return (
     <>
       <div className={styles.root} ref={drag} style={rootStyle}>
-        <FontAwesomeIcon icon="palette" style={{fontSize: 20,marginRight: 8,color:'#f5222d'}} onClick={()=>setPaletteVisible(!paletteVisible)}/>
-        <FontAwesomeIcon icon="list-alt" style={{fontSize: 20,marginRight: 8,color:'#faad14'}} onClick={()=>setDetailVisible(!detailVisible)}/>
-        <FontAwesomeIcon icon="comment-alt" style={{fontSize: 20,color:'#1890ff'}} onClick={()=>setDialogVisible(!dialogVisible)}/>
+        <span className="iconfont icon-layout-fill" style={{fontSize: 20,marginRight: 8,color:'#f5222d'}} onClick={()=>setPaletteVisible(!paletteVisible)}/>
+        <span className="iconfont icon-detail-fill" style={{fontSize: 20,marginRight: 8,color:'#faad14'}} onClick={()=>setDetailVisible(!detailVisible)}/>
+        <span className="iconfont icon-message-fill" style={{fontSize: 20,color:'#1890ff'}} onClick={()=>setDialogVisible(!dialogVisible)}/>
       </div>
       <Palette visible={paletteVisible} onCancel={()=>setPaletteVisible(false)}/>
       <Detail visible={detailVisible} onCancel={()=>setDetailVisible(false)}/>
