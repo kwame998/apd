@@ -30,8 +30,8 @@ function getDragImg(item){
 
 const Palette = ({visible,onCancel}) => {
   return (
-    <DraggableModal visible={visible} onCancel={onCancel} width={220} title="控件">
-      {widgets.map((item,i) => <div className={styles.widget} style={{ width:50 }} key={`widget_${i}`}>
+    <DraggableModal visible={visible} onCancel={onCancel} width={190} title="控件">
+      {widgets.map((item,i) => <div className={styles.widget} key={`widget_${i}`}>
           <div className={styles.widgetImg}>{getDragImg(item)}</div>
           <div className={styles.widgetTitle}>{item.title}</div>
         </div>
