@@ -42,7 +42,7 @@ const DraggableModal = ({visible,onCancel,width,title,children}) => {
   return (
     <div ref={rootRef} className={styles.root} style={rootStyle}>
       <div ref={drag} className={styles.header}>
-        <div>{title}</div>
+        <div className={styles.title}>{title}</div>
         <div>{onCancel !== undefined && <span className="iconfont icon-close" onClick={onCancel} />}</div>
       </div>
       <div className={styles.body}>

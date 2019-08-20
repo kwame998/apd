@@ -1,7 +1,9 @@
 import React, { useMemo, useState, } from 'react';
 import { useDrag } from 'react-dnd'
 import styles from './index.less'
+import classNames from 'classnames';
 import DraggableModal from '../DraggableModal';
+
 
 const widgets = [
   { type: 'tabgroup', title: '标签组',detail: { label: '标签组', }, icon:require('../assets/widgets/tabgroup.gif') },
@@ -28,14 +30,28 @@ function getDragImg(item){
   return <img ref={drag} src={item.icon} />
 }
 
-const Palette = ({visible,onCancel}) => {
+const Switcher = ({checked = false,style = {},onClick}) => {
   return (
-    <DraggableModal visible={visible} onCancel={onCancel} width={190} title="控件">
-      {widgets.map((item,i) => <div className={styles.widget} key={`widget_${i}`}>
-          <div className={styles.widgetImg}>{getDragImg(item)}</div>
-          <div className={styles.widgetTitle}>{item.title}</div>
-        </div>
-      )}
+    <button style={style} className={checked ? classNames(styles.switcher,styles.switcherChecked) : styles.switcher} onClick={onClick}></button>
+  );
+};
+
+
+const Palette = ({visible,onCancel}) => {
+  const [titleVisible,setTitleVisible] = useState(true);
+  const title = <div className={styles.title}>
+    <span>控件</span>
+    <Switcher style={{marginTop: 4}} checked={titleVisible} onClick={()=>setTitleVisible(!titleVisible)}/>
+  </div>;
+  return (
+    <DraggableModal visible={visible} onCancel={onCancel} width={176} title={title}>
+      <div className={styles.root}>
+        {widgets.map((item,i) => <div className={styles.widget} key={`widget_${i}`}>
+            <div className={styles.widgetImg}>{getDragImg(item)}</div>
+            {titleVisible && <div className={styles.widgetTitle}>{item.title}</div>}
+          </div>
+        )}
+      </div>
     </DraggableModal>
   );
 };

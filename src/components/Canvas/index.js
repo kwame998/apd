@@ -11,19 +11,19 @@ const Menu = () => {
   const dispatch = useDispatch();
   return <ContextMenu id="rightMenu" className={styles.menu}>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-detail-fill" style={{fontSize: 16,marginRight: 8,color:'#faad14'}} />属 性
+      <span className="iconfont icon-detail-fill" />属 性
     </MenuItem>
     <MenuItem disabled onClick={()=>{}}>
-      <span className="iconfont icon-scissor" style={{fontSize: 16,marginRight: 8,color:'#73d13d'}} />剪 切
+      <span className="iconfont icon-scissor" />剪 切
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-file-copy" style={{fontSize: 16,marginRight: 8,color:'#69c0ff'}} />复 制
+      <span className="iconfont icon-file-copy"v/>复 制
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-snippets" style={{fontSize: 16,marginRight: 8,color:'#eb2f96'}} />粘 贴
+      <span className="iconfont icon-snippets" />粘 贴
     </MenuItem>
     <MenuItem onClick={(e,{widget},target)=> dispatch({ type: 'removeWidget', payload: widget })}>
-      <span className="iconfont icon-delete" style={{fontSize: 16,marginRight: 8,color:'#ffa39e'}} />删 除
+      <span className="iconfont icon-delete" />删 除
     </MenuItem>
   </ContextMenu>
 };
