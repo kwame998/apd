@@ -1,11 +1,11 @@
 {
   "name": "apd",
   "version": "0.0.1",
-  "description": "",
+  "description": "custom application designer",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "authors": {
-    "name": "stevenkwok",
+    "name": "guozhaolong",
     "email": "guozhaolong@gmail.com"
   },
   "repository": {
@@ -23,6 +23,21 @@
     "umi-library": "^1.6.0",
     "umi": "^2.8.15"
   },
+  "files": [
+    "dist",
+    "assets"
+  ],
+  "bugs": {
+    "url": "https://github.com/guozhaolong/apd/issues"
+  },
+  "homepage": "https://github.com/guozhaolong/apd#readme",
+  "directories": {
+    "example": "example"
+  },
+  "keywords": [
+    "react-dnd",
+    "app design"
+  ],
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.11",

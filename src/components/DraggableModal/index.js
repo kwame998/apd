@@ -1,18 +1,21 @@
-import React, { useMemo, useState,useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useDrag } from 'react-dnd'
 import styles from './index.less'
 
 const DraggableModal = ({visible,onCancel,width,title,children}) => {
-  const [position,setPosition] = useState({x:window.innerWidth/2-width/2,y:100});
+  const rootRef = useRef();
+  const [position,setPosition] = useState({x:0,y:0});
   const [{isDragging}, drag, preview] = useDrag({
     item: { type: 'palette' },
     end:(item,monitor) => {
-      let x = monitor.getSourceClientOffset().x;
-      let y = monitor.getSourceClientOffset().y;
+      const canvas = rootRef.current.parentNode;
+      const canvasRect = canvas.getBoundingClientRect();
+      let x = monitor.getSourceClientOffset().x - canvasRect.left + canvas.scrollLeft;
+      let y = monitor.getSourceClientOffset().y - canvasRect.top + canvas.scrollTop;
       if(x < 0)
         x = 0;
-      else if(x+width > window.innerWidth)
-        x = window.innerWidth - width;
+      if(y < 0)
+        y = 0;
       setPosition({x,y});
       return true;
     },
@@ -20,6 +23,13 @@ const DraggableModal = ({visible,onCancel,width,title,children}) => {
       isDragging: !!monitor.isDragging(),
     }),
   });
+  useEffect(()=>{
+    const clientRect = rootRef.current.getBoundingClientRect();
+    const canvas = rootRef.current.parentNode;
+    const canvasRect = canvas.getBoundingClientRect();
+    setPosition({x:canvasRect.width/2 - clientRect.width/2,y:40});
+    preview(rootRef);
+  },[]);
   const rootStyle = useMemo(
     () => ({
       left: position.x,
@@ -30,7 +40,7 @@ const DraggableModal = ({visible,onCancel,width,title,children}) => {
     }),
     [visible,isDragging,width],);
   return (
-    <div ref={preview} className={styles.root} style={rootStyle}>
+    <div ref={rootRef} className={styles.root} style={rootStyle}>
       <div ref={drag} className={styles.header}>
         <div>{title}</div>
         <div>{onCancel !== undefined && <span className="iconfont icon-close" onClick={onCancel} />}</div>

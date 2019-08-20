@@ -34,10 +34,7 @@ const mapState = state => ({
 
 const Canvas = ({item,height}) => {
   const { id } = item;
-  const toolbarWidth = 80;
-  const toolbarHeight = 32;
   const rootRef = useRef();
-  const [bounds,setBounds] = useState({minX:null,minY:null,maxX:null,maxY:null});
   const { widgets } = useMappedState(mapState);
   const dispatch = useDispatch();
   const [{ isOver, isOverCurrent }, drop] = useDrop({
@@ -59,30 +56,21 @@ const Canvas = ({item,height}) => {
     dispatch({ type: 'addWidget', payload: item }); // add root
   },[item]);
   useEffect(()=>{
-    setBounds({
-      minX: rootRef.current.offsetLeft,
-      minY: rootRef.current.offsetTop,
-      maxX: rootRef.current.offsetWidth - toolbarWidth,
-      maxY: rootRef.current.offsetHeight - toolbarHeight,
-    });
     drop(rootRef);
   },[]);
   const rootStyle = useMemo(
     () => ({
       height,
-      padding:16,
-      overflow:'auto',
-      border:'1px solid #ddd',
       backgroundColor: isOverCurrent ? DROP_COLOR : '#fff',
     }),
     [isOverCurrent,height],);
   return (
     <>
-      <div ref={rootRef} style={rootStyle}>
+      <div ref={rootRef} className={styles.root} style={rootStyle}>
         {widgets && widgets.filter(d => d.parentId === id).map(item => getWidgetComponent(item))}
+        <Toolbar />
+        <Menu />
       </div>
-      <Toolbar width={toolbarWidth} minX={bounds.minX} minY={bounds.minY} maxX={bounds.maxX} maxY={bounds.maxY} />
-      <Menu />
     </>
   );
 };
