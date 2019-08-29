@@ -17,7 +17,7 @@ const Menu = () => {
       <span className="iconfont icon-scissor" />剪 切
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-file-copy"v/>复 制
+      <span className="iconfont icon-file-copy" />复 制
     </MenuItem>
     <MenuItem onClick={()=>{}}>
       <span className="iconfont icon-snippets" />粘 贴

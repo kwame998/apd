@@ -91,6 +91,31 @@ export function makeStore() {
           return state;
         }
       }
+      case 'updateWidgetDetail': {
+        const detail = action.payload;
+        return {
+          state,
+          selectedWidget: {
+            ...state.selectedWidget,
+            detail: {
+              ...state.selectedWidget.detail,
+              ...detail
+            }
+          },
+          widgets: state.widgets.map(w => {
+            if(w.id === state.selectedWidget.id){
+             return {
+               ...w,
+               detail: {
+                 ...w.detail,
+                 ...detail
+               }
+             };
+            }
+            return w;
+          })
+        }
+      }
       default:
         return state;
     }

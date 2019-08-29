@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './index.less';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { StoreContext, } from 'redux-react-hook';

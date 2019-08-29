@@ -1,31 +1,20 @@
-import React, { useMemo, useState,Fragment } from 'react';
-import { useDrag } from 'react-dnd'
+import React, { PureComponent, useEffect, useMemo, useState } from 'react';
 import styles from './index.less'
 import DraggableModal from '../DraggableModal';
 import { useDispatch, useMappedState } from 'redux-react-hook';
-
-const ColDetail = () => {
-  return (
-    <Fragment>
-      <div className={styles.row}>
-        <div className={styles.label}>宽度: </div>
-        <div><input /></div>
-      </div>
-    </Fragment>
-  )
-};
+import TextboxDetail from './TextboxDetail';
 
 const mapState = state => ({
   selectedWidget: state.selectedWidget,
 });
 const Detail = ({visible,onCancel}) => {
   const { selectedWidget } = useMappedState(mapState);
-  const title = selectedWidget ? selectedWidget.title : "";
   const dispatch = useDispatch();
+  const title = selectedWidget ? selectedWidget.title : "";
   return (
     <DraggableModal visible={visible} onCancel={onCancel} width={400} title={`${title}属性`}>
       <div className={styles.root}>
-        <ColDetail />
+        { selectedWidget.type === 'textbox' && <TextboxDetail widget={selectedWidget} dispatch={dispatch}/> }
       </div>
     </DraggableModal>
   );
