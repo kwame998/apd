@@ -18,11 +18,12 @@ const widgets = [
   { type: 'pushbutton', title: '按钮', detail: { label: '按钮', }, icon:require('../assets/widgets/pushbutton.gif')},
   { type: 'buttongroup', title: '按钮组', detail: { label: '按钮组', }, icon:require('../assets/widgets/buttongroup.gif')},
   { type: 'checkbox', title: '复选框', detail: { label: '复选框', }, icon:require('../assets/widgets/checkbox.gif')},
-  { type: 'radiobuttongroup', title: '单选框组', detail: { label: '单选框组', }, icon:require('../assets/widgets/radiobuttongroup.gif')},
   { type: 'radiobutton', title: '单选框', detail: { label: '单选框', }, icon:require('../assets/widgets/radiobutton.gif')},
+  { type: 'radiobuttongroup', title: '单选框组', detail: { label: '单选框组', }, icon:require('../assets/widgets/radiobuttongroup.gif')},
   { type: 'hyperlink', title: '链接', detail: { label: '链接', },icon:require('../assets/widgets/hyperlink.gif')},
   { type: 'textbox', title: '文本框', detail: { label: "文本框", }, icon:require('../assets/widgets/textbox.gif') },
   { type: 'multilinetextbox', title: '多行文本框', detail: { label: '多行文本框' }, icon:require('../assets/widgets/multilinetextbox.gif') },
+  { type: 'image', title: '图像', detail: { label: '图像' }, icon:require('../assets/widgets/image.gif') },
 ];
 
 function getDragImg(item){

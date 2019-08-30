@@ -9,6 +9,8 @@ import MultilineTextbox from '../widgets/MultilineTextbox';
 import PushButton from '../widgets/PushButton';
 import ButtonGroup from '../widgets/ButtonGroup';
 import Checkbox from '../widgets/Checkbox';
+import RadioButton from '../widgets/RadioButton';
+import RadioButtonGroup from '../widgets/RadioButtonGroup';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -32,6 +34,10 @@ export function getWidgetComponent(widget) {
       return <ButtonGroup widget={widget} key={widget.id} />;
     case 'checkbox':
       return <Checkbox widget={widget} key={widget.id} />;
+    case 'radiobutton':
+      return <RadioButton widget={widget} key={widget.id} />;
+    case 'radiobuttongroup':
+      return <RadioButtonGroup widget={widget} key={widget.id} />;
     default:
       return null;
   }
@@ -40,21 +46,27 @@ export function getWidgetComponent(widget) {
 export function getWidgetAccept(widget) {
   switch (widget.type){
     case 'canvas':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox',
+        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
     case 'section':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox',
+        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
     case 'sectionrow':
       return ['sectioncol'];
     case 'sectioncol':
-      return ['tabgroup','section','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
+      return ['tabgroup','section','table','textbox','multilinetextbox',
+        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
     case 'table':
       return ['tablecol'];
     case 'tabgroup':
       return ['tab'];
     case 'tab':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','pushbutton','buttongroup','checkbox'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox',
+        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
     case 'buttongroup':
       return ['pushbutton'];
+    case 'radiobuttongroup':
+      return ['radiobutton'];
     default:
       return null;
   }

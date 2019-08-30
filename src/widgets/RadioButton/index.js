@@ -2,12 +2,12 @@ import React, { useMemo } from 'react';
 import { useDispatch, } from 'redux-react-hook';
 import { SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from "react-contextmenu";
-import { Button } from 'antd';
-import 'antd/lib/button/style';
+import { Radio } from 'antd';
+import 'antd/lib/radio/style';
 import { useDrag } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 
-const PushButton = ({widget}) => {
+const RadioButton = ({widget}) => {
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
   const [collectProps, drag] = useDrag({item: widget});
@@ -15,25 +15,23 @@ const PushButton = ({widget}) => {
     () => ({
       backgroundColor: selected ? SELECTED_COLOR : '#fff',
       marginBottom: 16,
-      marginRight: 8,
     }),
     [selected],);
   const { detail } = widget;
   const { label } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
-      <Button
-        ref={instance => {
-          const node = findDOMNode(instance);
-          drag(node)
-        }}
-        style={rootStyle}
-        onClick={(e)=>{
-          dispatch({ type: 'selectWidget', payload: widget.id });
-          e.stopPropagation()
-        }}>{label}</Button>
+      <Radio ref={instance => {
+               const node = findDOMNode(instance);
+               drag(node)
+             }}
+             style={rootStyle}
+             onClick={(e)=>{
+               dispatch({ type: 'selectWidget', payload: widget.id });
+               e.stopPropagation()
+             }}>{label}</Radio>
     </ContextMenuTrigger>
   )
 };
 
-export default PushButton;
+export default RadioButton;

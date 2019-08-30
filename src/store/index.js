@@ -18,13 +18,13 @@ function beforeAdd(widget,widgets){
     case 'buttongroup':
       return [
         ...widgets,
-        {
-          type: 'pushbutton',
-          title: '按钮',
-          id: `${widget.id}_pushbutton_1`,
-          detail: { label: '按钮' },
-          parentId: widget.id
-        }
+        { type: 'pushbutton', title: '按钮', id: `${widget.id}_pushbutton_1`, parentId: widget.id, detail: { label: '按钮' } }
+      ];
+    case 'radiobuttongroup':
+      return [
+        ...widgets,
+        { type: 'radiobutton', title: '单选按钮', id: `${widget.id}_radiobutton_1`, parentId: widget.id, detail: { label: '单选按钮1' }},
+        { type: 'radiobutton', title: '单选按钮', id: `${widget.id}_radiobutton_2`, parentId: widget.id, detail: { label: '单选按钮2' }},
       ];
     default:
       return widgets;
@@ -35,6 +35,8 @@ function canDelete(widget,widgets){
   const parent = widgets.find(w => widget.parentId === w.id);
   const children = widgets.filter(w => widget.parentId === w.parentId && w.id !== widget.id);
   if(widget.type === 'pushbutton' && parent.type === 'buttongroup' && children.length === 0){
+    return false;
+  }else if(widget.type === 'radiobutton' && parent.type === 'radiobuttongroup' && children.length === 0){
     return false;
   }else if(widget.type === 'tab' && children.length === 0){
     return false;
