@@ -24,6 +24,8 @@ const widgets = [
   { type: 'textbox', title: '文本框', detail: { label: "文本框", }, icon:require('../assets/widgets/textbox.gif') },
   { type: 'multilinetextbox', title: '多行文本框', detail: { label: '多行文本框' }, icon:require('../assets/widgets/multilinetextbox.gif') },
   { type: 'image', title: '图像', detail: { label: '图像' }, icon:require('../assets/widgets/image.gif') },
+  { type: 'statictext', title: '静态文本', detail: { label: '静态文本' }, icon:require('../assets/widgets/statictext.gif') },
+  { type: 'blankline', title: '空行', detail: { label: '空白行' }, icon:require('../assets/widgets/blankline.gif') },
 ];
 
 function getDragImg(item){
@@ -33,7 +35,7 @@ function getDragImg(item){
 
 const Switcher = ({checked = false,style = {},onClick}) => {
   return (
-    <button style={style} className={checked ? classNames(styles.switcher,styles.switcherChecked) : styles.switcher} onClick={onClick}></button>
+    <button style={style} className={checked ? classNames(styles.switcher,styles.switcherChecked) : styles.switcher} onClick={onClick} />
   );
 };
 

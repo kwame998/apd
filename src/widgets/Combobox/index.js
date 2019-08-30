@@ -2,16 +2,16 @@ import React, { useMemo } from 'react';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from "react-contextmenu";
-import { Checkbox as AntdCheckBox } from 'antd';
-import 'antd/lib/checkbox/style';
+import styles from './index.less'
 import { useDrag } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
+import { Select } from 'antd';
+import 'antd/lib/select/style';
 
 const mapState = state => ({
   widgets: state.widgets,
 });
 
-const Checkbox = ({widget}) => {
+const Combobox = ({widget}) => {
   const { widgets } = useMappedState(mapState);
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
@@ -24,19 +24,21 @@ const Checkbox = ({widget}) => {
   const { detail } = widget;
   const { label } = detail;
   return (
-    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
-        <AntdCheckBox ref={instance => {
-                        const node = findDOMNode(instance);
-                        drag(node)
-                      }}
-                      onClick={(e) => {
-                        dispatch({ type: 'selectWidget', payload: widget.id });
-                        e.stopPropagation();
-                      }}
-                      style={rootStyle}
-                      checked={true}>{label}</AntdCheckBox>
+    <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
+      <div
+        ref={drag}
+        className={styles.root}
+        style={rootStyle}
+        onClick={(e)=>{
+          dispatch({ type: 'selectWidget', payload: widget.id });
+          e.stopPropagation()
+        }}
+      >
+        <label className={styles.label}>{`${label}: `}</label>
+        <Select className={styles.select} open={false}/>
+      </div>
     </ContextMenuTrigger>
   )
 };
 
-export default Checkbox;
+export default Combobox;

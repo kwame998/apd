@@ -14,7 +14,6 @@ const RadioButton = ({widget}) => {
   const rootStyle = useMemo(
     () => ({
       backgroundColor: selected ? SELECTED_COLOR : '#fff',
-      marginBottom: 16,
     }),
     [selected],);
   const { detail } = widget;

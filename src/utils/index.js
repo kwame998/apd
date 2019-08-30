@@ -11,6 +11,12 @@ import ButtonGroup from '../widgets/ButtonGroup';
 import Checkbox from '../widgets/Checkbox';
 import RadioButton from '../widgets/RadioButton';
 import RadioButtonGroup from '../widgets/RadioButtonGroup';
+import Combobox from '../widgets/Combobox';
+import Attachments from '../widgets/Attachments';
+import BlankLine from '../widgets/BlankLine';
+import StaticText from '../widgets/StaticText';
+import Hyperlink from '../widgets/Hyperlink';
+import Image from '../widgets/Image';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -38,6 +44,18 @@ export function getWidgetComponent(widget) {
       return <RadioButton widget={widget} key={widget.id} />;
     case 'radiobuttongroup':
       return <RadioButtonGroup widget={widget} key={widget.id} />;
+    case 'combobox':
+      return <Combobox widget={widget} key={widget.id} />;
+    case 'attachments':
+      return <Attachments widget={widget} key={widget.id} />;
+    case 'blankline':
+      return <BlankLine widget={widget} key={widget.id} />;
+    case 'statictext':
+      return <StaticText widget={widget} key={widget.id} />;
+    case 'hyperlink':
+      return <Hyperlink widget={widget} key={widget.id} />;
+    case 'image':
+      return <Image widget={widget} key={widget.id} />;
     default:
       return null;
   }
@@ -46,23 +64,23 @@ export function getWidgetComponent(widget) {
 export function getWidgetAccept(widget) {
   switch (widget.type){
     case 'canvas':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox',
-        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
+        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
     case 'section':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox',
-        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
+        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
     case 'sectionrow':
       return ['sectioncol'];
     case 'sectioncol':
-      return ['tabgroup','section','table','textbox','multilinetextbox',
-        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
+      return ['tabgroup','section','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
+        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
     case 'table':
       return ['tablecol'];
     case 'tabgroup':
       return ['tab'];
     case 'tab':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox',
-        'pushbutton','buttongroup','checkbox','radiobutton','radiobuttongroup','hyperlink','image'];
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
+        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
     case 'buttongroup':
       return ['pushbutton'];
     case 'radiobuttongroup':
