@@ -27,7 +27,7 @@ const Image = ({widget}) => {
           dispatch({ type: 'selectWidget', payload: widget.id });
           e.stopPropagation()
         }}>
-        <Icon type="picture" style={{ fontSize: '100px', color: '#08c' }}/>
+        <Icon type="picture" style={{ fontSize: '100px', color: '#ccc' }}/>
       </div>
     </ContextMenuTrigger>
   )

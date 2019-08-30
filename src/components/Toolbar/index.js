@@ -3,6 +3,8 @@ import { useDrag } from 'react-dnd'
 import styles from './index.less'
 import Palette from '../Palette';
 import Detail from '../Detail';
+import { Tooltip } from 'antd';
+import 'antd/lib/tooltip/style';
 
 const Toolbar = () => {
   const rootRef = useRef();
@@ -45,9 +47,15 @@ const Toolbar = () => {
   return (
     <>
       <div className={styles.root} ref={rootRef} style={rootStyle}>
-        <span className="iconfont icon-layout-fill" style={{fontSize: 20,marginRight: 8,color:'#f5222d'}} onClick={()=>setPaletteVisible(!paletteVisible)}/>
-        <span className="iconfont icon-detail-fill" style={{fontSize: 20,marginRight: 8,color:'#faad14'}} onClick={()=>setDetailVisible(!detailVisible)}/>
-        <span className="iconfont icon-message-fill" style={{fontSize: 20,color:'#1890ff'}} onClick={()=>setDialogVisible(!dialogVisible)}/>
+        <Tooltip placement="bottom" title="控件选用板">
+          <img src={require('../assets/icons/nav_icon_toolbox.gif')} onClick={()=>setPaletteVisible(!paletteVisible)}/>
+        </Tooltip>
+        <Tooltip placement="bottom" title="控件属性">
+          <img src={require('../assets/icons/nav_icon_properties.gif')} onClick={()=>setDetailVisible(!detailVisible)}/>
+        </Tooltip>
+        <Tooltip placement="bottomRight" title="编辑对话框">
+          <img src={require('../assets/icons/nav_icon_tree.gif')} onClick={()=>setDialogVisible(!dialogVisible)}/>
+        </Tooltip>
       </div>
       <Palette visible={paletteVisible} onCancel={()=>setPaletteVisible(false)}/>
       <Detail visible={detailVisible} onCancel={()=>setDetailVisible(false)}/>

@@ -11,19 +11,19 @@ const Menu = () => {
   const dispatch = useDispatch();
   return <ContextMenu id="rightMenu" className={styles.menu}>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-detail-fill" />属 性
+      <img src={require('../assets/icons/nav_icon_properties.gif')} />属 性
     </MenuItem>
     <MenuItem disabled onClick={()=>{}}>
-      <span className="iconfont icon-scissor" />剪 切
+      <img src={require('../assets/icons/nav_icon_cut.gif')} />剪 切
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-file-copy" />复 制
+      <img src={require('../assets/icons/nav_icon_copy.gif')} />复 制
     </MenuItem>
     <MenuItem onClick={()=>{}}>
-      <span className="iconfont icon-snippets" />粘 贴
+      <img src={require('../assets/icons/nav_icon_paste.gif')} />粘 贴
     </MenuItem>
     <MenuItem onClick={(e,{widget},target)=> dispatch({ type: 'removeWidget', payload: widget })}>
-      <span className="iconfont icon-delete" />删 除
+      <img src={require('../assets/icons/nav_icon_delete.gif')} />删 除
     </MenuItem>
   </ContextMenu>
 };
