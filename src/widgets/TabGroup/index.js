@@ -13,10 +13,12 @@ const mapState = state => ({
 
 const Tab = ({widget,className,onClick}) => {
   const [collectProps, drag] = useDrag({item: widget});
+  const { detail } = widget;
+  const { label } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div className={className} onClick={onClick} ref={drag}>
-        {widget.title}
+        { label }
       </div>
     </ContextMenuTrigger>
   )

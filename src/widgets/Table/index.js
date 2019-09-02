@@ -79,7 +79,7 @@ const Table = ({widget}) => {
           <thead>
             <tr ref={trRef}>
             {widgets && widgets.filter(d => d.parentId === widget.id).map((column,i) => (
-              <TableCol key={`${i}`} widget={column}>{column.title}</TableCol>
+              <TableCol key={`${i}`} widget={column}>{column.detail.title}</TableCol>
             ))}
             </tr>
           </thead>

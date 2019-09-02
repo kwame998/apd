@@ -6,14 +6,14 @@ function beforeAdd(widget,widgets){
     case 'tabgroup':
       return [
         ...widgets,
-        { type: 'tab', title: '标签一', id: `${widget.id}_tab_1`, parentId: widget.id },
-        { type: 'tab', title: '标签二', id: `${widget.id}_tab_2`, parentId: widget.id }
+        { type: 'tab', title: '标签', id: `${widget.id}_tab_1`, parentId: widget.id, detail: { label: '标签一' } },
+        { type: 'tab', title: '标签', id: `${widget.id}_tab_2`, parentId: widget.id, detail: { label: '标签二' } }
       ];
     case 'table':
       return [
         ...widgets,
-        { type: 'tablecol', title: '列一', id: `${widget.id}_tablecol_1`, parentId: widget.id },
-        { type: 'tablecol', title: '列二', id: `${widget.id}_tablecol_2`, parentId: widget.id }
+        { type: 'tablecol', title: '表列', id: `${widget.id}_tablecol_1`, parentId: widget.id, detail: { label: '列一' } },
+        { type: 'tablecol', title: '表列', id: `${widget.id}_tablecol_2`, parentId: widget.id, detail: { label: '列二' } }
       ];
     case 'buttongroup':
       return [
@@ -96,7 +96,7 @@ export function makeStore() {
       case 'updateWidgetDetail': {
         const detail = action.payload;
         return {
-          state,
+          ...state,
           selectedWidget: {
             ...state.selectedWidget,
             detail: {
@@ -118,11 +118,18 @@ export function makeStore() {
           })
         }
       }
+      case 'setValue':{
+        return {
+          ...state,
+          ...action.payload
+        }
+      }
       default:
         return state;
     }
   }, {
     selectedWidget: {},
     widgets: [],
+    detailModalVisible: false,
   });
 }

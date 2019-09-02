@@ -10,7 +10,10 @@ import Toolbar from '../Toolbar';
 const Menu = () => {
   const dispatch = useDispatch();
   return <ContextMenu id="rightMenu" className={styles.menu}>
-    <MenuItem onClick={()=>{}}>
+    <MenuItem onClick={(e,{widget},target)=> {
+      dispatch({ type: 'selectWidget', payload: widget.id})
+      dispatch({ type: 'setValue', payload: {detailModalVisible:true}})
+    }}>
       <img src={require('../assets/icons/nav_icon_properties.gif')} />属 性
     </MenuItem>
     <MenuItem disabled onClick={()=>{}}>

@@ -31,17 +31,11 @@ const TextboxDetail = ({ widget,form }) => {
           initialValue: widget.id
         })(<Input disabled />)}
       </Form.Item>
-      <Form.Item label="缺省标题">
-        {getFieldDecorator('title',{
-          initialValue: widget.title
-        })(<Input disabled />)}
-      </Form.Item>
       <Form.Item label="标题">
         {getFieldDecorator('label',{
           initialValue: detail.label
         })(<Input />)}
       </Form.Item>
-
       <Form.Item label="隐藏标签">
         {getFieldDecorator('hideLabel',{
           initialValue: detail.hideLabel

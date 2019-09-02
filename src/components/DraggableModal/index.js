@@ -1,6 +1,8 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { useDrag } from 'react-dnd'
-import styles from './index.less'
+import { useDrag } from 'react-dnd';
+import { Icon } from 'antd';
+import 'antd/lib/icon/style';
+import styles from './index.less';
 
 const DraggableModal = ({visible,onCancel,width,title,children}) => {
   const rootRef = useRef();
@@ -43,7 +45,7 @@ const DraggableModal = ({visible,onCancel,width,title,children}) => {
     <div ref={rootRef} className={styles.root} style={rootStyle}>
       <div ref={drag} className={styles.header}>
         <div className={styles.title}>{title}</div>
-        <div>{onCancel !== undefined && <span className="iconfont icon-close" onClick={onCancel} />}</div>
+        <div>{onCancel !== undefined && <Icon type="close" onClick={onCancel} />}</div>
       </div>
       <div className={styles.body}>
         {children}
