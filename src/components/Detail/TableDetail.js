@@ -37,7 +37,7 @@ const TableDetail = ({ widget,getFieldDecorator }) => {
           </Select>
         )}
       </Form.Item>
-      <Form.Item label="每页行数">{getFieldDecorator('pageSize',{ initialValue: detail.pageSize })(<InputNumber defaultValue={20} min={1} max={100}/>)}</Form.Item>
+      <Form.Item label="每页行数">{getFieldDecorator('pageSize',{ initialValue: detail.pageSize })(<InputNumber min={1} max={100}/>)}</Form.Item>
     </>
   )
 };

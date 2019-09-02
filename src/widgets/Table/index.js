@@ -36,6 +36,36 @@ const TableCol = ({widget,children}) => {
   )
 };
 
+const TableFooter = ({widget,parent}) => {
+  const dispatch = useDispatch();
+  const [{ isOver, isOverCurrent }, drop] = useDrop({
+    accept: 'buttongroup',
+    drop: (item, monitor) => {
+      const didDrop = monitor.didDrop();
+      if (!didDrop) {
+        dispatch({ type: 'addWidget', payload: { ...item, parentId: parent.id, idx:99 } });
+      }
+    },
+    canDrop: (item, monitor) => {
+      return !widget
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+      isOverCurrent: monitor.isOver({ shallow: true }),
+    }),
+  });
+  const rootStyle = useMemo(
+    () => ({
+      backgroundColor: isOverCurrent ? DROP_COLOR : null,
+    }),
+    [isOverCurrent],);
+  return (
+    <div ref={drop} className={styles.footer} style={rootStyle}>
+      {widget && getWidgetComponent(widget)}
+    </div>
+  )
+};
+
 const Table = ({widget}) => {
   const { widgets } = useMappedState(mapState);
   const selected = widget ? widget.selected : false;
@@ -68,6 +98,7 @@ const Table = ({widget}) => {
     [isOverCurrent,selected],);
   const { detail } = widget;
   const { label,pageSize = 20 } = detail;
+  const footerBtnGroup = widgets.find(d => d.parentId === widget.id && d.type === 'buttongroup');
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
@@ -78,7 +109,7 @@ const Table = ({widget}) => {
            style={rootStyle}
            className={styles.root}>
         <div className={styles.header}>
-          <div className={styles.title}>{widget.title}...</div>
+          <div className={styles.title}>{label}</div>
           <div className={styles.toolbar}>
             <Pagination
               disabled={true}
@@ -98,19 +129,20 @@ const Table = ({widget}) => {
         <table>
           <thead>
             <tr ref={trRef}>
-            {widgets && widgets.filter(d => d.parentId === widget.id).map((column,i) => (
+            {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol').map((column,i) => (
               <TableCol key={`${i}`} widget={column}>{column.detail.label}</TableCol>
             ))}
             </tr>
           </thead>
           <tbody>
             <tr>
-              {widgets && widgets.filter(d => d.parentId === widget.id).map((column,i) => (
+              {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol').map((column,i) => (
                 <TableCol key={`${i}`} widget={column}> </TableCol>
               ))}
             </tr>
           </tbody>
         </table>
+        <TableFooter widget={footerBtnGroup} parent={widget} />
       </div>
     </ContextMenuTrigger>
   );

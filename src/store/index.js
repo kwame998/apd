@@ -46,6 +46,15 @@ function canDelete(widget,widgets){
   return true;
 }
 
+function copyChildren(widget,widgets,parentId){
+  const children = widgets.filter(w => widget.id === w.parentId);
+  return children.flatMap(child => {
+    const newId = child.id+'_new';
+    const newChild = Object.assign({}, child, { id: newId, parentId: parentId });
+    return copyChildren(child,widgets,newId).concat(newChild);
+  });
+}
+
 export function makeStore() {
   return createStore((state, action)=> {
     switch (action.type) {
@@ -73,7 +82,10 @@ export function makeStore() {
         const parent = state.widgets.find(w => widget.parentId === w.id);
         if(parent) {
           const children = state.widgets.filter(w => widget.parentId === w.parentId && w.id !== widget.id);
-          children.splice(idx,0,widget);
+          if(!!idx)
+            children.splice(idx,0,widget);
+          else
+            children.push(widget);
           const others = state.widgets.filter(w => widget.parentId !== w.parentId && w.id !== widget.id);
           let widgets = [...others,...children];
           if(isAdd){
@@ -124,12 +136,24 @@ export function makeStore() {
           ...action.payload
         }
       }
+      case 'copyWidget':{
+        const widget = action.payload;
+        const id = widget.id + '_new';
+        const newWidget = Object.assign({}, widget, { id });
+        const newWidgets = copyChildren(widget,state.widgets,id).concat(newWidget);
+        return {
+          ...state,
+          widgets: [...state.widgets, ...newWidgets],
+          clipboard: newWidget,
+        }
+      }
       default:
         return state;
     }
   }, {
     selectedWidget: {},
-    widgets: [],
+    widgets: [{ type: 'canvas', id: 'canvas' }],
     detailModalVisible: false,
+    clipboard: {},
   });
 }

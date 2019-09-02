@@ -86,7 +86,7 @@ export function getWidgetAccept(widget) {
     case 'radiobuttongroup':
       return ['radiobutton'];
     default:
-      return null;
+      return [];
   }
 }
 
