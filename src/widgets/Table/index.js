@@ -5,6 +5,9 @@ import styles from './index.less'
 import { ContextMenuTrigger } from "react-contextmenu";
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
+import { Pagination,Icon } from 'antd'
+import 'antd/lib/pagination/style';
+import 'antd/lib/icon/style';
 
 const mapState = state => ({
   widgets: state.widgets,
@@ -64,7 +67,7 @@ const Table = ({widget}) => {
     }),
     [isOverCurrent,selected],);
   const { detail } = widget;
-  const { label } = detail;
+  const { label,pageSize = 20 } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
@@ -74,12 +77,29 @@ const Table = ({widget}) => {
            }}
            style={rootStyle}
            className={styles.root}>
-        {widget.title}...
+        <div className={styles.header}>
+          <div className={styles.title}>{widget.title}...</div>
+          <div className={styles.toolbar}>
+            <Pagination
+              disabled={true}
+              simple
+              defaultCurrent={1}
+              total={100}
+              current={1}
+              pageSize={pageSize}
+              style={{ display: 'inline-block', marginRight: 16 }}
+            />
+            <Icon type="filter" theme="filled" />
+            <span className="iconfont icon-eraser"></span>
+            <span className="iconfont icon-search"></span>
+            <span className="iconfont icon-download"></span>
+          </div>
+        </div>
         <table>
           <thead>
             <tr ref={trRef}>
             {widgets && widgets.filter(d => d.parentId === widget.id).map((column,i) => (
-              <TableCol key={`${i}`} widget={column}>{column.detail.title}</TableCol>
+              <TableCol key={`${i}`} widget={column}>{column.detail.label}</TableCol>
             ))}
             </tr>
           </thead>

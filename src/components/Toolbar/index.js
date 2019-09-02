@@ -72,7 +72,7 @@ const Toolbar = () => {
         </Tooltip>
       </div>
       <Palette visible={paletteVisible} onCancel={()=>setPaletteVisible(false)}/>
-      <Detail visible={detailModalVisible} onCancel={()=> dispatch({ type: 'setValue', payload: {detailModalVisible:false} })}/>
+      <Detail visible={detailModalVisible} dispatch={dispatch} onCancel={()=> dispatch({ type: 'setValue', payload: {detailModalVisible:false} })}/>
     </>
   );
 };
