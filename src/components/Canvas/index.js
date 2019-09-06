@@ -83,7 +83,13 @@ const Canvas = ({height}) => {
     [isOverCurrent,height],);
   return (
     <>
-      <div ref={rootRef} className={styles.root} style={rootStyle}>
+      <div ref={rootRef}
+           className={styles.root}
+           style={rootStyle}
+           onClick={(e)=>{
+             dispatch({ type: 'selectWidget', payload: widget.id });
+             e.stopPropagation()
+           }}>
         {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
         <Toolbar />
         <Menu />

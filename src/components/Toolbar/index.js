@@ -47,7 +47,7 @@ const Toolbar = () => {
     const canvas = rootRef.current.parentNode;
     const canvasRect = canvas.getBoundingClientRect();
     setPosition({x:canvasRect.width - clientRect.width - 2,y:0});
-    drag(rootRef);
+    // drag(rootRef);
   },[]);
   const rootStyle = useMemo(
     () => ({
@@ -59,11 +59,19 @@ const Toolbar = () => {
   return (
     <>
       <div className={styles.root} ref={rootRef} style={rootStyle}>
-        <Icon type={ expanded ? "fast-backward" : "fast-forward" } onClick={()=>setExpanded(!expanded)}/>
         { expanded &&
           <>
+            <Tooltip placement="bottom" title="导入">
+              <img src={require('../assets/icons/nav_icon_import.gif')}
+                   onClick={()=>dispatch({ type: 'import' })} />
+            </Tooltip>
+            <Tooltip placement="bottom" title="导出">
+              <img style={{marginRight:0}}  src={require('../assets/icons/nav_icon_export.gif')}
+                   onClick={()=>dispatch({ type: 'export' })} />
+            </Tooltip>
+            <Divider type="vertical" />
             <Tooltip placement="bottom" title="控件选用板">
-              <img style={{marginLeft:4}} src={require('../assets/icons/nav_icon_toolbox.gif')} onClick={()=>setPaletteVisible(!paletteVisible)}/>
+              <img src={require('../assets/icons/nav_icon_toolbox.gif')} onClick={()=>setPaletteVisible(!paletteVisible)}/>
             </Tooltip>
             <Tooltip placement="bottom" title="控件属性">
               <img src={require('../assets/icons/nav_icon_properties.gif')}
@@ -75,11 +83,11 @@ const Toolbar = () => {
                      }
                    }}/>
             </Tooltip>
-            <Tooltip placement="bottomRight" title="编辑对话框">
+            <Tooltip placement="bottom" title="编辑对话框">
               <img style={{marginRight:0}} src={require('../assets/icons/nav_icon_tree.gif')} onClick={()=>setDialogVisible(!dialogVisible)}/>
             </Tooltip>
             <Divider type="vertical" />
-            <Tooltip placement="bottomRight" title="删除">
+            <Tooltip placement="bottom" title="删除">
               <img src={require('../assets/icons/nav_icon_delete.gif')}
                    onClick={()=> {
                      if (selectedWidget.id) {
@@ -130,6 +138,9 @@ const Toolbar = () => {
             </Tooltip>
           </>
         }
+      </div>
+      <div>
+        <Icon type=""/>
       </div>
       <Palette visible={paletteVisible} onCancel={()=>setPaletteVisible(false)}/>
       <Detail visible={detailModalVisible} dispatch={dispatch} onCancel={()=> dispatch({ type: 'setValue', payload: {detailModalVisible:false} })}/>

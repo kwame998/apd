@@ -147,6 +147,9 @@ export function makeStore() {
           clipboard: newWidget,
         }
       }
+      case 'export':{
+        const widget = action.payload;
+      }
       default:
         return state;
     }
