@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDrop } from 'react-dnd'
 import { ContextMenu, MenuItem, } from "react-contextmenu";
 import styles from './index.less'
@@ -7,6 +7,7 @@ import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../..
 import { DROP_COLOR, } from '../../constants';
 import Toolbar from '../Toolbar';
 import { message } from 'antd';
+import classNames from 'classnames';
 import 'antd/lib/message/style';
 
 const mapState = state => ({
@@ -17,11 +18,10 @@ const mapState = state => ({
 const Menu = () => {
   const dispatch = useDispatch();
   const { clipboard } = useMappedState(mapState);
-  return <ContextMenu id="rightMenu" className={styles.menu}
-                      onShow={({detail:{data:{widget}}})=>dispatch({ type: 'selectWidget', payload: widget.id})}>
-    <MenuItem onClick={(e,{widget},target)=> {
-      dispatch({ type: 'setValue', payload: {detailModalVisible:true}});
-    }}>
+  return <ContextMenu id="rightMenu"
+                      className={styles.menu}
+                      onShow={({detail:{data:{widget}}}) => dispatch({ type: 'selectWidget', payload: widget.id})}>
+    <MenuItem onClick={(e,{widget},target)=> dispatch({ type: 'setValue', payload: {detailModalVisible:true}})}>
       <img src={require('../assets/icons/nav_icon_properties.gif')} />属 性
     </MenuItem>
     <MenuItem onClick={(e,{widget},target)=>{
@@ -46,7 +46,7 @@ const Menu = () => {
               }}>
       <img src={require('../assets/icons/nav_icon_paste.gif')} />粘 贴
     </MenuItem>
-    <MenuItem onClick={(e,{widget},target)=> dispatch({ type: 'removeWidget', payload: widget })}>
+    <MenuItem onClick={(e,{widget},target) => dispatch({ type: 'removeWidget', payload: widget })}>
       <img src={require('../assets/icons/nav_icon_delete.gif')} />删 除
     </MenuItem>
   </ContextMenu>
@@ -84,10 +84,14 @@ const Canvas = ({height}) => {
   return (
     <>
       <div ref={rootRef}
-           className={styles.root}
+           className={classNames(styles.root,'canvas')}
            style={rootStyle}
            onClick={(e)=>{
-             dispatch({ type: 'selectWidget', payload: widget.id });
+             const isCanvasClick = e.nativeEvent.target.className instanceof String
+               && e.nativeEvent.target.className.indexOf(' canvas') > -1;
+             if(isCanvasClick) {
+               dispatch({ type: 'selectWidget', payload: widget.id });
+             }
              e.stopPropagation()
            }}>
         {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
