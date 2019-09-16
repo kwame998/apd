@@ -1,0 +1,16 @@
+export default {
+  'toolbar.import': '导入',
+  'toolbar.export': '导出',
+  'toolbar.toolbox': '控件选用板',
+  'toolbar.properties': '控件属性',
+  'toolbar.dialog': '编辑对话框',
+  'toolbar.cut': '剪切',
+  'toolbar.copy': '复制',
+  'toolbar.paste': '复制',
+  'toolbar.delete': '删除',
+  'warning.select': '请先选择一个控件!',
+  'warning.copy': '请先复制一个控件!',
+  'warning.paste': '该控件不能放置到此处!',
+  'widget.id': '控件标识',
+  'widget.label': '标题',
+};

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'dva';
 import { AppDesigner, AppRenderer } from '../../dist';
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
 import styles from './index.less';
 const { TabPane } = Tabs;
 
-export default function() {
+const AppDemo = ({item,dispatch}) => {
   const [widgets,setWidgets] = useState([]);
+  useEffect(() => { dispatch({type: 'workorder/fetch'}) }, []);
   return (
     <div className={styles.root}>
       <Tabs type="card" >
@@ -22,3 +24,8 @@ export default function() {
     </div>
   );
 }
+
+export default connect(({ workorder, loading }) => ({
+  ...workorder,
+  loading: loading.effects['workorder/fetch'],
+}))(AppDemo);

@@ -13,7 +13,7 @@ const mapState = state => ({
   widgets: state.widgets,
 });
 
-const TableCol = ({widget,children}) => {
+const TableCol = ({widget,isHeader,children}) => {
   const [collectProps, drag] = useDrag({item: widget});
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const TableCol = ({widget,children}) => {
       backgroundColor: selected ? SELECTED_COLOR : null,
     }),
     [selected],);
+  const { detail } = widget;
   return (
     <td ref={drag}
         style={tdStyle}
@@ -30,7 +31,8 @@ const TableCol = ({widget,children}) => {
           e.stopPropagation()
         }} >
       <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
-        {children}
+        { isHeader && children }
+        { !isHeader && (detail.dataAttribute ? " " :"未绑定") }
       </ContextMenuTrigger>
     </td>
   )
@@ -130,14 +132,14 @@ const Table = ({widget}) => {
           <thead>
             <tr ref={trRef}>
             {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol').map((column,i) => (
-              <TableCol key={`${i}`} widget={column}>{column.detail.label}</TableCol>
+              <TableCol key={`${i}`} isHeader={true} widget={column}>{column.detail.label}</TableCol>
             ))}
             </tr>
           </thead>
           <tbody>
             <tr>
               {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol').map((column,i) => (
-                <TableCol key={`${i}`} widget={column}> </TableCol>
+                <TableCol key={`${i}`} isHeader={false} widget={column}></TableCol>
               ))}
             </tr>
           </tbody>
