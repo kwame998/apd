@@ -139,9 +139,6 @@ const Toolbar = () => {
           </>
         }
       </div>
-      <div>
-        <Icon type=""/>
-      </div>
       <Palette visible={paletteVisible} onCancel={()=>setPaletteVisible(false)}/>
       <Detail visible={detailModalVisible} dispatch={dispatch} onCancel={()=> dispatch({ type: 'setValue', payload: {detailModalVisible:false} })}/>
     </>

@@ -91,7 +91,7 @@ export function makeStore() {
           if(isAdd){
             widgets = beforeAdd(widget,widgets);
           }
-          return { ...state, widgets: widgets  };
+          return { ...state, widgets: widgets };
         }
         return { ...state, widgets: [...state.widgets, widget] };
       }
@@ -100,34 +100,37 @@ export function makeStore() {
         const { id } = widget;
         if(canDelete(widget,state.widgets)) {
           const idx = state.widgets.findIndex(w => w.id === id);
-          return { ...state, widgets: [...state.widgets.slice(0, idx), ...state.widgets.slice(idx + 1)] };
+          const widgets = [...state.widgets.slice(0, idx), ...state.widgets.slice(idx + 1)];
+          return { ...state, widgets: widgets };
         }else{
           return state;
         }
       }
       case 'updateWidgetDetail': {
         const detail = action.payload;
+        const selectedWidget = {
+          ...state.selectedWidget,
+          detail: {
+            ...state.selectedWidget.detail,
+            ...detail
+          }
+        };
+        const widgets = state.widgets.map(w => {
+          if(w.id === state.selectedWidget.id){
+            return {
+              ...w,
+              detail: {
+                ...w.detail,
+                ...detail
+              }
+            };
+          }
+          return w;
+        });
         return {
           ...state,
-          selectedWidget: {
-            ...state.selectedWidget,
-            detail: {
-              ...state.selectedWidget.detail,
-              ...detail
-            }
-          },
-          widgets: state.widgets.map(w => {
-            if(w.id === state.selectedWidget.id){
-             return {
-               ...w,
-               detail: {
-                 ...w.detail,
-                 ...detail
-               }
-             };
-            }
-            return w;
-          })
+          selectedWidget: selectedWidget,
+          widgets: widgets,
         }
       }
       case 'setValue':{
@@ -141,9 +144,10 @@ export function makeStore() {
         const id = widget.id + '_new';
         const newWidget = Object.assign({}, widget, { id });
         const newWidgets = copyChildren(widget,state.widgets,id).concat(newWidget);
+        const widgets = [...state.widgets, ...newWidgets];
         return {
           ...state,
-          widgets: [...state.widgets, ...newWidgets],
+          widgets: widgets,
           clipboard: newWidget,
         }
       }
@@ -155,7 +159,7 @@ export function makeStore() {
     }
   }, {
     selectedWidget: {},
-    widgets: [{ type: 'canvas', id: 'canvas' }],
+    widgets: [{ type: 'canvas', id: 'canvas', title: '画布' }],
     detailModalVisible: false,
     clipboard: {},
   });
