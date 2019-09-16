@@ -16,7 +16,7 @@ const AppDemo = ({item,dispatch}) => {
           <AppDesigner onChange={(data) => setWidgets(data)}/>
         </TabPane>
         <TabPane tab="预览" key="2">
-          <div style={{padding: 8}}>
+          <div style={{padding: 16,minHeight: 800}}>
             <AppRenderer widgets={widgets} app={{id:'canvas'}}/>
           </div>
         </TabPane>
