@@ -87,7 +87,7 @@ const Canvas = ({height}) => {
            className={classNames(styles.root,'canvas')}
            style={rootStyle}
            onClick={(e)=>{
-             const isCanvasClick = e.nativeEvent.target.className instanceof String
+             const isCanvasClick = typeof e.nativeEvent.target.className === 'string'
                && e.nativeEvent.target.className.indexOf(' canvas') > -1;
              if(isCanvasClick) {
                dispatch({ type: 'selectWidget', payload: widget.id });

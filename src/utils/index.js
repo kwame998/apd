@@ -17,10 +17,13 @@ import BlankLine from '../widgets/BlankLine';
 import StaticText from '../widgets/StaticText';
 import Hyperlink from '../widgets/Hyperlink';
 import Image from '../widgets/Image';
+import Datasrc from '../widgets/Datasrc';
 import TextboxRenderer from '../renderer/TextboxRenderer';
 import SectionRenderer from '../renderer/SectionRenderer';
 import SectionRowRenderer from '../renderer/SectionRowRenderer';
 import SectionColRenderer from '../renderer/SectionColRenderer';
+import TableRenderer from '../renderer/TableRenderer';
+import MultilineTextboxRenderer from '../renderer/MultilineTextboxRenderer';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -60,6 +63,8 @@ export function getWidgetComponent(widget) {
       return <Hyperlink widget={widget} key={widget.id} />;
     case 'image':
       return <Image widget={widget} key={widget.id} />;
+    case 'datasrc':
+      return <Datasrc widget={widget} key={widget.id} />;
     default:
       return null;
   }
@@ -69,7 +74,7 @@ export function getWidgetAccept(widget) {
   switch (widget.type){
     case 'canvas':
       return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
-        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
+        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image','datasrc'];
     case 'section':
       return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
         'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
@@ -116,6 +121,10 @@ export function getRenderer(widget) {
       return <SectionColRenderer widget={widget} key={widget.id} />;
     case 'textbox':
       return <TextboxRenderer widget={widget} key={widget.id} />;
+    case 'multilinetextbox':
+      return <MultilineTextboxRenderer widget={widget} key={widget.id} />;
+    case 'table':
+      return <TableRenderer widget={widget} key={widget.id} />;
     default:
       return null;
   }

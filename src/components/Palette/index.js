@@ -26,6 +26,7 @@ const widgets = [
   { type: 'image', title: '图像', detail: { label: '图像' }, icon:require('../assets/widgets/image.gif') },
   { type: 'statictext', title: '静态文本', detail: { label: '静态文本' }, icon:require('../assets/widgets/statictext.gif') },
   { type: 'blankline', title: '空行', detail: { label: '空白行' }, icon:require('../assets/widgets/blankline.gif') },
+  { type: 'datasrc', title: '数据源', detail: { label: '数据源' }, icon:require('../assets/widgets/uploadfile.gif') },
 ];
 
 function getDragImg(item){

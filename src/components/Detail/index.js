@@ -12,6 +12,10 @@ import TableDetail from './TableDetail';
 import MultilineTextboxDetail from './MultilineTextboxDetail';
 import TabDetail from './TabDetail';
 import TableColDetail from './TableColDetail';
+import PushButtonDetail from './PushButtonDetail';
+import ComboboxDetail from './ComboboxDetail';
+import DatasrcDetail from './DatasrcDetail';
+import CanvasDetail from './CanvasDetail';
 
 const mapState = state => ({
   selectedWidget: state.selectedWidget,
@@ -45,6 +49,10 @@ const Detail = ({visible,onCancel,form}) => {
           { selectedWidget.type === 'table' && <TableDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'tablecol' && <TableColDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'tab' && <TabDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'pushbutton' && <PushButtonDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'combobox' && <ComboboxDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'datasrc' && <DatasrcDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'canvas' && <CanvasDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
         </Form>
       </div>
     </DraggableModal>

@@ -159,7 +159,7 @@ export function makeStore() {
     }
   }, {
     selectedWidget: {},
-    widgets: [{ type: 'canvas', id: 'canvas', title: '画布' }],
+    widgets: [{ type: 'canvas', id: 'canvas', title: '画布', detail: {} }],
     detailModalVisible: false,
     clipboard: {},
   });
