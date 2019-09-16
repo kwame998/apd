@@ -12,7 +12,7 @@ const TabDetail = ({ widget, getFieldDecorator }) => {
   return (
     <>
       <Form.Item label="标题">{getFieldDecorator('label',{ initialValue: detail.label })(<Input />)}</Form.Item>
-      <Form.Item label="类型">{getFieldDecorator('type',{ initialValue: detail.inputMode })(
+      <Form.Item label="类型">{getFieldDecorator('type',{ initialValue: detail.type })(
         <Select style={{width:140}}>
           <Option value="list">列表</Option>
           <Option value="insert">插入</Option>

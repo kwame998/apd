@@ -6,6 +6,8 @@ import { useDrag } from 'react-dnd';
 
 
 const StaticText = ({widget}) => {
+  const { detail } = widget;
+  const { label,align = 'right' } = detail;
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
   const [collectProps, drag] = useDrag({item: widget});
@@ -13,11 +15,9 @@ const StaticText = ({widget}) => {
     () => ({
       backgroundColor: selected ? SELECTED_COLOR : null,
       padding: 4,
-      textAlign: 'right',
+      textAlign: align,
     }),
-    [selected]);
-  const { detail } = widget;
-  const { label } = detail;
+    [selected,align]);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div

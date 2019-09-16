@@ -107,6 +107,7 @@ const TabGroup = ({widget}) => {
                    className={classNames(i === activeTab ? styles.tabsTabActive : null,styles.tabsTab)}
                    onClick={(e)=>{
                      setActiveTab(i);
+                     dispatch({ type: 'selectWidget', payload: item.id });
                      e.stopPropagation();
                    }} />
             )}

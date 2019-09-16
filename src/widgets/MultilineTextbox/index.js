@@ -20,12 +20,13 @@ const MultilineTextbox = ({widget}) => {
     }),
     [selected],);
   const { detail } = widget;
-  const { label,rows = 3 } = detail;
+  const { label,rows = 3, cols = 10 } = detail;
   const inputStyle = useMemo(
     () => ({
       height: 30 * rows,
+      width: 30 * 10,
     }),
-    [rows],);
+    [rows,cols],);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
       <div

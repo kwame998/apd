@@ -10,14 +10,17 @@ import { useDrag } from 'react-dnd';
 const Image = ({widget}) => {
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
+  const { detail } = widget;
+  const { width,height } = detail;
   const [collectProps, drag] = useDrag({item: widget});
   const rootStyle = useMemo(
     () => ({
       backgroundColor: selected ? SELECTED_COLOR : null,
       padding: 4,
-      width: 110,
+      width,
+      height,
     }),
-    [selected]);
+    [selected,width,height]);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div

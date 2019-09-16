@@ -16,6 +16,13 @@ import PushButtonDetail from './PushButtonDetail';
 import ComboboxDetail from './ComboboxDetail';
 import DatasrcDetail from './DatasrcDetail';
 import CanvasDetail from './CanvasDetail';
+import ImageDetail from './ImageDetail';
+import ButtonGroupDetail from './ButtonGroupDetail';
+import CheckboxDetail from './CheckboxDetail';
+import RadioButtonGroupDetail from './RadioButtonGroupDetail';
+import RadioButtonDetail from './RadioButtonDetail';
+import HyperlinkDetail from './HyperlinkDetail';
+import StaticTextDetail from './StaticTextDetail';
 
 const mapState = state => ({
   selectedWidget: state.selectedWidget,
@@ -44,15 +51,22 @@ const Detail = ({visible,onCancel,form}) => {
               initialValue: selectedWidget.id
             })(<Input disabled />)}
           </Form.Item>
+          { selectedWidget.type === 'canvas' && <CanvasDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'datasrc' && <DatasrcDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'textbox' && <TextboxDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'multilinetextbox' && <MultilineTextboxDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'table' && <TableDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'tablecol' && <TableColDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'tab' && <TabDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'pushbutton' && <PushButtonDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'buttongroup' && <ButtonGroupDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'combobox' && <ComboboxDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
-          { selectedWidget.type === 'datasrc' && <DatasrcDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
-          { selectedWidget.type === 'canvas' && <CanvasDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'checkbox' && <CheckboxDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'radiobuttongroup' && <RadioButtonGroupDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'radiobutton' && <RadioButtonDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'image' && <ImageDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'hyperlink' && <HyperlinkDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'statictext' && <StaticTextDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
         </Form>
       </div>
     </DraggableModal>

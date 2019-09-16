@@ -7,12 +7,8 @@ import { useDrag } from 'react-dnd';
 import { Select } from 'antd';
 import 'antd/lib/select/style';
 
-const mapState = state => ({
-  widgets: state.widgets,
-});
-
 const Combobox = ({widget}) => {
-  const { widgets } = useMappedState(mapState);
+  const { detail } = widget;
   const selected = widget ? widget.selected : false;
   const dispatch = useDispatch();
   const [collectProps, drag] = useDrag({item: widget});
@@ -21,8 +17,12 @@ const Combobox = ({widget}) => {
       backgroundColor: selected ? SELECTED_COLOR : null,
     }),
     [selected],);
-  const { detail } = widget;
-  const { label } = detail;
+  const { label,width = '100%' } = detail;
+  const selectStyle = useMemo(
+    () => ({
+      width
+    }),
+    [width],);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
       <div
@@ -35,7 +35,7 @@ const Combobox = ({widget}) => {
         }}
       >
         <label className={styles.label}>{`${label}: `}</label>
-        <Select className={styles.select} open={false}/>
+        <Select className={styles.select} style={selectStyle} open={false}/>
       </div>
     </ContextMenuTrigger>
   )

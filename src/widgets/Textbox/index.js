@@ -18,11 +18,16 @@ const Textbox = ({widget}) => {
     }),
     [selected],);
   const { detail } = widget;
-  const { label,hideLabel,inputMode,lookup,dataAttribute } = detail;
+  const { label,hideLabel,inputMode,lookup,dataAttribute,width = '100%' } = detail;
   let search = null;
   if(lookup){
     search = <Icon type="search" />
   }
+  const inputStyle = useMemo(
+    () => ({
+      width
+    }),
+    [width],);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
       <div
@@ -36,7 +41,7 @@ const Textbox = ({widget}) => {
       >
         { inputMode === 'required' && <span className={styles.required}>*</span> }
         { !hideLabel && <label className={styles.label}>{`${label}: `}</label> }
-        <Input disabled={true} addonAfter={search} value={dataAttribute?"":"未绑定"}/>
+        <Input disabled={true} addonAfter={search} style={inputStyle} value={dataAttribute?"":"未绑定"}/>
       </div>
     </ContextMenuTrigger>
   )
