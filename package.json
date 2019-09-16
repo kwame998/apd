@@ -13,14 +13,15 @@
     "url": "git+https://github.com/guozhaolong/apd.git"
   },
   "scripts": {
-    "dev": "umi-lib doc dev",
-    "build": "umi-lib build"
+    "dev": "father doc dev",
+    "build": "father build"
   },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
-    "umi-library": "^1.6.0",
+    "umi-plugin-react": "^1.10.0",
+    "father": "^2.16.0",
     "umi": "^2.8.15"
   },
   "files": [
