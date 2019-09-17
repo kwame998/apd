@@ -24,6 +24,7 @@ import SectionRowRenderer from '../renderer/SectionRowRenderer';
 import SectionColRenderer from '../renderer/SectionColRenderer';
 import TableRenderer from '../renderer/TableRenderer';
 import MultilineTextboxRenderer from '../renderer/MultilineTextboxRenderer';
+import TabGroupRenderer from '../renderer/TabGroupRenderer';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -125,6 +126,8 @@ export function getRenderer(widget) {
       return <MultilineTextboxRenderer widget={widget} key={widget.id} />;
     case 'table':
       return <TableRenderer widget={widget} key={widget.id} />;
+    case 'tabgroup':
+      return <TabGroupRenderer widget={widget} key={widget.id} />;
     default:
       return null;
   }

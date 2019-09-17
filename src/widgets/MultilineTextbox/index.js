@@ -24,7 +24,7 @@ const MultilineTextbox = ({widget}) => {
   const inputStyle = useMemo(
     () => ({
       height: 30 * rows,
-      width: 30 * 10,
+      width: 30 * cols,
     }),
     [rows,cols],);
   return (

@@ -4,7 +4,7 @@ import styles from './index.less'
 
 const TextboxRenderer = ({widget}) => {
   const { detail } = widget;
-  const { label,hideLabel,inputMode,lookup,dataAttribute,width = '100%' } = detail;
+  const { label,hideLabel,inputMode,lookup,dataAttribute,width = '90%' } = detail;
   let search = null;
   if(lookup){
     search = <Icon type="search" />
@@ -15,7 +15,7 @@ const TextboxRenderer = ({widget}) => {
     }),
     [width],);
   return (
-    <div>
+    <div style={{padding:8}}>
       { inputMode === 'required' && <span className={styles.required}>*</span> }
       { !hideLabel && <label className={styles.label}>{`${label}: `}</label> }
       <Input addonAfter={search} style={inputStyle} />
