@@ -3,6 +3,7 @@ import { useDrag } from 'react-dnd'
 import styles from './index.less'
 import classNames from 'classnames';
 import DraggableModal from '../DraggableModal';
+import { Tooltip } from 'antd';
 
 
 const widgets = [
@@ -50,10 +51,13 @@ const Palette = ({visible,onCancel}) => {
   return (
     <DraggableModal visible={visible} onCancel={onCancel} width={176} title={title}>
       <div className={styles.root}>
-        {widgets.map((item,i) => <div className={styles.widget} key={`widget_${i}`}>
-            <div className={styles.widgetImg}>{getDragImg(item)}</div>
-            {titleVisible && <div className={styles.widgetTitle}>{item.title}</div>}
-          </div>
+        {widgets.map((item,i) =>
+          <Tooltip title={item.title}>
+            <div className={styles.widget} key={`widget_${i}`}>
+              <div className={styles.widgetImg}>{getDragImg(item)}</div>
+              {titleVisible && <div className={styles.widgetTitle}>{item.title}</div>}
+            </div>
+          </Tooltip>
         )}
       </div>
     </DraggableModal>
