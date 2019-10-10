@@ -52,8 +52,8 @@ const Palette = ({visible,onCancel}) => {
     <DraggableModal visible={visible} onCancel={onCancel} width={176} title={title}>
       <div className={styles.root}>
         {widgets.map((item,i) =>
-          <Tooltip title={item.title}>
-            <div className={styles.widget} key={`widget_${i}`}>
+          <Tooltip title={item.title} key={`widget_${i}`}>
+            <div className={styles.widget}>
               <div className={styles.widgetImg}>{getDragImg(item)}</div>
               {titleVisible && <div className={styles.widgetTitle}>{item.title}</div>}
             </div>
