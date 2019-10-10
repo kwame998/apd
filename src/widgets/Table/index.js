@@ -122,10 +122,11 @@ const Table = ({widget}) => {
               pageSize={pageSize}
               style={{ display: 'inline-block', marginRight: 16 }}
             />
-            <Icon type="filter" theme="filled" />
-            <span className="iconfont icon-eraser"></span>
-            <span className="iconfont icon-search"></span>
-            <span className="iconfont icon-download"></span>
+            <Icon type="filter" />
+            <Icon type="rest" theme="filled" style={{color:'#ddd'}}/>
+            <Icon type="search" />
+            <Icon type="unordered-list" />
+            <Icon type="download" />
           </div>
         </div>
         <table>
