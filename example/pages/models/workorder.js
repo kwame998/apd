@@ -16,6 +16,10 @@ export default {
       const response = {id:3,name:'test3'};
       yield put({ type: 'setValue', payload: {item: response},});
     },
+    *save({ payload }, { call, put }) {
+      console.log(payload);
+
+    },
   },
 
   reducers: {

@@ -5,7 +5,7 @@ import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 
 const TabGroupRenderer = ({widget}) => {
-  const widgets = useContext(DataContext);
+  const { widgets } = useContext(DataContext);
   return (
     <Tabs type="card">
       {widgets && widgets.filter(d => d.parentId === widget.id).map(tab => (

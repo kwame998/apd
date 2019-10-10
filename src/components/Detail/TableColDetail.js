@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Checkbox, Select, Form} from 'antd'
+import { Input, Checkbox, Select, Form, InputNumber } from 'antd';
 import 'antd/lib/select/style';
 import 'antd/lib/input/style';
 import 'antd/lib/checkbox/style';
@@ -32,6 +32,7 @@ const TableColDetail = ({ widget, getFieldDecorator }) => {
         </Select>
       )}
       </Form.Item>
+      <Form.Item label="宽度">{getFieldDecorator('width',{ initialValue: detail.width })(<InputNumber min={1} precision={0.1}/>)}</Form.Item>
       <Form.Item label="查找">{getFieldDecorator('lookup',{ initialValue: detail.lookup })(<Input />)}</Form.Item>
       <Form.Item label="输入方式">{getFieldDecorator('inputMode',{ initialValue: detail.inputMode })(
         <Select style={{width:140}}>

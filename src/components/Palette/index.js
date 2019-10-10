@@ -22,7 +22,7 @@ const widgets = [
   { type: 'radiobutton', title: '单选框', detail: { label: '单选框', }, icon:require('../assets/widgets/radiobutton.gif')},
   { type: 'radiobuttongroup', title: '单选框组', detail: { label: '单选框组', }, icon:require('../assets/widgets/radiobuttongroup.gif')},
   { type: 'hyperlink', title: '链接', detail: { label: '链接', },icon:require('../assets/widgets/hyperlink.gif')},
-  { type: 'textbox', title: '文本框', detail: { label: "文本框", }, icon:require('../assets/widgets/textbox.gif') },
+  { type: 'textbox', title: '文本框', detail: { label: "文本框", width: 180 }, icon:require('../assets/widgets/textbox.gif') },
   { type: 'multilinetextbox', title: '多行文本框', detail: { label: '多行文本框',rows: 3,cols:10 }, icon:require('../assets/widgets/multilinetextbox.gif') },
   { type: 'image', title: '图像', detail: { label: '图像', width: 120, height: 120 }, icon:require('../assets/widgets/image.gif') },
   { type: 'statictext', title: '静态文本', detail: { label: '静态文本' }, icon:require('../assets/widgets/statictext.gif') },

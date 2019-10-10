@@ -6,7 +6,7 @@ import 'antd/lib/tabs/style';
 import styles from './index.less';
 const { TabPane } = Tabs;
 
-const AppDemo = ({item,dispatch}) => {
+const AppDemo = ({workorder,dispatch}) => {
   const [widgets,setWidgets] = useState([]);
   useEffect(() => { dispatch({type: 'workorder/fetch'}) }, []);
   return (
@@ -17,7 +17,7 @@ const AppDemo = ({item,dispatch}) => {
         </TabPane>
         <TabPane tab="预览" key="2">
           <div style={{padding: 16,minHeight: 800}}>
-            <AppRenderer widgets={widgets} app={{id:'canvas'}}/>
+            <AppRenderer dispatch={dispatch} widgets={widgets} model={workorder}/>
           </div>
         </TabPane>
       </Tabs>
@@ -26,6 +26,6 @@ const AppDemo = ({item,dispatch}) => {
 }
 
 export default connect(({ workorder, loading }) => ({
-  ...workorder,
+  workorder,
   loading: loading.effects['workorder/fetch'],
 }))(AppDemo);

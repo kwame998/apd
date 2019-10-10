@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
-import { Icon, Input } from 'antd';
-import styles from './index.less'
+import React, { useContext, useMemo } from 'react';
+import { Icon, Input,Form } from 'antd';
+import { DataContext } from '../../utils/context';
 
 const TextboxRenderer = ({widget}) => {
+  const { form,model } = useContext(DataContext);
   const { detail } = widget;
   const { label,hideLabel,inputMode,lookup,dataAttribute,width = '90%' } = detail;
   let search = null;
@@ -14,11 +15,15 @@ const TextboxRenderer = ({widget}) => {
       width
     }),
     [width],);
+  const comp = dataAttribute ? form.getFieldDecorator(dataAttribute, {
+    rules: [ {required: inputMode === 'required' } ],
+    initialValue: model.item[dataAttribute],
+  })(<Input addonAfter={search} style={inputStyle} />) : <Input addonAfter={search} style={inputStyle} />;
   return (
     <div style={{padding:8}}>
-      { inputMode === 'required' && <span className={styles.required}>*</span> }
-      { !hideLabel && <label className={styles.label}>{`${label}: `}</label> }
-      <Input addonAfter={search} style={inputStyle} />
+      <Form.Item label={!hideLabel ? label : null}>
+        {comp}
+      </Form.Item>
     </div>
   )
 };

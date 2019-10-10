@@ -3,7 +3,7 @@ import EditableTable from 'antd-etable';
 import { DataContext } from '../../utils/context';
 
 const TableRenderer = ({widget}) => {
-  const widgets = useContext(DataContext);
+  const { widgets } = useContext(DataContext);
   const { label,pageSize } = widget.detail;
   const loading = false;
   const data = [];
@@ -15,6 +15,7 @@ const TableRenderer = ({widget}) => {
       title: column.detail.label,
       dataIndex: column.detail.dataAttribute,
       sorter: column.detail.sortable,
+      width: column.detail.width,
       editable: true,
     })),[columns]);
   return (
