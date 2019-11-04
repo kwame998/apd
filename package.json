@@ -1,6 +1,6 @@
 {
   "name": "apd",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "custom application designer",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/guozhaolong/apd.git"
   },
   "scripts": {
-    "dev": "father doc dev",
+    "dev": "cd example && umi dev",
     "build": "father build"
   },
   "peerDependencies": {
@@ -42,7 +42,7 @@
   "license": "MIT",
   "dependencies": {
     "antd": "^3.22.2",
-    "antd-etable": "^1.1.6",
+    "antd-etable": "^1.1.8",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
