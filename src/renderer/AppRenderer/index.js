@@ -3,9 +3,9 @@ import { getRenderer } from '../../utils';
 import { DataContext } from '../../utils/context';
 import { Form } from 'antd';
 
-const AppRenderer = ({dispatch,widgets,model,form}) => {
+const AppRenderer = ({widgets,form}) => {
   return (
-    <DataContext.Provider value={{form,widgets,model,dispatch}}>
+    <DataContext.Provider value={{form,widgets,}}>
       <Form layout="inline">
         {widgets && widgets.filter(d => d.parentId === 'canvas').map(item => getRenderer(item))}
       </Form>

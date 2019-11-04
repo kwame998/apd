@@ -8,7 +8,7 @@ const TableRenderer = ({widget}) => {
   const loading = false;
   const data = [];
   const changedData = [];
-  const total = 100;
+  const total = 0;
   const columns = widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol');
   const cols = useMemo(()=>
     columns.map( column => ({

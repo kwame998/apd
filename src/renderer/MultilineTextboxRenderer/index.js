@@ -4,7 +4,7 @@ import { DataContext } from '../../utils/context';
 const { TextArea } = Input;
 
 const MultilineTextboxRenderer = ({widget}) => {
-  const { form,model } = useContext(DataContext);
+  const { form } = useContext(DataContext);
   const { detail } = widget;
   const { label,hideLabel,inputMode,lookup,rows,cols,dataAttribute } = detail;
   const inputStyle = useMemo(
@@ -15,7 +15,7 @@ const MultilineTextboxRenderer = ({widget}) => {
     [cols],);
   const comp = dataAttribute ? form.getFieldDecorator(dataAttribute, {
     rules: [ {required: inputMode === 'required' } ],
-    initialValue: model.item[dataAttribute],
+    initialValue: '',
   })(<TextArea style={inputStyle} />) : <TextArea style={inputStyle} />;
   return (
     <div style={{padding:8}}>

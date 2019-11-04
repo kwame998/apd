@@ -3,7 +3,7 @@ import { Icon, Input,Form } from 'antd';
 import { DataContext } from '../../utils/context';
 
 const TextboxRenderer = ({widget}) => {
-  const { form,model } = useContext(DataContext);
+  const { form } = useContext(DataContext);
   const { detail } = widget;
   const { label,hideLabel,inputMode,lookup,dataAttribute,width = '90%' } = detail;
   let search = null;
@@ -17,7 +17,7 @@ const TextboxRenderer = ({widget}) => {
     [width],);
   const comp = dataAttribute ? form.getFieldDecorator(dataAttribute, {
     rules: [ {required: inputMode === 'required' } ],
-    initialValue: model.item[dataAttribute],
+    initialValue: '',
   })(<Input addonAfter={search} style={inputStyle} />) : <Input addonAfter={search} style={inputStyle} />;
   return (
     <div style={{padding:8}}>
