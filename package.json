@@ -1,10 +1,11 @@
 {
   "name": "apd",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "custom application designer",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "license": "MIT",
+  "types": "src/index.d.ts",
   "scripts": {
     "dev": "cd example && umi dev",
     "build": "father build"
