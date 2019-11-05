@@ -1,4 +1,4 @@
-import React, { useMemo,useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { StoreContext } from 'redux-react-hook';
@@ -23,4 +23,4 @@ const AppDesigner = ({height = 800,lang = "zh",onChange = () => {}}) => {
   );
 };
 
-export default AppDesigner
+export default AppDesigner;
