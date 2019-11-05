@@ -18,13 +18,6 @@ import StaticText from '../widgets/StaticText';
 import Hyperlink from '../widgets/Hyperlink';
 import Image from '../widgets/Image';
 import Datasrc from '../widgets/Datasrc';
-import TextboxRenderer from '../renderer/TextboxRenderer';
-import SectionRenderer from '../renderer/SectionRenderer';
-import SectionRowRenderer from '../renderer/SectionRowRenderer';
-import SectionColRenderer from '../renderer/SectionColRenderer';
-import TableRenderer from '../renderer/TableRenderer';
-import MultilineTextboxRenderer from '../renderer/MultilineTextboxRenderer';
-import TabGroupRenderer from '../renderer/TabGroupRenderer';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -110,25 +103,4 @@ export function getWidgetDOMPosition(value,children = [],byX = false) {
     }
   }
   return position;
-}
-
-export function getRenderer(widget) {
-  switch (widget.type){
-    case 'section':
-      return <SectionRenderer widget={widget} key={widget.id} />;
-    case 'sectionrow':
-      return <SectionRowRenderer widget={widget} key={widget.id} />;
-    case 'sectioncol':
-      return <SectionColRenderer widget={widget} key={widget.id} />;
-    case 'textbox':
-      return <TextboxRenderer widget={widget} key={widget.id} />;
-    case 'multilinetextbox':
-      return <MultilineTextboxRenderer widget={widget} key={widget.id} />;
-    case 'table':
-      return <TableRenderer widget={widget} key={widget.id} />;
-    case 'tabgroup':
-      return <TabGroupRenderer widget={widget} key={widget.id} />;
-    default:
-      return null;
-  }
 }

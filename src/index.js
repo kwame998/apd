@@ -6,7 +6,6 @@ import {makeStore} from './store'
 import Canvas from './components/Canvas';
 import locale from './locales/index';
 import { LangContext } from './utils/context';
-import AppRenderer from './renderer/AppRenderer'
 
 const store = makeStore();
 
@@ -24,4 +23,4 @@ const AppDesigner = ({height = 800,lang = "zh",onChange = () => {}}) => {
   );
 };
 
-export default { AppDesigner, AppRenderer }
+export default AppDesigner

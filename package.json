@@ -1,45 +1,43 @@
 {
   "name": "apd",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "custom application designer",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cd example && umi dev",
+    "build": "father build"
+  },
   "authors": {
     "name": "guozhaolong",
     "email": "guozhaolong@gmail.com"
+  },
+  "homepage": "https://github.com/guozhaolong/apd#readme",
+  "bugs": {
+    "url": "https://github.com/guozhaolong/apd/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/guozhaolong/apd.git"
   },
-  "scripts": {
-    "dev": "cd example && umi dev",
-    "build": "father build"
-  },
-  "peerDependencies": {
-    "react": "16.x"
-  },
-  "devDependencies": {
-    "umi-plugin-react": "^1.10.0",
-    "father": "^2.16.0",
-    "umi": "^2.8.15"
-  },
-  "files": [
-    "dist",
-    "assets"
-  ],
-  "bugs": {
-    "url": "https://github.com/guozhaolong/apd/issues"
-  },
-  "homepage": "https://github.com/guozhaolong/apd#readme",
-  "directories": {
-    "example": "example"
-  },
   "keywords": [
     "react-dnd",
     "app design"
   ],
-  "license": "MIT",
+  "files": [
+    "dist",
+    "assets"
+  ],
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {
+    "umi-plugin-react": "^1.10.0",
+    "father": "^2.16.0",
+    "umi": "^2.8.15",
+    "apd-renderer": "^0.0.1"
+  },
   "dependencies": {
     "antd": "^3.22.2",
     "antd-etable": "^1.1.8",
@@ -53,5 +51,8 @@
     "react-dom": "^16.8.6",
     "redux": "^4.0.4",
     "redux-react-hook": "^3.3.2"
+  },
+  "peerDependencies": {
+    "react": "16.x"
   }
 }

@@ -1,3 +1,16 @@
 export default {
-  'label': 'Label',
+  'toolbar.import': 'Import',
+  'toolbar.export': 'Export',
+  'toolbar.toolbox': 'Toolbox',
+  'toolbar.properties': 'Properties',
+  'toolbar.dialog': 'Dialog',
+  'toolbar.cut': 'Cut',
+  'toolbar.copy': 'Copy',
+  'toolbar.paste': 'Paste',
+  'toolbar.delete': 'Delete',
+  'warning.select': 'Please select a widget first!',
+  'warning.copy': 'Please copy a widget first!',
+  'warning.paste': 'Widget can not dropped here!',
+  'widget.id': 'Widget ID',
+  'widget.label': 'Widget Label',
 };

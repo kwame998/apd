@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'dva';
-import { AppDesigner, AppRenderer } from '../../dist';
+import AppDesigner from '../../dist';
+import AppRenderer from 'apd-renderer'
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
 import styles from './index.less';
