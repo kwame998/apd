@@ -15,7 +15,7 @@ const PushButtonDetail = ({ widget, getFieldDecorator }) => {
       <Form.Item label="事件">{getFieldDecorator('event',{ initialValue: detail.event })(<Input />)}</Form.Item>
       <Form.Item label="目标标识">{getFieldDecorator('targetId',{ initialValue: detail.targetId })(<Input />)}</Form.Item>
       <Form.Item label="值">{getFieldDecorator('value',{ initialValue: detail.value })(<Input />)}</Form.Item>
-      <Form.Item label="缺省按钮">{getFieldDecorator('default',{ initialValue: detail.default })(<Checkbox />)}</Form.Item>
+      <Form.Item label="缺省按钮">{getFieldDecorator('isDefault',{ initialValue: detail.isDefault })(<Checkbox />)}</Form.Item>
     </>
   )
 };
