@@ -18,6 +18,8 @@ const Dialog = ({ widget }) => {
   const { visible,width,label } = detail;
   const selected = widget ? widget.selected : false;
   const rootRef = useRef();
+  const bodyRef = useRef();
+  const footerRef = useRef();
   const [position,setPosition] = useState({x:0,y:0});
   const [{isDragging}, drag, preview] = useDrag({
     item: { type: 'dialog' },
@@ -37,13 +39,28 @@ const Dialog = ({ widget }) => {
       isDragging: !!monitor.isDragging(),
     }),
   });
-  const [{ isOver, isOverCurrent }, drop] = useDrop({
+  const [{ isOverCurrent }, bodyDrop] = useDrop({
     accept: getWidgetAccept(widget),
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop();
       if (!didDrop) {
-        let y = monitor.getClientOffset().y+rootRef.current.scrollTop+window.scrollY;
-        const idx = getWidgetDOMPosition(y,rootRef.current.children);
+        let y = monitor.getClientOffset().y+bodyRef.current.scrollTop+window.scrollY;
+        const idx = getWidgetDOMPosition(y,bodyRef.current.children);
+        dispatch({ type: 'addWidget', payload: { ...item, parentId: widget.id, idx } });
+      }
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+      isOverCurrent: monitor.isOver({ shallow: true }),
+    }),
+  });
+  const [{ isOverCurrent:isFooterOver }, footerDrop] = useDrop({
+    accept: 'pushbutton',
+    drop: (item, monitor) => {
+      const didDrop = monitor.didDrop();
+      if (!didDrop) {
+        let x = monitor.getClientOffset().x+footerRef.current.scrollLeft+window.scrollX;
+        const idx = getWidgetDOMPosition(x,footerRef.current.children);
         dispatch({ type: 'addWidget', payload: { ...item, parentId: widget.id, idx } });
       }
     },
@@ -58,7 +75,9 @@ const Dialog = ({ widget }) => {
     const canvasRect = canvas.getBoundingClientRect();
     setPosition({x:canvasRect.width/2 - clientRect.width/2,y:40});
     preview(rootRef);
-    drag(drop(rootRef.current));
+    drag(rootRef.current);
+    bodyDrop(bodyRef.current);
+    footerDrop(footerRef.current);
   },[]);
   const rootStyle = useMemo(
     () => ({
@@ -69,11 +88,19 @@ const Dialog = ({ widget }) => {
       opacity: isDragging ? 0 : 1,
     }),
     [visible,isDragging,width],);
+  const headerStyle = useMemo(()=>({
+    backgroundColor: selected ? SELECTED_COLOR : null,
+  }),[selected]);
   const bodyStyle = useMemo(
     () => ({
-      backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : null,
+      backgroundColor: isOverCurrent ? DROP_COLOR : null,
     }),
-    [isOverCurrent, selected]);
+    [isOverCurrent, ]);
+  const footerStyle = useMemo(
+    () => ({
+      backgroundColor: isFooterOver ? DROP_COLOR : null,
+    }),
+    [isFooterOver]);
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
@@ -83,15 +110,15 @@ const Dialog = ({ widget }) => {
              dispatch({ type: 'selectWidget', payload: widget.id });
              e.stopPropagation();
            }}>
-        <div ref={drag} className={styles.header}>
+        <div ref={drag} className={styles.header} style={headerStyle}>
           <div className={styles.title}>{label}</div>
           <div>{ <Icon type="close" onClick={()=>dispatch({ type: 'updateWidget', payload: { ...widget, visible:false } })} />}</div>
         </div>
-        <div className={styles.body} style={bodyStyle}>
-          {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
+        <div className={styles.body} style={bodyStyle} ref={bodyRef}>
+          {widgets && widgets.filter(d => d.parentId === widget.id && d.type !== 'pushbutton').map(item => getWidgetComponent(item))}
         </div>
-        <div className={styles.footer}>
-
+        <div className={styles.footer} style={footerStyle} ref={footerRef}>
+          {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'pushbutton').map(item => getWidgetComponent(item))}
         </div>
       </div>
     </ContextMenuTrigger>

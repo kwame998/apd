@@ -93,7 +93,7 @@ export function getWidgetAccept(widget) {
       return ['radiobutton'];
     case 'dialog':
       return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
-        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image','datasrc'];
+        'buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image','datasrc'];
     default:
       return [];
   }
