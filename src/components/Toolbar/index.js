@@ -3,6 +3,7 @@ import { useDrag } from 'react-dnd'
 import styles from './index.less'
 import Palette from '../Palette';
 import Detail from '../Detail';
+import DialogEditor from '../DialogEditor';
 import { Tooltip,Icon,Divider,message } from 'antd';
 import 'antd/lib/tooltip/style';
 import 'antd/lib/icon/style';
@@ -141,6 +142,12 @@ const Toolbar = () => {
       </div>
       <Palette visible={paletteVisible} onCancel={()=>setPaletteVisible(false)}/>
       <Detail visible={detailModalVisible} dispatch={dispatch} onCancel={()=> dispatch({ type: 'setValue', payload: {detailModalVisible:false} })}/>
+      <DialogEditor visible={dialogVisible}
+                    onOk={(d)=> {
+                      dispatch({ type: 'updateDialog', payload: d });
+                      setDialogVisible(false);
+                    }}
+                    onCancel={()=>setDialogVisible(false)}/>
     </>
   );
 };

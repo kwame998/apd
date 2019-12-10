@@ -18,6 +18,7 @@ import StaticText from '../widgets/StaticText';
 import Hyperlink from '../widgets/Hyperlink';
 import Image from '../widgets/Image';
 import Datasrc from '../widgets/Datasrc';
+import Dialog from '../widgets/Dialog';
 
 export function getWidgetComponent(widget) {
   switch (widget.type){
@@ -59,6 +60,8 @@ export function getWidgetComponent(widget) {
       return <Image widget={widget} key={widget.id} />;
     case 'datasrc':
       return <Datasrc widget={widget} key={widget.id} />;
+    case 'dialog':
+      return <Dialog widget={widget} key={widget.id} />;
     default:
       return null;
   }
@@ -88,6 +91,9 @@ export function getWidgetAccept(widget) {
       return ['pushbutton'];
     case 'radiobuttongroup':
       return ['radiobutton'];
+    case 'dialog':
+      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
+        'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image','datasrc'];
     default:
       return [];
   }

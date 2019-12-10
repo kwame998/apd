@@ -13,12 +13,11 @@ const PushButton = ({widget}) => {
   const [collectProps, drag] = useDrag({item: widget});
   const rootStyle = useMemo(
     () => ({
-      backgroundColor: selected ? SELECTED_COLOR : '#fff',
       marginRight: 8,
     }),
     [selected],);
   const { detail } = widget;
-  const { label } = detail;
+  const { label,icon,isDefault } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <Button
@@ -26,6 +25,8 @@ const PushButton = ({widget}) => {
           const node = findDOMNode(instance);
           drag(node)
         }}
+        type={isDefault ? "primary":"default"}
+        icon={icon}
         style={rootStyle}
         onClick={(e)=>{
           dispatch({ type: 'selectWidget', payload: widget.id });

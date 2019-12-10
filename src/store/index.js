@@ -46,6 +46,13 @@ function canDelete(widget,widgets){
   return true;
 }
 
+function getDeleteIds(parentIds,widgets){
+  return parentIds.flatMap(id => {
+    const ids = widgets.filter(w => w.parentId === id).map(w => w.id);
+    return ids.concat(getDeleteIds(ids,widgets));
+  });
+}
+
 function copyChildren(widget,widgets,parentId){
   const children = widgets.filter(w => widget.id === w.parentId);
   return children.flatMap(child => {
@@ -99,11 +106,32 @@ export function makeStore() {
         const widget = action.payload;
         const { id } = widget;
         if(canDelete(widget,state.widgets)) {
-          const idx = state.widgets.findIndex(w => w.id === id);
-          const widgets = [...state.widgets.slice(0, idx), ...state.widgets.slice(idx + 1)];
+          const deleteIds = [].concat(id,getDeleteIds([id],state.widgets));
+          const widgets = state.widgets.filter(w => !deleteIds.find(d => d === w.id));
           return { ...state, widgets: widgets };
         }else{
           return state;
+        }
+      }
+      case 'updateWidget': {
+        const widget = action.payload;
+        const selectedWidget = {
+          ...state.selectedWidget,
+          ...widget,
+        };
+        const widgets = state.widgets.map(w => {
+          if(w.id === widget.id){
+            return {
+              ...w,
+              ...widget,
+            };
+          }
+          return w;
+        });
+        return {
+          ...state,
+          selectedWidget: selectedWidget,
+          widgets: widgets,
         }
       }
       case 'updateWidgetDetail': {
@@ -137,6 +165,41 @@ export function makeStore() {
         return {
           ...state,
           ...action.payload
+        }
+      }
+      case 'updateDialog': {
+        const dialogArr = action.payload;
+        const newDialogArr = [];
+        let deleteIds = [];
+        const updateDialogArr = dialogArr.filter(d => d.isUpdate && !d.isNew && !d.isDelete);
+        dialogArr.map(d => {
+          if(d.isNew){
+            newDialogArr.push({
+              type: 'dialog',
+              id: _.uniqueId(`dialog_${state.widgets.length + 1}`),
+              parentId: 'canvas',
+              dialogId: d.dialogId,
+              title: d.title,
+              visible: false,
+              width: 400,
+            })
+          }else if(d.isDelete){
+            deleteIds.push(d.id);
+            deleteIds = deleteIds.concat(getDeleteIds([d.id],state.widgets));
+          }
+        });
+        const widgets = state.widgets.filter(w => !deleteIds.find(d => d === w.id))
+          .map(w => {
+            const updateDialog = updateDialogArr.find(u => u.id === w.id);
+            if(updateDialog){
+              return {...w, title:updateDialog.title, dialogId: updateDialog.dialogId}
+            }else{
+              return w;
+            }
+          }).concat(newDialogArr);
+        return {
+          ...state,
+          widgets: widgets,
         }
       }
       case 'copyWidget':{

@@ -1,14 +1,15 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useDrag } from 'react-dnd';
-import { Icon } from 'antd';
+import { Icon,Button } from 'antd';
 import 'antd/lib/icon/style';
+import 'antd/lib/button/style';
 import styles from './index.less';
 
-const DraggableModal = ({visible,onCancel,width,title,children}) => {
+const DraggableModal = ({visible,onOk,onCancel,okText = "确定",cancelText = "取消",width,title,showFooter = false,bodyStyle,children,onClick}) => {
   const rootRef = useRef();
   const [position,setPosition] = useState({x:0,y:0});
   const [{isDragging}, drag, preview] = useDrag({
-    item: { type: 'palette' },
+    item: { type: 'draggableModal' },
     end:(item,monitor) => {
       const canvas = rootRef.current.parentNode;
       const canvasRect = canvas.getBoundingClientRect();
@@ -42,14 +43,21 @@ const DraggableModal = ({visible,onCancel,width,title,children}) => {
     }),
     [visible,isDragging,width],);
   return (
-    <div ref={rootRef} className={styles.root} style={rootStyle}>
+    <div ref={rootRef} className={styles.root} style={rootStyle} onClick={onClick}>
       <div ref={drag} className={styles.header}>
         <div className={styles.title}>{title}</div>
         <div>{onCancel !== undefined && <Icon type="close" onClick={onCancel} />}</div>
       </div>
-      <div className={styles.body}>
+      <div className={styles.body} style={bodyStyle}>
         {children}
       </div>
+      {
+        showFooter &&
+        <div className={styles.footer}>
+          <Button onClick={onCancel} style={{marginRight:8}}>{cancelText}</Button>
+          <Button onClick={onOk} type="primary">{okText}</Button>
+        </div>
+      }
     </div>
   );
 };

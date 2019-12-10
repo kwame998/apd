@@ -30,9 +30,12 @@ const widgets = [
   { type: 'datasrc', title: '数据源', detail: { label: '数据源' }, icon:require('../assets/widgets/uploadfile.gif') },
 ];
 
-function getDragImg(item){
+function getDragImg(item,titleVisible){
   const [collectProps, drag] = useDrag({ item });
-  return <img ref={drag} src={item.icon} />
+  return <div ref={drag}>
+    <img src={item.icon} />
+    {titleVisible && <div className={styles.widgetTitle}>{item.title}</div>}
+  </div>
 }
 
 const Switcher = ({checked = false,style = {},onClick}) => {
@@ -49,13 +52,12 @@ const Palette = ({visible,onCancel}) => {
     <Switcher style={{marginTop: 4}} checked={titleVisible} onClick={()=>setTitleVisible(!titleVisible)}/>
   </div>;
   return (
-    <DraggableModal visible={visible} onCancel={onCancel} width={176} title={title}>
+    <DraggableModal visible={visible} onCancel={onCancel} width={176} title={title} bodyStyle={{padding:'8px 0 8px 8px'}}>
       <div className={styles.root}>
         {widgets.map((item,i) =>
           <Tooltip title={item.title} key={`widget_${i}`}>
             <div className={styles.widget}>
-              <div className={styles.widgetImg}>{getDragImg(item)}</div>
-              {titleVisible && <div className={styles.widgetTitle}>{item.title}</div>}
+              <div className={styles.widgetImg}>{getDragImg(item,titleVisible)}</div>
             </div>
           </Tooltip>
         )}
