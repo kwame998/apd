@@ -30,4 +30,3 @@ export default function() {
 - [ ] `**`  **导出**：导出页面标签xml数据。
 - [ ] `*`   **属性优化**。
 
-Copycat IBM Maximo : )
