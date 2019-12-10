@@ -73,7 +73,7 @@ export function getWidgetAccept(widget) {
       return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
         'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image','datasrc'];
     case 'section':
-      return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
+      return ['tabgroup','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
         'pushbutton','buttongroup','checkbox','combobox','radiobuttongroup','hyperlink','image','statictext','image'];
     case 'sectionrow':
       return ['sectioncol'];

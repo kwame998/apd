@@ -16,16 +16,19 @@ const DialogEditor = ({visible,onOk,onCancel}) => {
   const total = 0;
   const cols = [
     {
-      dataIndex: 'dialogId',
+      dataIndex: 'detail.dialogId',
       title:'控件标识',
       editable:true,
       render: (text,record) => (
-        <a style={{textDecoration:'underline'}} onClick={()=>dispatch({ type: 'updateWidget', payload: { id: record.id, visible:true } })}>{text}</a>
+        <a style={{textDecoration:'underline'}} onClick={()=> {
+          dispatch({ type: 'selectWidget', payload: record.id });
+          dispatch({ type: 'updateWidgetDetail', payload: {visible:!record.detail.visible}});
+        }}>{text}</a>
       ),
       editor: {
         required: true,
         validator: (rule,value,callback,record) => {
-          if(widgets.find(d => d.dialogId === value) || changedData.find(d => d.dialogId === value))
+          if(widgets.find(d => d.detail.dialogId === value) || changedData.find(d => d.detail.dialogId === value))
             callback('控件标识已存在!');
           else if(_.isString(value) && !/^[a-zA-Z][a-zA-Z0-9_]*$/.test(value))
             callback('只能包含字母数字');
@@ -35,7 +38,7 @@ const DialogEditor = ({visible,onOk,onCancel}) => {
       },
     },
     {
-      dataIndex: 'title',
+      dataIndex: 'detail.label',
       title: '标题',
       editable: true,
       editor: {
@@ -70,6 +73,7 @@ const DialogEditor = ({visible,onOk,onCancel}) => {
           changedData={changedData}
           pageSize={5}
           total={total}
+          onAdd={()=>({detail:{dialogId:'',label:'',visible:false}})}
           onFetch={onFetch}
           onChangedDataUpdate={onUpdate}
           cols={cols}

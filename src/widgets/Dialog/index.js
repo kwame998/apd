@@ -14,7 +14,8 @@ const mapState = state => ({
 const Dialog = ({ widget }) => {
   const { widgets } = useMappedState(mapState);
   const dispatch = useDispatch();
-  const { visible,width,title } = widget;
+  const { detail } = widget;
+  const { visible,width,label } = detail;
   const selected = widget ? widget.selected : false;
   const rootRef = useRef();
   const [position,setPosition] = useState({x:0,y:0});
@@ -83,7 +84,7 @@ const Dialog = ({ widget }) => {
              e.stopPropagation();
            }}>
         <div ref={drag} className={styles.header}>
-          <div className={styles.title}>{title}</div>
+          <div className={styles.title}>{label}</div>
           <div>{ <Icon type="close" onClick={()=>dispatch({ type: 'updateWidget', payload: { ...widget, visible:false } })} />}</div>
         </div>
         <div className={styles.body} style={bodyStyle}>

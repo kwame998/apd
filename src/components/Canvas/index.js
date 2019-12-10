@@ -4,7 +4,7 @@ import { ContextMenu, MenuItem, } from "react-contextmenu";
 import styles from './index.less'
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
-import { DROP_COLOR, } from '../../constants';
+import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import Toolbar from '../Toolbar';
 import { message } from 'antd';
 import classNames from 'classnames';
@@ -57,6 +57,7 @@ const Canvas = ({height}) => {
   const { widgets } = useMappedState(mapState);
   const dispatch = useDispatch();
   const widget = widgets.find(w => w.id === 'canvas');
+  const selected = widget ? widget.selected : false;
   const [{ isOver, isOverCurrent }, drop] = useDrop({
     accept: getWidgetAccept(widget),
     drop: (child, monitor) => {
@@ -78,9 +79,9 @@ const Canvas = ({height}) => {
   const rootStyle = useMemo(
     () => ({
       height,
-      backgroundColor: isOverCurrent ? DROP_COLOR : '#fff',
+      backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : '#fff',
     }),
-    [isOverCurrent,height],);
+    [isOverCurrent,height,selected],);
   return (
     <>
       <div ref={rootRef}

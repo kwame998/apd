@@ -113,27 +113,6 @@ export function makeStore() {
           return state;
         }
       }
-      case 'updateWidget': {
-        const widget = action.payload;
-        const selectedWidget = {
-          ...state.selectedWidget,
-          ...widget,
-        };
-        const widgets = state.widgets.map(w => {
-          if(w.id === widget.id){
-            return {
-              ...w,
-              ...widget,
-            };
-          }
-          return w;
-        });
-        return {
-          ...state,
-          selectedWidget: selectedWidget,
-          widgets: widgets,
-        }
-      }
       case 'updateWidgetDetail': {
         const detail = action.payload;
         const selectedWidget = {
@@ -178,10 +157,13 @@ export function makeStore() {
               type: 'dialog',
               id: _.uniqueId(`dialog_${state.widgets.length + 1}`),
               parentId: 'canvas',
-              dialogId: d.dialogId,
-              title: d.title,
-              visible: false,
-              width: 400,
+              title: '对话框',
+              detail: {
+                dialogId: d.detail.dialogId,
+                label: d.detail.label,
+                visible: false,
+                width: 400,
+              },
             })
           }else if(d.isDelete){
             deleteIds.push(d.id);
@@ -192,7 +174,7 @@ export function makeStore() {
           .map(w => {
             const updateDialog = updateDialogArr.find(u => u.id === w.id);
             if(updateDialog){
-              return {...w, title:updateDialog.title, dialogId: updateDialog.dialogId}
+              return {...w, detail: { ...w.detail,label:updateDialog.detail.label, dialogId: updateDialog.detail.dialogId}}
             }else{
               return w;
             }
