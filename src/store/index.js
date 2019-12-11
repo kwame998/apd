@@ -26,6 +26,10 @@ function beforeAdd(widget,widgets){
         { type: 'radiobutton', title: '单选按钮', id: `${widget.id}_radiobutton_1`, parentId: widget.id, detail: { label: '单选按钮1' }},
         { type: 'radiobutton', title: '单选按钮', id: `${widget.id}_radiobutton_2`, parentId: widget.id, detail: { label: '单选按钮2' }},
       ];
+    case 'dialog':
+      widgets.push({ type: 'pushbutton', title: '按钮', id: `${widget.id}_pushbutton_cancel1`, parentId: widget.id, detail: { label: '取消' } });
+      widgets.push({ type: 'pushbutton', title: '按钮', id: `${widget.id}_pushbutton_ok1`, parentId: widget.id, detail: { label: '确定', isDefault: true } });
+      return widgets;
     default:
       return widgets;
   }
@@ -153,7 +157,7 @@ export function makeStore() {
         const updateDialogArr = dialogArr.filter(d => d.isUpdate && !d.isNew && !d.isDelete);
         dialogArr.map(d => {
           if(d.isNew){
-            newDialogArr.push({
+            const newDialog = {
               type: 'dialog',
               id: _.uniqueId(`dialog_${state.widgets.length + 1}`),
               parentId: 'canvas',
@@ -164,7 +168,9 @@ export function makeStore() {
                 visible: false,
                 width: 400,
               },
-            })
+            };
+            newDialogArr.push(newDialog);
+            beforeAdd(newDialog,newDialogArr);
           }else if(d.isDelete){
             deleteIds.push(d.id);
             deleteIds = deleteIds.concat(getDeleteIds([d.id],state.widgets));
