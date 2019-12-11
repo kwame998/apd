@@ -112,7 +112,7 @@ const Dialog = ({ widget }) => {
            }}>
         <div ref={drag} className={styles.header} style={headerStyle}>
           <div className={styles.title}>{label}</div>
-          <div>{ <Icon type="close" onClick={()=>dispatch({ type: 'updateWidget', payload: { ...widget, visible:false } })} />}</div>
+          <div>{ <Icon type="close" onClick={()=>dispatch({ type: 'updateWidgetDetail', payload: { visible:false } })} />}</div>
         </div>
         <div className={styles.body} style={bodyStyle} ref={bodyRef}>
           {widgets && widgets.filter(d => d.parentId === widget.id && d.type !== 'pushbutton').map(item => getWidgetComponent(item))}
