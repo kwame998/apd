@@ -19,10 +19,14 @@ const DialogEditor = ({visible,onOk,onCancel}) => {
       dataIndex: 'detail.dialogId',
       title:'控件标识',
       editable:true,
+      width: 160,
       render: (text,record) => (
-        <a style={{textDecoration:'underline'}} onClick={()=> {
-          dispatch({ type: 'selectWidget', payload: record.id });
-          dispatch({ type: 'updateWidgetDetail', payload: {visible:!record.detail.visible}});
+        <a style={record.isNew?{color:'#666'}:{textDecoration:'underline'}} onClick={()=> {
+          if(!record.isNew){
+            dispatch({ type: 'selectWidget', payload: record.id });
+            dispatch({ type: 'updateWidgetDetail', payload: {visible:!record.detail.visible}});
+          }
+
         }}>{text}</a>
       ),
       editor: {
@@ -41,14 +45,12 @@ const DialogEditor = ({visible,onOk,onCancel}) => {
       dataIndex: 'detail.label',
       title: '标题',
       editable: true,
+      width: 160,
       editor: {
         required: true,
       }
     }
   ];
-  const onFetch = (pager) => {
-
-  };
   const onUpdate = (d) => {
     setChangedData(d);
   };
@@ -67,14 +69,16 @@ const DialogEditor = ({visible,onOk,onCancel}) => {
                         setChangedData([])
                       }}>
         <EditableTable
+          scroll={{y:200}}
           rowKey="id"
           loading={false}
           data={widgets}
           changedData={changedData}
           pageSize={5}
           total={total}
+          showTopPager={false}
+          showToolbar={false}
           onAdd={()=>({detail:{dialogId:'',label:'',visible:false}})}
-          onFetch={onFetch}
           onChangedDataUpdate={onUpdate}
           cols={cols}
         />
