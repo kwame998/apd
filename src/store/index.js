@@ -84,6 +84,7 @@ export function makeStore() {
         };
       case 'addWidget': {
         const widget = action.payload;
+        delete widget.icon;
         const { idx } = widget;
         let isAdd = false;
         if (!widget.id && widget.parentId) {
