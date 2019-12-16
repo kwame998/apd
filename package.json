@@ -34,9 +34,10 @@
     "example": "example"
   },
   "devDependencies": {
+    "apd-renderer": "^0.0.1",
     "father": "^2.16.0",
-    "umi": "^2.8.15",
-    "apd-renderer": "^0.0.1"
+    "mockjs": "^1.1.0",
+    "umi": "^2.8.15"
   },
   "dependencies": {
     "antd": "^3.22.2",

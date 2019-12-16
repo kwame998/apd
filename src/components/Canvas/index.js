@@ -56,7 +56,7 @@ const Canvas = ({height}) => {
   const rootRef = useRef();
   const { widgets } = useMappedState(mapState);
   const dispatch = useDispatch();
-  const widget = widgets.find(w => w.id === 'canvas');
+  const widget = widgets.find(w => w.type === 'canvas');
   const selected = widget ? widget.selected : false;
   const [{ isOver, isOverCurrent }, drop] = useDrop({
     accept: getWidgetAccept(widget),
