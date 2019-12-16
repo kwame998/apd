@@ -23,6 +23,7 @@ import RadioButtonGroupDetail from './RadioButtonGroupDetail';
 import RadioButtonDetail from './RadioButtonDetail';
 import HyperlinkDetail from './HyperlinkDetail';
 import StaticTextDetail from './StaticTextDetail';
+import DialogDetail from './DialogDetail';
 
 const mapState = state => ({
   selectedWidget: state.selectedWidget,
@@ -67,6 +68,7 @@ const Detail = ({visible,onCancel,form}) => {
           { selectedWidget.type === 'image' && <ImageDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'hyperlink' && <HyperlinkDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'statictext' && <StaticTextDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'dialog' && <DialogDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
         </Form>
       </div>
     </DraggableModal>
