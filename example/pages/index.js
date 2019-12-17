@@ -4,7 +4,6 @@ import AppRenderer from '../../../apd-renderer/dist'
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider,useQuery } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
 import { connect } from 'dva';
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
