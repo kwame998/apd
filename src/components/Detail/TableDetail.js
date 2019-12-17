@@ -38,6 +38,7 @@ const TableDetail = ({ widget,getFieldDecorator }) => {
         )}
       </Form.Item>
       <Form.Item label="每页行数">{getFieldDecorator('pageSize',{ initialValue: detail.pageSize })(<InputNumber min={1} max={100}/>)}</Form.Item>
+      <Form.Item label="默认">{getFieldDecorator('isMain',{ initialValue: detail.isMain, valuePropName: 'checked'})(<Checkbox />)}</Form.Item>
     </>
   )
 };

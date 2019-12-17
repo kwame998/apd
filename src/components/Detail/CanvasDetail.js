@@ -12,7 +12,7 @@ const CanvasDetail = ({ widget, getFieldDecorator }) => {
   const { detail } = widget;
   return (
     <>
-      <Form.Item label="Model 类">{getFieldDecorator('model',{ initialValue: detail.model })(<Input />)}</Form.Item>
+      <Form.Item label="Model 类">{getFieldDecorator('modelName',{ initialValue: detail.modelName })(<Input />)}</Form.Item>
       <Form.Item label="对象名称">{getFieldDecorator('objName',{ initialValue: detail.objName })(<Input />)}</Form.Item>
       <Form.Item label="排序条件">{getFieldDecorator('orderBy',{ initialValue: detail.orderBy })(<Input />)}</Form.Item>
       <Form.Item label="Where 子句">{getFieldDecorator('whereClause',{ initialValue: detail.whereClause })(<Input />)}</Form.Item>

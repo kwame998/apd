@@ -29,9 +29,10 @@ const typeDefs = `
   }
   type Workorder {
     id: ID
-    woNum: Int
+    woNum: String
     desc: String
-    tasks(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
+    assocEQ(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
+    assocEQSelect(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
   }
   type EquipmentList {
     list: [Equipment]
@@ -39,7 +40,7 @@ const typeDefs = `
   }
   type Equipment {
     id: ID
-    eqNum: Int
+    eqNum: String
     desc: String
     status: Int
   }
@@ -86,11 +87,17 @@ const mocks = {
   }),
   Query: () => ({
     workorder_find: () => ({
-      list: () => new MockList(10, () => ({ wonum: () => 'WO' + Random.natural(100, 999), })),
+      list: () => new MockList(10, () => ({
+        woNum: () => 'WO' + Random.natural(100, 999),
+        assoc_eq: () => new MockList(10)
+      })),
       count: () => 100,
     }),
     equipment_find: () => ({
-      list: () => new MockList(10, () => ({ eqnum: () => 'EQ' + Random.natural(100, 999), status: ()=> Random.natural(0, 2) })),
+      list: () => new MockList(10, () => ({
+        eqNum: () => 'EQ' + Random.natural(100, 999),
+        status: ()=> Random.natural(0, 1)
+      })),
       count: () => 100,
     }),
   }),

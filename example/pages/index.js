@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import AppDesigner from '../../dist';
 import AppRenderer from '../../../apd-renderer/dist'
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider,useQuery } from '@apollo/react-hooks';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import gql from 'graphql-tag';
+import { connect } from 'dva';
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
 import styles from './index.less';
 const { TabPane } = Tabs;
 
 const demoData = [
-  { type: 'canvas', id: 'workorder', title: '画布', detail: {model:'workorder',resultsTableId:'results_showlist_datasrc'} },
-  { type: 'datasrc', parentId: 'workorder', id: 'canvas_datasrc1', title: '数据源', detail: {model:'equipment',whereClause:'woNum := woNum and status=1'} },
+  { type: 'canvas', id: 'workorder', title: '画布', detail: {modelName:'workorder'} },
+  { type: 'datasrc', parentId: 'workorder', id: 'canvas_datasrc1', title: '数据源', detail: {modelName:'equipment',whereClause:'woNum := woNum and status=1'} },
   { type: 'tabgroup', parentId: 'workorder', id: 'canvas_tabgroup1', title: '标签组', detail: {}},
 
   { type: 'tab', parentId: 'canvas_tabgroup1', id: 'canvas_tabgroup1_tab1', title: '标签', detail: { label: '列表',type:'list'}},
   { type: 'table', parentId: 'canvas_tabgroup1_tab1', id: 'canvas_tabgroup1_tab1_table1', title: '表格',
-    detail: { label: '',dataSrc: 'results_showlist_datasrc'}},
+    detail: { label: '',isMain: true }},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab1_table1', id: 'canvas_tabgroup1_tab1_table1_col1', title: '表格列',
     detail: { label: '工单编号',dataAttribute:'woNum',event:'selectRecord'}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab1_table1', id: 'canvas_tabgroup1_tab1_table1_col2', title: '表格列',
@@ -29,7 +34,7 @@ const demoData = [
     detail: {label:'工单描述',dataAttribute: 'desc'}},
   { type: 'section', parentId: 'canvas_tabgroup1_tab2', id: 'canvas_tabgroup1_tab2_section1', title: '区域', detail: {}},
   { type: 'table', parentId: 'canvas_tabgroup1_tab2_section1', id: 'canvas_tabgroup1_tab2_section1_table1', title: '表格',
-    detail: { label: '关联装备',objName: 'equipments'}},
+    detail: { label: '关联装备',objName: 'assocEQ'}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_col1', title: '表格列',
     detail: { label: '装备编号',dataAttribute:'eqNum',event:'selectRecord'}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_col2', title: '表格列',
@@ -40,7 +45,7 @@ const demoData = [
 
   { type: 'dialog', parentId: 'workorder', id: 'canvas_dialog1', title: '对话框', detail: { dialogId: 'selectEQ',label: '选择装备', width: 400}},
   { type: 'table', parentId: 'canvas_dialog1', id: 'canvas_dialog1_table_EQ', title: '表格',
-    detail: { label: '',dataSrc: 'canvas_datasrc1'}},
+    detail: { label: '',objName: 'assocEQSelect'}},
   { type: 'tablecol', parentId: 'canvas_dialog1_table_EQ', id: 'canvas_dialog1_table_EQ_col1', title: '表格列',
     detail: { label: '装备编号',dataAttribute:'eqNum',event:'toggleRecord'}},
   { type: 'tablecol', parentId: 'canvas_dialog1_table_EQ', id: 'canvas_dialog1_table_EQ_col2', title: '表格列',
@@ -49,27 +54,36 @@ const demoData = [
     detail: { label: '取消',event: 'dialogCancel' } },
 ];
 
-const events = {
-  duplicate: () => {},
-  save: () => {},
-  previous: () => {},
-  next: () => {},
-  routeWF: () => {},
-  openDialog: (dialogId)=>{
 
-  },
-  dialogOk: (dialogId)=>{
 
-  },
-  dialogCancel: (dialogId)=>{
+const client = new ApolloClient({
+  uri: 'http://localhost:8000/api/graphql',
+  cache: new InMemoryCache({
+    addTypename: false
+  })
+});
 
-  }
-};
-
-const graphqlURI = 'http://localhost:8000/api/graphql';
-
-const AppDemo = () => {
+const AppDemo = ({dispatch,workorder}) => {
   const [widgets,setWidgets] = useState(demoData);
+  const events = {
+    fetch: () => {
+      dispatch({type:'workorder/fetch'});
+    },
+    duplicate: () => {},
+    save: () => {},
+    previous: () => {},
+    next: () => {},
+    routeWF: () => {},
+    openDialog: (dialogId)=>{
+
+    },
+    dialogOk: (dialogId)=>{
+
+    },
+    dialogCancel: (dialogId)=>{
+
+    }
+  };
   return (
     <div className={styles.root}>
       <Tabs type="card">
@@ -78,7 +92,9 @@ const AppDemo = () => {
         </TabPane>
         <TabPane tab="预览" key="2">
           <div style={{padding: 16,minHeight: 800}}>
-            <AppRenderer graphqlURI={graphqlURI} widgets={widgets} events={events}/>
+            <ApolloProvider client={client}>
+              <AppRenderer widgets={widgets} events={events} model={workorder} />
+            </ApolloProvider>
           </div>
         </TabPane>
       </Tabs>
@@ -86,4 +102,6 @@ const AppDemo = () => {
   );
 };
 
-export default AppDemo;
+export default connect(({ workorder }) => ({
+  workorder: workorder
+}))(AppDemo);
