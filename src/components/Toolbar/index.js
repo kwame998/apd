@@ -11,6 +11,7 @@ import 'antd/lib/divider/style';
 import 'antd/lib/message/style';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { getWidgetAccept } from '../../utils';
+import debounce from 'lodash/debounce';
 
 const mapState = state => ({
   selectedWidget: state.selectedWidget,
@@ -43,12 +44,24 @@ const Toolbar = () => {
       isDragging: !!monitor.isDragging(),
     }),
   });
+
   useEffect(()=>{
-    const clientRect = rootRef.current.getBoundingClientRect();
-    const canvas = rootRef.current.parentNode;
-    const canvasRect = canvas.getBoundingClientRect();
+    let clientRect = rootRef.current.getBoundingClientRect();
+    let canvas = rootRef.current.parentNode;
+    let canvasRect = canvas.getBoundingClientRect();
     setPosition({x:canvasRect.width - clientRect.width - 2,y:0});
     // drag(rootRef);
+    const triggerResizeEvent = debounce(() => {
+      clientRect = rootRef.current.getBoundingClientRect();
+      canvas = rootRef.current.parentNode;
+      canvasRect = canvas.getBoundingClientRect();
+      setPosition({x:canvasRect.width - clientRect.width - 2,y:0});
+    });
+    window.addEventListener("resize", triggerResizeEvent);
+    return () => {
+      triggerResizeEvent.cancel();
+      window.removeEventListener("resize", triggerResizeEvent);
+    }
   },[]);
   const rootStyle = useMemo(
     () => ({
