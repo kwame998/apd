@@ -86,20 +86,24 @@ const mocks = {
     pageSize: 10,
   }),
   Query: () => ({
-    workorder_find: () => ({
-      list: () => new MockList(10, () => ({
+    workorder_find: (self,{app,pagination:{ pageSize }}) => ({
+      list: () => new MockList(pageSize || 10, () => ({
         woNum: () => 'WO' + Random.natural(100, 999),
-        assoc_eq: () => new MockList(10)
+        assocEQ: () => ({
+          list: () => new MockList(5),
+          count: () => 20,
+        })
       })),
       count: () => 100,
     }),
-    equipment_find: () => ({
-      list: () => new MockList(10, () => ({
+    equipment_find: (self,{app,pagination:{ pageSize }}) => {
+      return ({
+      list: () => new MockList(pageSize || 10, () => ({
         eqNum: () => 'EQ' + Random.natural(100, 999),
         status: ()=> Random.natural(0, 1)
       })),
       count: () => 100,
-    }),
+    })},
   }),
 };
 

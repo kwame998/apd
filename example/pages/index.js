@@ -31,29 +31,29 @@ const demoData = [
     detail: {label:'工单编号',dataAttribute: 'woNum'}},
   { type: 'textbox', parentId: 'canvas_tabgroup1_tab2_row1_col1', id: 'canvas_tabgroup1_tab2_row1_col1_text2', title: '文本框',
     detail: {label:'工单描述',dataAttribute: 'desc'}},
+  { type: 'pushbutton', parentId: 'canvas_tabgroup1_tab2_row1_col2', id: 'canvas_tabgroup1_tab2_row1_col2_btn1', title: '按钮',
+    detail: {label:'测试事件',event: 'dialogOpen',value:'selectEQ'}},
   { type: 'section', parentId: 'canvas_tabgroup1_tab2', id: 'canvas_tabgroup1_tab2_section1', title: '区域', detail: {}},
   { type: 'table', parentId: 'canvas_tabgroup1_tab2_section1', id: 'canvas_tabgroup1_tab2_section1_table1', title: '表格',
-    detail: { label: '关联装备',objName: 'assocEQ'}},
+    detail: { label: '关联装备',objName: 'assocEQ',pageSize: 5}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_col1', title: '表格列',
     detail: { label: '装备编号',dataAttribute:'eqNum',event:'selectRecord'}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_col2', title: '表格列',
     detail: { label: '装备描述',dataAttribute:'desc'}},
   { type: 'buttongroup', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_bg1', title: '按钮组',detail: {label:'',}},
   { type: 'pushbutton', parentId: 'canvas_tabgroup1_tab2_table1_bg1', id: 'canvas_tabgroup1_tab2_table1_bg1_btn1', title: '按钮',
-    detail: {label:'选择装备',event: 'openDialog',value:'selectEQ'}},
+    detail: {label:'选择装备',event: 'dialogOpen',value:'selectEQ'}},
 
-  { type: 'dialog', parentId: 'workorder', id: 'canvas_dialog1', title: '对话框', detail: { dialogId: 'selectEQ',label: '选择装备', width: 400}},
+  { type: 'dialog', parentId: 'workorder', id: 'canvas_dialog1', title: '对话框', detail: { dialogId: 'selectEQ',label: '选择装备', width: 600}},
   { type: 'table', parentId: 'canvas_dialog1', id: 'canvas_dialog1_table_EQ', title: '表格',
-    detail: { label: '',objName: 'assocEQSelect'}},
+    detail: { label: '',dataSrc: 'canvas_datasrc1',pageSize:5}},
   { type: 'tablecol', parentId: 'canvas_dialog1_table_EQ', id: 'canvas_dialog1_table_EQ_col1', title: '表格列',
     detail: { label: '装备编号',dataAttribute:'eqNum',event:'toggleRecord'}},
   { type: 'tablecol', parentId: 'canvas_dialog1_table_EQ', id: 'canvas_dialog1_table_EQ_col2', title: '表格列',
     detail: { label: '装备描述',dataAttribute:'desc'}},
   { type: 'pushbutton', title: '按钮', id: 'canvas_dialog1_btn2', parentId: 'canvas_dialog1',
-    detail: { label: '取消',event: 'dialogCancel' } },
+    detail: { label: '取消',event: 'dialogClose' }},
 ];
-
-
 
 const client = new ApolloClient({
   uri: 'http://localhost:8000/api/graphql',
@@ -62,25 +62,44 @@ const client = new ApolloClient({
   })
 });
 
-const AppDemo = ({dispatch,workorder}) => {
+const AppDemo = ({dispatch,model}) => {
   const [widgets,setWidgets] = useState(demoData);
   const events = {
-    fetch: () => {
-      dispatch({type:'workorder/fetch'});
+    fetch: (modelName,pagination,filter,sorter) => {
+      dispatch({type:`${modelName}/fetch`,payload: {pagination,filter,sorter}});
     },
     duplicate: () => {},
     save: () => {},
     previous: () => {},
     next: () => {},
     routeWF: () => {},
-    openDialog: (dialogId)=>{
-
+    dialogOpen: (dialogId)=>{
+      setWidgets(widgets.map(w => {
+        if(w.type === 'dialog' && w.detail.dialogId === dialogId){
+          return {
+            ...w,
+            detail: {
+              ...w.detail,
+              visible:true,
+            }
+          };
+        }
+        return w;
+      }));
     },
-    dialogOk: (dialogId)=>{
-
-    },
-    dialogCancel: (dialogId)=>{
-
+    dialogClose: (dialogId)=>{
+      setWidgets(widgets.map(w => {
+        if(w.type === 'dialog' && w.detail.dialogId === dialogId){
+          return {
+            ...w,
+            detail: {
+              ...w.detail,
+              visible:false,
+            }
+          };
+        }
+        return w;
+      }));
     }
   };
   return (
@@ -92,7 +111,7 @@ const AppDemo = ({dispatch,workorder}) => {
         <TabPane tab="预览" key="2">
           <div style={{padding: 16,minHeight: 800}}>
             <ApolloProvider client={client}>
-              <AppRenderer widgets={widgets} events={events} model={workorder} />
+              <AppRenderer widgets={widgets} events={events} model={model} />
             </ApolloProvider>
           </div>
         </TabPane>
@@ -101,6 +120,6 @@ const AppDemo = ({dispatch,workorder}) => {
   );
 };
 
-export default connect(({ workorder }) => ({
-  workorder: workorder
+export default connect((model) => ({
+  model: model
 }))(AppDemo);
