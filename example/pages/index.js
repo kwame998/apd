@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AppDesigner from '../../dist';
-import AppRenderer from '../../../apd-renderer/dist'
+import AppRenderer from 'apd-renderer'
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider,useQuery } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-cache-inmemory';
