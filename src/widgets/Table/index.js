@@ -5,7 +5,7 @@ import styles from './index.less'
 import { ContextMenuTrigger } from "react-contextmenu";
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
-import { Pagination,Icon } from 'antd'
+import { Pagination,Icon,Divider } from 'antd'
 import 'antd/lib/pagination/style';
 import 'antd/lib/icon/style';
 
@@ -111,22 +111,28 @@ const Table = ({widget}) => {
            style={rootStyle}
            className={styles.root}>
         <div className={styles.header}>
-          <div className={styles.title}>{label}</div>
-          <div className={styles.toolbar}>
-            <Pagination
-              disabled={true}
-              simple
-              defaultCurrent={1}
-              total={100}
-              current={1}
-              pageSize={pageSize}
-              style={{ display: 'inline-block', marginRight: 16 }}
-            />
-            <Icon type="filter" />
-            <Icon type="rest" theme="filled" style={{color:'#ddd'}}/>
-            <Icon type="search" />
-            <Icon type="unordered-list" />
-            <Icon type="download" />
+          <div className={styles.container}>
+            <div className={styles.title}>{label}</div>
+            { label && <Divider type="vertical" style={{marginTop:7}}/>}
+              <div className={styles.toolbar}>
+                <Icon type="filter" />
+                <Icon type="rest" theme="filled" style={{color:'#ddd'}}/>
+                <Icon type="search" />
+                <Icon type="unordered-list" />
+                <Pagination
+                  disabled
+                  simple
+                  defaultCurrent={1}
+                  total={100}
+                  current={1}
+                  pageSize={pageSize}
+                  style={{ display: 'inline-block', marginRight: 16 }}
+                />
+              </div>
+          </div>
+          <div className={styles.toolbarRight}>
+              <Icon type="download" />
+              <Icon type="vertical-align-middle" />
           </div>
         </div>
         <table>

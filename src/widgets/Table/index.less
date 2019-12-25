@@ -1,21 +1,29 @@
+@import '~antd/lib/style/themes/default.less';
 .root {
   padding: 6px 0 16px 0;
   width: 100%;
   background-color: #fafafa;
   .header {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
+    background-color: @background-color-base;
+    padding: 4px 8px;
+    border-bottom: 1px solid @border-color-split;
+    .container {
+      width: 90%;
+      display: flex;
+    }
     .title {
-      color: fade(#000, 55%);
-      font-weight: 500;
-      font-size: 16px;
+      color: @heading-color;
+      font-weight: 400;
+      font-size: 14px;
+      white-space: nowrap;
     }
     .toolbar {
+      margin-left: 8px;
       display: flex;
       justify-content: space-around;
       > div {
-        margin-top: 4px;
+        line-height: 24px;
       }
       > i > svg {
         margin-top: 8px;
@@ -28,6 +36,21 @@
         margin-right: 16px;
         font-size: 10px;
         color: #666;
+      }
+      :global {
+        .ant-pagination-item-link {
+          background-color: transparent;
+        }
+      }
+    }
+    .toolbarRight {
+      width: 10%;
+      text-align: right;
+      > i > svg {
+        margin-top: 6px;
+        margin-right: 16px;
+        cursor: pointer;
+        font-size: 12px;
       }
     }
   }

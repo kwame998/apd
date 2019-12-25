@@ -12,11 +12,11 @@ const RadioButtonGroupDetail = ({ widget, getFieldDecorator }) => {
   return (
     <>
       <Form.Item label="标题">{getFieldDecorator('label',{ initialValue: detail.label })(<Input />)}</Form.Item>
-      <Form.Item label="隐藏标题">{getFieldDecorator('hideLabel',{ initialValue: detail.hideLabel })(<Checkbox />)}</Form.Item>
+      <Form.Item label="隐藏标题">{getFieldDecorator('hideLabel',{ initialValue: detail.hideLabel, valuePropName: 'checked' })(<Checkbox />)}</Form.Item>
       <Form.Item label="属性">{getFieldDecorator('dataAttribute',{ initialValue: detail.dataAttribute })(<Input />)}</Form.Item>
       <Form.Item label="值属性">{getFieldDecorator('valueAttribute',{ initialValue: detail.valueAttribute })(<Input />)}</Form.Item>
       <Form.Item label="描述属性">{getFieldDecorator('descAttribute',{ initialValue: detail.descAttribute })(<Input />)}</Form.Item>
-      <Form.Item label="数据源标识">{getFieldDecorator('dataSrc',{ initialValue: detail.dataSrc })(<Checkbox />)}</Form.Item>
+      <Form.Item label="数据源标识">{getFieldDecorator('dataSrc',{ initialValue: detail.dataSrc })(<Input />)}</Form.Item>
     </>
   )
 };

@@ -14,7 +14,7 @@ const TextboxDetail = ({ widget, getFieldDecorator }) => {
   return (
     <>
       <Form.Item label="标题">{getFieldDecorator('label',{ initialValue: detail.label })(<Input />)}</Form.Item>
-      <Form.Item label="隐藏标题">{getFieldDecorator('hideLabel',{ initialValue: detail.hideLabel })(<Checkbox />)}</Form.Item>
+      <Form.Item label="隐藏标题">{getFieldDecorator('hideLabel',{ initialValue: detail.hideLabel, valuePropName: 'checked' })(<Checkbox />)}</Form.Item>
       <Form.Item label="属性">{getFieldDecorator('dataAttribute',{ initialValue: detail.dataAttribute })(<Input />)}</Form.Item>
       <Form.Item label="数据源标识">{getFieldDecorator('dataSrc',{ initialValue: detail.dataSrc })(<Input />)}</Form.Item>
       <Form.Item label="查找">{getFieldDecorator('lookup',{ initialValue: detail.lookup })(<Input />)}</Form.Item>

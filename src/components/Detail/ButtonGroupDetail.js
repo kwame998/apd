@@ -28,7 +28,7 @@ const ButtonGroupDetail = ({ widget, getFieldDecorator }) => {
           <Option value="right">右</Option>
         </Select>
       ))}</Form.Item>
-      <Form.Item label="显示容器">{getFieldDecorator('show',{ initialValue: detail.show })(<Checkbox />)}</Form.Item>
+      <Form.Item label="显示容器">{getFieldDecorator('show',{ initialValue: detail.show, valuePropName: 'checked' })(<Checkbox />)}</Form.Item>
     </>
   )
 };

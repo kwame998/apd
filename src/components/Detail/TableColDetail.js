@@ -21,8 +21,8 @@ const TableColDetail = ({ widget, getFieldDecorator }) => {
         </Select>
       )}
       </Form.Item>
-      <Form.Item label="可排序">{getFieldDecorator('sortable',{ initialValue: detail.sortable })(<Checkbox />)}</Form.Item>
-      <Form.Item label="可过滤">{getFieldDecorator('filterable',{ initialValue: detail.filterable })(<Checkbox />)}</Form.Item>
+      <Form.Item label="可排序">{getFieldDecorator('sortable',{ initialValue: detail.sortable, valuePropName: 'checked' })(<Checkbox />)}</Form.Item>
+      <Form.Item label="可过滤">{getFieldDecorator('filterable',{ initialValue: detail.filterable, valuePropName: 'checked' })(<Checkbox />)}</Form.Item>
       <Form.Item label="事件">{getFieldDecorator('event',{ initialValue: detail.event })(<Input />)}</Form.Item>
       <Form.Item label="目标标识">{getFieldDecorator('targetId',{ initialValue: detail.targetId })(<Input />)}</Form.Item>
       <Form.Item label="变更事件">{getFieldDecorator('onDataChange',{ initialValue: detail.onDataChange })(

@@ -16,7 +16,7 @@ const ImageDetail = ({ widget, getFieldDecorator }) => {
       <Form.Item label="数据源标识">{getFieldDecorator('dataSrc',{ initialValue: detail.dataSrc })(<Input />)}</Form.Item>
       <Form.Item label="高度">{getFieldDecorator('height',{ initialValue: detail.height })(<InputNumber min={1} precision={0.1}/>)}</Form.Item>
       <Form.Item label="宽度">{getFieldDecorator('width',{ initialValue: detail.width })(<InputNumber min={1} precision={0.1}/>)}</Form.Item>
-      <Form.Item label="是缩略图">{getFieldDecorator('thumbnail',{ initialValue: detail.thumbnail })(<Checkbox />)}</Form.Item>
+      <Form.Item label="是缩略图">{getFieldDecorator('thumbnail',{ initialValue: detail.thumbnail, valuePropName: 'checked' })(<Checkbox />)}</Form.Item>
     </>
   )
 };

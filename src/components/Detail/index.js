@@ -58,6 +58,7 @@ const Detail = ({visible,onCancel,form}) => {
           { selectedWidget.type === 'multilinetextbox' && <MultilineTextboxDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'table' && <TableDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'tablecol' && <TableColDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'tabgroup' && <TabGroupDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'tab' && <TabDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'pushbutton' && <PushButtonDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'buttongroup' && <ButtonGroupDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
