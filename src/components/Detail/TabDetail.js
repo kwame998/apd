@@ -19,6 +19,7 @@ const TabDetail = ({ widget, getFieldDecorator }) => {
         </Select>
       )}
       </Form.Item>
+      <Form.Item label="图标">{getFieldDecorator('icon',{ initialValue: detail.icon, })(<Input />)}</Form.Item>
     </>
   )
 };

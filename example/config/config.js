@@ -1,3 +1,4 @@
+import theme from './aliyunTheme'
 export default {
   base: '/apd',
   publicPath: '/apd/',
@@ -11,4 +12,7 @@ export default {
       },
     ]
   ],
+  theme: {
+    ...theme
+  },
 }

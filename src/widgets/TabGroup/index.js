@@ -6,6 +6,7 @@ import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import classNames from 'classnames';
 import { ContextMenuTrigger } from "react-contextmenu";
 import styles from './index.less'
+import { Icon } from 'antd'
 
 const mapState = state => ({
   widgets: state.widgets,
@@ -14,10 +15,11 @@ const mapState = state => ({
 const Tab = ({widget,className,onClick}) => {
   const [collectProps, drag] = useDrag({item: widget});
   const { detail } = widget;
-  const { label } = detail;
+  const { label,icon } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div className={className} onClick={onClick} ref={drag}>
+        { icon && <Icon type={icon} style={{marginRight: 4}}/> }
         { label }
       </div>
     </ContextMenuTrigger>

@@ -23,13 +23,13 @@ function createModel(modelName, obj) {
     subscriptions: Object.assign({}, subscriptions),
     effects: Object.assign(
       {
-        *fetch({ payload }, { select, call, put }) {
-
-        },
-        *reset({ payload }, { select, call, put }) {
+        *find({ payload }, { select, call, put }) {
 
         },
         *findOne({ payload }, { select, call, put }) {
+
+        },
+        *reset({ payload }, { select, call, put }) {
 
         },
         * save({ payload }, { select, call, put }) {

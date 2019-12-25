@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import AppDesigner from '../../dist';
-import AppRenderer from 'apd-renderer'
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider,useQuery } from '@apollo/react-hooks';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import AppRenderer from '../../../apd-renderer/dist'
 import { connect } from 'dva';
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
@@ -13,9 +10,9 @@ const { TabPane } = Tabs;
 const demoData = [
   { type: 'canvas', id: 'workorder', title: '画布', detail: {modelName:'workorder'} },
   { type: 'datasrc', parentId: 'workorder', id: 'canvas_datasrc1', title: '数据源', detail: {modelName:'equipment',whereClause:'woNum := woNum and status=1'} },
-  { type: 'tabgroup', parentId: 'workorder', id: 'canvas_tabgroup1', title: '标签组', detail: {}},
 
-  { type: 'tab', parentId: 'canvas_tabgroup1', id: 'canvas_tabgroup1_tab1', title: '标签', detail: { label: '列表',type:'list'}},
+  { type: 'tabgroup', parentId: 'workorder', id: 'canvas_tabgroup1', title: '标签组', detail: { isMain:true }},
+  { type: 'tab', parentId: 'canvas_tabgroup1', id: 'canvas_tabgroup1_tab1', title: '标签', detail: { label: '列表',type:'list',icon:'arrow-left'}},
   { type: 'table', parentId: 'canvas_tabgroup1_tab1', id: 'canvas_tabgroup1_tab1_table1', title: '表格',
     detail: { label: '',isMain: true }},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab1_table1', id: 'canvas_tabgroup1_tab1_table1_col1', title: '表格列',
@@ -55,24 +52,29 @@ const demoData = [
     detail: { label: '取消',event: 'dialogClose' }},
 ];
 
-const client = new ApolloClient({
-  uri: 'http://localhost:8000/api/graphql',
-  cache: new InMemoryCache({
-    addTypename: false
-  })
-});
-
 const AppDemo = ({dispatch,model}) => {
   const [widgets,setWidgets] = useState(demoData);
   const events = {
     fetch: (modelName,pagination,filter,sorter) => {
-      dispatch({type:`${modelName}/fetch`,payload: {pagination,filter,sorter}});
+      dispatch({type:`${modelName}/find`,payload: {pagination,filter,sorter}});
     },
     duplicate: () => {},
     save: () => {},
     previous: () => {},
     next: () => {},
     routeWF: () => {},
+    selectRecord: (modelName,record) => {
+      dispatch({type:`${modelName}/findOne`,payload: {id:record.id}});
+      const tabgroup = widgets.find(w => w.type === 'tabgroup' && w.detail.isMain);
+      if(tabgroup){
+        const tab = widgets.find(w => w.type === 'tab' && w.parentId === tabgroup.id && w.detail.type === 'insert');
+        if(tab)
+          dispatch({type:`${modelName}/setValue`,payload: {tab:tab.id}});
+      }
+    },
+    changeTab: (modelName,tabId) => {
+      dispatch({type:`${modelName}/setValue`,payload: {tab:tabId}});
+    },
     dialogOpen: (dialogId)=>{
       setWidgets(widgets.map(w => {
         if(w.type === 'dialog' && w.detail.dialogId === dialogId){
@@ -110,9 +112,7 @@ const AppDemo = ({dispatch,model}) => {
         </TabPane>
         <TabPane tab="预览" key="2">
           <div style={{padding: 16,minHeight: 800}}>
-            <ApolloProvider client={client}>
-              <AppRenderer widgets={widgets} events={events} model={model} />
-            </ApolloProvider>
+            <AppRenderer widgets={widgets} events={events} model={model} />
           </div>
         </TabPane>
       </Tabs>

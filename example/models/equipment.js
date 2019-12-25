@@ -3,10 +3,11 @@ import { query } from '../services/graphql';
 
 export default createModel('equipment', {
   state: {
-
+    buttons: [{ type: 'pushbutton', title: '按钮', id: 'equipment_addBtn', parentId: 'canvas', detail: { label: '新增', isDefault:true }}],
+    tab: 'list'
   },
   effects: {
-    *fetch({ payload }, { select, call, put }) {
+    *find({ payload }, { select, call, put }) {
       const Find_GQL = `
             query Find($app: String!, $pagination: Pagination, $sorter: [SortItem!]){
               equipment_find (app: $app, pagination: $pagination, sorter: $sorter){

@@ -17,7 +17,7 @@ const PushButton = ({widget}) => {
     }),
     [selected],);
   const { detail } = widget;
-  const { label,icon,isDefault } = detail;
+  const { label,icon,isDefault,size = "small" } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <Button
@@ -27,6 +27,7 @@ const PushButton = ({widget}) => {
         }}
         type={isDefault ? "primary":"default"}
         icon={icon}
+        size={size}
         style={rootStyle}
         onClick={(e)=>{
           dispatch({ type: 'selectWidget', payload: widget.id });

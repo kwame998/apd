@@ -11,6 +11,7 @@ import TextboxDetail from './TextboxDetail';
 import TableDetail from './TableDetail';
 import MultilineTextboxDetail from './MultilineTextboxDetail';
 import TabDetail from './TabDetail';
+import TabGroupDetail from './TabGroupDetail';
 import TableColDetail from './TableColDetail';
 import PushButtonDetail from './PushButtonDetail';
 import ComboboxDetail from './ComboboxDetail';
