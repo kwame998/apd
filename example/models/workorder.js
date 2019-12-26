@@ -3,7 +3,12 @@ import { query } from '../services/graphql';
 
 export default createModel('workorder', {
   state: {
-    buttons: [{ type: 'pushbutton', title: '按钮', id: 'workorder_addBtn', parentId: 'canvas', detail: { label: '新增', isDefault:true }}],
+    buttons: [
+      { type: 'appbutton', id: 'workorder_addBtn', detail: { label: '新增', isDefault:true,event:'insert',visible:'list' }},
+      { type: 'appbutton', id: 'workorder_prevBtn', detail: { label: '上一条', event:'previous',visible:'insert' }},
+      { type: 'appbutton', id: 'workorder_nextBtn', detail: { label: '下一条', event:'next',visible:'insert' }},
+      { type: 'appbutton', id: 'workorder_saveBtn', detail: { label: '保存', isDefault:true, event:'save',visible:'insert' }},
+    ],
     tab: 'list'
   },
   effects: {
@@ -15,14 +20,6 @@ export default createModel('workorder', {
                   id
                   woNum
                   desc
-                  assocEQ{
-                    list{
-                      eqNum
-                      desc
-                      status
-                    }
-                    count
-                  }
                 }
                 count
               },
@@ -55,6 +52,7 @@ export default createModel('workorder', {
                 desc
                 assocEQ{
                   list{
+                    id
                     eqNum
                     desc
                     status
@@ -70,6 +68,29 @@ export default createModel('workorder', {
       });
       yield put({ type: 'setItemValue', payload: response.data[`workorder_findOne`] });
       yield put({ type: 'setValue', payload: { itemIdx: idx > -1 ? idx : 0 } });
+    },
+    *findOneList({ payload }, { select, call, put }) {
+      const item = yield select(state => (state['workorder'].item));
+      const FindOne_GQL = `
+            query Find($app: String!, $id: ID!){
+              workorder_findOne (app: $app, id: $id){
+                assocEQ{
+                  list{
+                    id
+                    eqNum
+                    desc
+                    status
+                  }
+                  count
+                }
+              },
+            }
+          `;
+      const response = yield call(query, FindOne_GQL, {
+        app: 'workorder',
+        id: item.id,
+      });
+      yield put({ type: 'setItemValue', payload: response.data[`workorder_findOne`] });
     },
   },
   reducers: {

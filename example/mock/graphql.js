@@ -31,8 +31,8 @@ const typeDefs = `
     id: ID
     woNum: String
     desc: String
+    status: Int
     assocEQ(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
-    assocEQSelect(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
   }
   type EquipmentList {
     list: [Equipment]
@@ -89,12 +89,17 @@ const mocks = {
     workorder_find: (self,{app,pagination:{ pageSize }}) => ({
       list: () => new MockList(pageSize || 10, () => ({
         woNum: () => 'WO' + Random.natural(100, 999),
-        assocEQ: () => ({
-          list: () => new MockList(5),
-          count: () => 20,
-        })
+        status: ()=> Random.natural(0, 1),
       })),
       count: () => 100,
+    }),
+    workorder_findOne: (self,{app,id}) => ({
+      woNum: () => 'WO' + Random.natural(100, 999),
+      status: ()=> Random.natural(0, 1),
+      assocEQ: () => ({
+        list: () => new MockList(5),
+        count: () => 20,
+      })
     }),
     equipment_find: (self,{app,pagination:{ pageSize }}) => {
       return ({

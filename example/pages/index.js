@@ -34,7 +34,7 @@ const demoData = [
   { type: 'table', parentId: 'canvas_tabgroup1_tab2_section1', id: 'canvas_tabgroup1_tab2_section1_table1', title: '表格',
     detail: { label: '关联装备',objName: 'assocEQ',pageSize: 5}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_col1', title: '表格列',
-    detail: { label: '装备编号',dataAttribute:'eqNum',event:'selectRecord'}},
+    detail: { label: '装备编号',dataAttribute:'eqNum'}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_col2', title: '表格列',
     detail: { label: '装备描述',dataAttribute:'desc'}},
   { type: 'buttongroup', parentId: 'canvas_tabgroup1_tab2_section1_table1', id: 'canvas_tabgroup1_tab2_table1_bg1', title: '按钮组',detail: {label:'',}},
@@ -58,9 +58,19 @@ const AppDemo = ({dispatch,model}) => {
     fetch: (modelName,pagination,filter,sorter) => {
       dispatch({type:`${modelName}/find`,payload: {pagination,filter,sorter}});
     },
+    fetchTable: (modelName,objName,pagination,filter,sorter) => {
+      dispatch({type:`${modelName}/findOneList`,payload: {objName,pagination,filter,sorter}});
+    },
     duplicate: () => {},
-    save: () => {},
-    previous: () => {},
+    insert: () => {
+
+    },
+    save: () => {
+
+    },
+    previous: () => {
+
+    },
     next: () => {},
     routeWF: () => {},
     selectRecord: (modelName,record) => {
@@ -69,8 +79,11 @@ const AppDemo = ({dispatch,model}) => {
       if(tabgroup){
         const tab = widgets.find(w => w.type === 'tab' && w.parentId === tabgroup.id && w.detail.type === 'insert');
         if(tab)
-          dispatch({type:`${modelName}/setValue`,payload: {tab:tab.id}});
+          events.changeTab(modelName,tab.id);
       }
+    },
+    toggleRecord: (modelName,record) => {
+
     },
     changeTab: (modelName,tabId) => {
       dispatch({type:`${modelName}/setValue`,payload: {tab:tabId}});

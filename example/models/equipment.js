@@ -3,7 +3,12 @@ import { query } from '../services/graphql';
 
 export default createModel('equipment', {
   state: {
-    buttons: [{ type: 'pushbutton', title: '按钮', id: 'equipment_addBtn', parentId: 'canvas', detail: { label: '新增', isDefault:true }}],
+    buttons: [
+      { type: 'appbutton', id: 'workorder_addBtn', detail: { label: '新增', isDefault:true,event:'insert',visible:'list' }},
+      { type: 'appbutton', id: 'workorder_prevBtn', detail: { label: '上一条', event:'previous',visible:'insert' }},
+      { type: 'appbutton', id: 'workorder_nextBtn', detail: { label: '下一条', event:'next',visible:'insert' }},
+      { type: 'appbutton', id: 'workorder_saveBtn', detail: { label: '保存', isDefault:true, event:'save',visible:'insert' }},
+    ],
     tab: 'list'
   },
   effects: {
