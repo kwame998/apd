@@ -46,17 +46,13 @@ const Toolbar = () => {
   });
 
   useEffect(()=>{
-    let clientRect = rootRef.current.getBoundingClientRect();
-    let canvas = rootRef.current.parentNode;
-    let canvasRect = canvas.getBoundingClientRect();
-    setPosition({x:canvasRect.width - clientRect.width - 2,y:0});
-    // drag(rootRef);
     const triggerResizeEvent = debounce(() => {
-      clientRect = rootRef.current.getBoundingClientRect();
-      canvas = rootRef.current.parentNode;
-      canvasRect = canvas.getBoundingClientRect();
+      const clientRect = rootRef.current.getBoundingClientRect();
+      const canvas = rootRef.current.parentNode;
+      const canvasRect = canvas.getBoundingClientRect();
       setPosition({x:canvasRect.width - clientRect.width - 2,y:0});
     });
+    triggerResizeEvent();
     window.addEventListener("resize", triggerResizeEvent);
     return () => {
       triggerResizeEvent.cancel();
