@@ -73,7 +73,6 @@ export default createModel('workorder', {
         app: 'workorder',
         id: item.id,
       });
-      console.log(response);
       yield put({ type: 'setItemValue', payload: response.data[`workorder_findOne`] });
     },
   },

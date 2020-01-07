@@ -39,7 +39,23 @@ const demoData = [
   { type: 'pushbutton', parentId: 'canvas_tabgroup1_tab2_table1_bg1', id: 'canvas_tabgroup1_tab2_table1_bg1_btn1', title: '按钮',
     detail: {label:'选择装备',event: 'dialogOpen',value:'selectEQ'}},
 
-  { type: 'tabgroup', parentId: 'canvas_tabgroup1_tab2', id: 'canvas_tabgroup2', title: '标签组', detail: { }},
+  { type: 'tab', parentId: 'canvas_tabgroup1', id: 'canvas_tabgroup1_tab3', title: '标签', detail: { label: '计划',type:'insert'}},
+  { type: 'sectionrow', parentId: 'canvas_tabgroup1_tab3', id: 'canvas_tabgroup1_tab3_row1', title: '行', detail: {}},
+  { type: 'sectioncol', parentId: 'canvas_tabgroup1_tab3_row1', id: 'canvas_tabgroup1_tab3_row1_col1', title: '列', detail: {}},
+  { type: 'sectioncol', parentId: 'canvas_tabgroup1_tab3_row1', id: 'canvas_tabgroup1_tab3_row1_col2', title: '列', detail: {}},
+  { type: 'sectioncol', parentId: 'canvas_tabgroup1_tab3_row1', id: 'canvas_tabgroup1_tab3_row1_col3', title: '列', detail: {}},
+  { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col1', id: 'canvas_tabgroup1_tab3_row1_col1_text1', title: '文本框',
+    detail: {label:'工单编号',dataAttribute: 'woNum'}},
+  { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col1', id: 'canvas_tabgroup1_tab3_row1_col1_text2', title: '文本框',
+    detail: {label:'工单描述',dataAttribute: 'woNum'}},
+  { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col2', id: 'canvas_tabgroup1_tab3_row1_col2_text3', title: '文本框',
+    detail: {label:'创建人',dataAttribute: 'created_by.name'}},
+  { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col2', id: 'canvas_tabgroup1_tab3_row1_col2_text4', title: '文本框',
+    detail: {label:'创建时间',dataAttribute: 'created_time'}},
+  { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col3', id: 'canvas_tabgroup1_tab3_row1_col3_text5', title: '文本框',
+    detail: {label:'工单状态',dataAttribute: 'status'}},
+
+  { type: 'tabgroup', parentId: 'canvas_tabgroup1_tab3', id: 'canvas_tabgroup2', title: '标签组', detail: { }},
   { type: 'tab', parentId: 'canvas_tabgroup2', id: 'canvas_tabgroup2_tab1', title: '标签', detail: { label: '物料'}},
   { type: 'section', parentId: 'canvas_tabgroup2_tab1', id: 'canvas_tabgroup2_tab1_section1', title: '区域', detail: {}},
   { type: 'table', parentId: 'canvas_tabgroup2_tab1_section1', id: 'canvas_tabgroup2_tab1_section1_table1', title: '表格',
@@ -87,7 +103,8 @@ const AppDemo = ({dispatch,model}) => {
       dispatch({type:`${modelName}/find`,payload: {pagination,filter,sorter}});
     },
     fetchTab: (modelName,tabId) => {
-      const gql = tabId === 'canvas_tabgroup2_tab1' ? `
+      const gql = tabId === 'canvas_tabgroup2_tab1' ?
+        `
         assocItem{
           list{
             id
@@ -98,7 +115,9 @@ const AppDemo = ({dispatch,model}) => {
           }
           count
         }
-      ` : `
+        `
+        :
+        `
         assocPerson{
           list{
             id
@@ -108,21 +127,9 @@ const AppDemo = ({dispatch,model}) => {
           }
           count
         }
-      `;
+        `;
       dispatch({type:`${modelName}/findItem`,payload: {gql}});
     },
-    duplicate: () => {},
-    insert: () => {
-
-    },
-    save: () => {
-
-    },
-    previous: () => {
-
-    },
-    next: () => {},
-    routeWF: () => {},
     selectRecord: (modelName,record) => {
       const gql = `
         id
@@ -146,9 +153,7 @@ const AppDemo = ({dispatch,model}) => {
           events.changeTab(modelName,tab.id);
       }
     },
-    toggleRecord: (modelName,record) => {
-
-    },
+    toggleRecord: (modelName,record) => {},
     changeTab: (modelName,tabId) => {
       dispatch({type:`${modelName}/setValue`,payload: {tab:tabId}});
     },
@@ -179,7 +184,13 @@ const AppDemo = ({dispatch,model}) => {
         }
         return w;
       }));
-    }
+    },
+    duplicate: () => {},
+    insert: () => {},
+    save: () => {},
+    previous: () => {},
+    next: () => {},
+    routeWF: () => {},
   };
   return (
     <div className={styles.root}>

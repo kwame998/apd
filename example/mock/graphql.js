@@ -15,6 +15,7 @@ const typeDefs = `
     ASC
     DESC
   }
+  scalar Date
   input Pagination{
     currentPage: Int
     pageSize: Int
@@ -22,19 +23,6 @@ const typeDefs = `
   input SortItem{
     field: String
     value: SORTVALUE
-  }
-  type WorkorderList {
-    list: [Workorder]
-    count: Int
-  }
-  type Workorder {
-    id: ID
-    woNum: String
-    desc: String
-    status: Int
-    assocEQ(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
-    assocItem(pagination:Pagination, where:String, sorter: [SortItem]): ItemList
-    assocPerson(pagination:Pagination, where:String, sorter: [SortItem]): PersonList
   }
   type EquipmentList {
     list: [Equipment]
@@ -66,6 +54,20 @@ const typeDefs = `
     personID: String
     name: String
     email: String
+  }
+  type WorkorderList {
+    list: [Workorder]
+    count: Int
+  }
+  type Workorder {
+    id: ID
+    woNum: String
+    desc: String
+    created_by: Person
+    status: Int
+    assocEQ(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
+    assocItem(pagination:Pagination, where:String, sorter: [SortItem]): ItemList
+    assocPerson(pagination:Pagination, where:String, sorter: [SortItem]): PersonList
   }
   type Query {
     workorder_find(app:String!, pagination:Pagination, where:String, sorter: [SortItem]) : WorkorderList
@@ -122,7 +124,12 @@ const mocks = {
     }),
     workorder_findOne: (self,{app,id}) => ({
       woNum: () => 'WO' + Random.integer(100, 999),
-      status: ()=> Random.natural(0, 1),
+      status: () => Random.natural(0, 1),
+      created_by: () => ({
+        personID: () => Random.first(),
+        name: ()=> Random.cname(),
+        email: ()=> Random.email()
+      }),
       assocEQ: () => ({
         list: () => new MockList(5),
         count: () => 20,
