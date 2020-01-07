@@ -33,6 +33,8 @@ const typeDefs = `
     desc: String
     status: Int
     assocEQ(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
+    assocItem(pagination:Pagination, where:String, sorter: [SortItem]): ItemList
+    assocPerson(pagination:Pagination, where:String, sorter: [SortItem]): PersonList
   }
   type EquipmentList {
     list: [Equipment]
@@ -44,11 +46,36 @@ const typeDefs = `
     desc: String
     status: Int
   }
+  type ItemList {
+    list: [Item]
+    count: Int
+  }
+  type Item {
+    id: ID
+    itemNum: String
+    desc: String
+    amount: Int
+    cost: Int
+  }
+  type PersonList {
+    list: [Person]
+    count: Int
+  }
+  type Person {
+    id: ID
+    personID: String
+    name: String
+    email: String
+  }
   type Query {
     workorder_find(app:String!, pagination:Pagination, where:String, sorter: [SortItem]) : WorkorderList
     workorder_findOne(app:String!, id:ID!) : Workorder
     equipment_find(app:String!, pagination:Pagination, where:String, sorter: [SortItem]) : EquipmentList
     equipment_findOne(app:String!, id:ID!) : Equipment
+    item_find(app:String!, pagination:Pagination, where:String, sorter: [SortItem]) : ItemList
+    item_findOne(app:String!, id:ID!) : Item
+    person_find(app:String!, pagination:Pagination, where:String, sorter: [SortItem]) : PersonList
+    person_findOne(app:String!, id:ID!) : Person
   }
 `;
 
@@ -88,27 +115,61 @@ const mocks = {
   Query: () => ({
     workorder_find: (self,{app,pagination:{ pageSize }}) => ({
       list: () => new MockList(pageSize || 10, () => ({
-        woNum: () => 'WO' + Random.natural(100, 999),
-        status: ()=> Random.natural(0, 1),
+        woNum: () => 'WO' + Random.integer(100, 999),
+        status: ()=> Random.integer(0, 1),
       })),
       count: () => 100,
     }),
     workorder_findOne: (self,{app,id}) => ({
-      woNum: () => 'WO' + Random.natural(100, 999),
+      woNum: () => 'WO' + Random.integer(100, 999),
       status: ()=> Random.natural(0, 1),
       assocEQ: () => ({
         list: () => new MockList(5),
+        count: () => 20,
+      }),
+      assocItem: () => ({
+        list: () => new MockList(5,() => ({
+          itemNum: () => 'ITEM' + Random.integer(100, 999),
+          desc: () => Random.cword(10),
+          amount: () => Random.integer(10,20),
+          cost: () => Random.integer(100,500),
+        })),
+        count: () => 20,
+      }),
+      assocPerson: () => ({
+        list: () => new MockList(5,() => ({
+          personID: () => Random.first(),
+          name: ()=> Random.cname(),
+          email: ()=> Random.email()
+        })),
         count: () => 20,
       })
     }),
     equipment_find: (self,{app,pagination:{ pageSize }}) => {
       return ({
       list: () => new MockList(pageSize || 10, () => ({
-        eqNum: () => 'EQ' + Random.natural(100, 999),
-        status: ()=> Random.natural(0, 1)
+        eqNum: () => 'EQ' + Random.integer(100, 999),
+        status: ()=> Random.integer(0, 1)
       })),
       count: () => 100,
     })},
+    item_find: (self,{app,pagination:{ pageSize }}) => {
+      return ({
+        list: () => new MockList(pageSize || 10, () => ({
+          itemNum: () => 'ITEM' + Random.natural(100, 999),
+          desc: () => Random.cword(10)
+        })),
+        count: () => 100,
+      })},
+    person_find: (self,{app,pagination:{ pageSize }}) => {
+      return ({
+        list: () => new MockList(pageSize || 10, () => ({
+          personID: () => Random.name(),
+          name: ()=> Random.cname(),
+          email: ()=> Random.email()
+        })),
+        count: () => 100,
+      })},
   }),
 };
 

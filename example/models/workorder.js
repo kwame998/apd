@@ -44,21 +44,11 @@ export default createModel('workorder', {
         const { items } = state['workorder'];
         return items.findIndex(i => i.id === payload);
       });
+      const { gql } = payload;
       const FindOne_GQL = `
             query Find($app: String!, $id: ID!){
               workorder_findOne (app: $app, id: $id){
-                id
-                woNum
-                desc
-                assocEQ{
-                  list{
-                    id
-                    eqNum
-                    desc
-                    status
-                  }
-                  count
-                }
+                ${gql}
               },
             }
           `;
@@ -69,20 +59,13 @@ export default createModel('workorder', {
       yield put({ type: 'setItemValue', payload: response.data[`workorder_findOne`] });
       yield put({ type: 'setValue', payload: { itemIdx: idx > -1 ? idx : 0 } });
     },
-    *findOneList({ payload }, { select, call, put }) {
+    *findItem({ payload }, { select, call, put }) {
       const item = yield select(state => (state['workorder'].item));
+      const { gql } = payload;
       const FindOne_GQL = `
             query Find($app: String!, $id: ID!){
               workorder_findOne (app: $app, id: $id){
-                assocEQ{
-                  list{
-                    id
-                    eqNum
-                    desc
-                    status
-                  }
-                  count
-                }
+                ${gql}
               },
             }
           `;
@@ -90,6 +73,7 @@ export default createModel('workorder', {
         app: 'workorder',
         id: item.id,
       });
+      console.log(response);
       yield put({ type: 'setItemValue', payload: response.data[`workorder_findOne`] });
     },
   },
