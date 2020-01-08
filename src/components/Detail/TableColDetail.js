@@ -41,8 +41,8 @@ const TableColDetail = ({ widget, getFieldDecorator }) => {
           <Option value="required">必填</Option>
         </Select>
       )}
-        <Form.Item label="菜单类型">{getFieldDecorator('menuType',{ initialValue: detail.menuType })(<Input />)}</Form.Item>
       </Form.Item>
+      <Form.Item label="菜单类型">{getFieldDecorator('menuType',{ initialValue: detail.menuType })(<Input />)}</Form.Item>
     </>
   )
 };
