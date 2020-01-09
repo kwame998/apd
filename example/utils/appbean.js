@@ -204,6 +204,7 @@ export default class AppBean extends EE {
         item: response.data[`${modelName}_findOne`],
       });
     }
+    this.changeTabVisible({widgetId});
   }
 
   dialogOpen(params){
@@ -243,6 +244,32 @@ export default class AppBean extends EE {
   changeTab(params){
     const { modelName,widgetId } = params;
     this.emit(`${modelName}:changeTab`,widgetId);
+  }
+
+  changeTabVisible(params){
+    const { widgetId } = params;
+    const widget = this.widgets.find(w => w.id === widgetId);
+    const widgets = this.widgets.map(w => {
+      if(w.type === 'tab' && w.id === widgetId){
+        return {
+          ...w,
+          detail: {
+            ...w.detail,
+            visible:true,
+          }
+        };
+      }else if(w.type === 'tab' && w.parentId === widget.parentId){
+        return {
+          ...w,
+          detail: {
+            ...w.detail,
+            visible:false,
+          }
+        };
+      }
+      return w;
+    });
+    this.widgets = widgets;
   }
 
 
