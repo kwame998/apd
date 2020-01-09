@@ -49,7 +49,7 @@ export default class AppBean extends EE {
   }
 
   changeAppTab(params){
-    const { modelName,widgetId } = params;
+    const { widgetId } = params;
     this.emit(`appTabChanged`,widgetId);
   }
 
