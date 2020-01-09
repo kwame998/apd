@@ -58,6 +58,19 @@ export default class AppBean extends EE {
     this.emit(`itemUpdated`,this.item);
   }
 
+  appendDataAttribute(array){
+    const attr = array.shift();
+    if(_.isEmpty(array))
+      return `
+        ${attr}
+      `;
+    return `
+      ${attr}{
+        ${this.appendDataAttribute(array)}
+      }
+    `
+  }
+
   appendGQL(widget){
     const { detail = {} } = widget;
     const { dataAttribute,objName } = detail;
@@ -88,8 +101,12 @@ export default class AppBean extends EE {
       }
       return this.appendGQL(tab)
     }else if(dataAttribute){
+      let attr = dataAttribute;
+      if(attr.indexOf('.') > -1){
+        attr = this.appendDataAttribute(attr.split('.'));
+      }
       return `
-        ${dataAttribute}
+        ${attr}
         ${children.map(child => this.appendGQL(child)).filter(child => !!child).join('\n')}
       `;
     }else if(objName){
