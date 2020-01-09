@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import AppDesigner from '../../dist';
-import AppRenderer from '../../../apd-renderer/dist'
-import { connect } from 'dva';
+import AppRenderer from 'apd-renderer'
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
 import styles from './index.less';
