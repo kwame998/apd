@@ -82,7 +82,7 @@ export default class AppBean extends EE {
         count
       `;
     }else if(widget.type === 'tabgroup'){
-      let tab = children.filter(child => child.detail.visible);
+      let tab = children.find(child => child.detail.visible);
       if(!tab){
         tab = children[0];
       }
@@ -190,6 +190,7 @@ export default class AppBean extends EE {
     const response = await this.query(gql, {
       app: modelName,
       id: this.item.id,
+      pagination: pagination || { currentPage: 1, pageSize: 5 },
     });
     if(this.modelName === modelName){
       this.setItem(response.data[`${modelName}_findOne`]);
