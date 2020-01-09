@@ -1,5 +1,6 @@
 import EE from 'eventemitter3'
 import request from './request';
+import _ from 'lodash';
 
 export default class AppBean extends EE {
 
@@ -12,6 +13,8 @@ export default class AppBean extends EE {
 
   widgets = [];
 
+  rootWidget = {};
+
   items = [];
 
   item = {};
@@ -23,6 +26,7 @@ export default class AppBean extends EE {
     this.widgets = widgets;
     const canvasWidgets = widgets.filter(d => d.type === 'canvas');
     const widget = canvasWidgets[0] || {};
+    this.rootWidget =  widget;
     const {detail = {}} = widget;
     this.modelName = detail.modelName;
     this.initEvents();
@@ -34,7 +38,7 @@ export default class AppBean extends EE {
     this.on('selectRecord',this.selectRecord);
     this.on('findByTab',this.findByTab);
     this.on('findByTable',this.findByTable);
-    this.on('changeTab',this.changeTab);
+    this.on('changeAppTab',this.changeAppTab);
     this.on('dialogOpen',this.dialogOpen);
     this.on('dialogClose',this.dialogClose);
   }
@@ -44,31 +48,113 @@ export default class AppBean extends EE {
     this.emit(`widgetsUpdated`,this.widgets);
   }
 
+  changeAppTab(params){
+    const { modelName,widgetId } = params;
+    this.emit(`appTabChanged`,widgetId);
+  }
+
+  setItem(payload){
+    this.item = {...this.item,...payload};
+    this.emit(`itemUpdated`,this.item);
+  }
+
+  appendGQL(widget){
+    const { detail = {} } = widget;
+    const { dataAttribute,objName } = detail;
+    const children = this.widgets.filter(w => w.parentId === widget.id);
+    if(widget.type === 'table'){
+      if(objName){
+        return `
+          ${objName}{
+            list{
+              id
+              ${children.map(child => this.appendGQL(child)).filter(child => !!child).join('\n')}
+            }
+            count
+          }
+        `;
+      }
+      return `
+        list{
+          id
+          ${children.map(child => this.appendGQL(child)).filter(child => !!child).join('\n')}
+        }
+        count
+      `;
+    }else if(widget.type === 'tabgroup'){
+      let tab = children.filter(child => child.detail.visible);
+      if(!tab){
+        tab = children[0];
+      }
+      return this.appendGQL(tab)
+    }else if(dataAttribute){
+      return `
+        ${dataAttribute}
+        ${children.map(child => this.appendGQL(child)).filter(child => !!child).join('\n')}
+      `;
+    }else if(objName){
+      return `
+        ${objName}{
+          id
+          ${children.map(child => this.appendGQL(child)).filter(child => !!child).join('\n')}
+        }
+      `;
+    }else if(!_.isEmpty(children)) {
+      return children.map(child => this.appendGQL(child)).filter(child => !!child).join('\n');
+    }else {
+      return undefined;
+    }
+  }
+
+  getGQL(widgetId){
+    const widget = this.widgets.find(w => w.id === widgetId);
+    const gql = this.appendGQL(widget);
+    if(widget.type === 'table'){
+      const { detail:{isMain,dataSrc,objName} } = widget;
+      if(isMain){
+        return `
+          query Find($app: String!, $pagination: Pagination, $sorter: [SortItem!]){
+            ${this.modelName}_find (app: $app, pagination: $pagination, sorter: $sorter){
+              ${gql}
+            }
+          }
+        `
+      }else if(dataSrc){
+        const ds = this.widgets.find(w => w.type === 'datasrc' && w.id === dataSrc);
+        const { detail:{modelName}} = ds;
+        return `
+          query Find($app: String!, $pagination: Pagination, $sorter: [SortItem!]){
+            ${modelName}_find (app: $app, pagination: $pagination, sorter: $sorter){
+              ${gql}
+            }
+          }
+        `
+      }else if(objName){
+        return `
+          query Find($app: String!, $id: ID!){
+            ${this.modelName}_findOne (app: $app, id: $id){
+              id
+              ${gql}
+            }
+          }
+        `;
+      }
+    }else if(widget.type === 'tab'){
+      return `
+        query Find($app: String!, $id: ID!){
+          ${this.modelName}_findOne (app: $app, id: $id){
+            id
+            ${gql}
+          }
+        }
+      `;
+    }
+  }
+
   async find(params) {
     const { widgetId, modelName, pagination, filter, sorter } = params;
-    const gql = modelName === 'workorder' ?
-      `
-        id
-        woNum
-        desc
-      `:
-      `
-        id
-        eqNum
-        desc
-        status
-      `;
-    const Find_GQL = `
-            query Find($app: String!, $pagination: Pagination, $sorter: [SortItem!]){
-              ${modelName}_find (app: $app, pagination: $pagination, sorter: $sorter){
-                list{
-                  ${gql}
-                }
-                count
-              },
-            }
-          `;
-    const response = await this.query(Find_GQL, {
+    const gql = this.getGQL(widgetId);
+    const response = await this.query(gql, {
       app: modelName,
       pagination: pagination || { currentPage: 1, pageSize: 10 },
     });
@@ -76,7 +162,7 @@ export default class AppBean extends EE {
       this.items = response.data[`${modelName}_find`].list;
       this.total = response.data[`${modelName}_find`].count;
     }
-    this.emit(`${widgetId}:find`,{
+    this.emit(`${modelName}:find:${widgetId}`,{
       items: response.data[`${modelName}_find`].list,
       total: response.data[`${modelName}_find`].count,
     });
@@ -84,31 +170,13 @@ export default class AppBean extends EE {
 
   async findOne(params) {
     const { widgetId, modelName, value } = params;
-    const FindOne_GQL = `
-            query Find($app: String!, $id: ID!){
-              ${modelName}_findOne (app: $app, id: $id){
-                id
-                woNum
-                desc
-                assocEQ{
-                  list{
-                    id
-                    eqNum
-                    desc
-                    status
-                  }
-                  count
-                }
-              },
-            }
-          `;
-    const response = await this.query(FindOne_GQL, {
+    const gql = this.getGQL(widgetId);
+    const response = await this.query(gql, {
       app: modelName,
       id: value,
     });
     if(this.modelName === modelName){
-      this.item = {...this.item,...response.data[`${modelName}_findOne`]};
-      this.emit(`itemUpdated`,this.item);
+      this.setItem(response.data[`${modelName}_findOne`]);
     }else {
       this.emit(`${modelName}:findOne`, {
         item: response.data[`${modelName}_findOne`],
@@ -116,43 +184,17 @@ export default class AppBean extends EE {
     }
   }
 
-  async selectRecord(params){
-    const { modelName } = params;
-    this.emit('findOne',params);
-    const tabgroup = this.widgets.find(w => w.type === 'tabgroup' && w.detail.isMain);
-    if(tabgroup){
-      const tab = this.widgets.find(w => w.type === 'tab' && w.parentId === tabgroup.id && w.detail.type === 'insert');
-      if(tab) {
-        this.emit('changeTab', { modelName,widgetId: tab.id });
-      }
-    }
-  }
-
   async findByTable(params){
     const { widgetId, modelName, objName, pagination, filter, sorter } = params;
-    const FindOne_GQL = `
-            query Find($app: String!, $id: ID!){
-              ${modelName}_findOne (app: $app, id: $id){
-                ${objName}{
-                  list{
-                    id
-                    eqNum
-                    desc
-                    status
-                  }
-                  count
-                }
-              },
-            }
-          `;
-    const response = await this.query(FindOne_GQL, {
+    const gql = this.getGQL(widgetId);
+    const response = await this.query(gql, {
       app: modelName,
       id: this.item.id,
     });
     if(this.modelName === modelName){
-      this.item = {...this.item,...response.data[`${modelName}_findOne`]};
+      this.setItem(response.data[`${modelName}_findOne`]);
     }
-    this.emit(`${widgetId}:find`,{
+    this.emit(`${modelName}:find:${widgetId}`,{
       items: response.data[`${modelName}_findOne`][objName].list,
       total: response.data[`${modelName}_findOne`][objName].count,
     });
@@ -160,51 +202,31 @@ export default class AppBean extends EE {
 
   async findByTab(params) {
     const { widgetId, modelName } = params;
-    const gql = widgetId === 'canvas_tabgroup2_tab1' ?
-      `
-        assocItem{
-          list{
-            id
-            itemNum
-            desc
-            amount
-            cost
-          }
-          count
-        }
-        `
-      :
-      `
-        assocPerson{
-          list{
-            id
-            personID
-            name
-            email
-          }
-          count
-        }
-        `;
-    const FindOne_GQL = `
-            query Find($app: String!, $id: ID!){
-              ${modelName}_findOne (app: $app, id: $id){
-                ${gql}
-              },
-            }
-          `;
-    const response = await this.query(FindOne_GQL, {
+    const gql = this.getGQL(widgetId);
+    const response = await this.query(gql, {
       app: modelName,
       id: this.item.id,
     });
     if(this.modelName === modelName){
-      this.item = {...this.item,...response.data[`${modelName}_findOne`]};
-      this.emit(`itemUpdated`,this.item);
+      this.setItem(response.data[`${modelName}_findOne`]);
     }else {
       this.emit(`${modelName}:findOne`,{
         item: response.data[`${modelName}_findOne`],
       });
     }
-    this.changeTabVisible({widgetId});
+    this.setTabVisible({widgetId});
+  }
+
+  async selectRecord(params){
+    const { modelName,value } = params;
+    const tabgroup = this.widgets.find(w => w.type === 'tabgroup' && w.detail.isMain);
+    if(tabgroup){
+      const tab = this.widgets.find(w => w.type === 'tab' && w.parentId === tabgroup.id && w.detail.type === 'insert');
+      if(tab) {
+        this.emit('findOne',{ modelName,widgetId: tab.id,value });
+        this.emit('changeAppTab', { widgetId: tab.id });
+      }
+    }
   }
 
   dialogOpen(params){
@@ -241,15 +263,10 @@ export default class AppBean extends EE {
     this.updateWidgets(widgets);
   }
 
-  changeTab(params){
-    const { modelName,widgetId } = params;
-    this.emit(`${modelName}:changeTab`,widgetId);
-  }
-
-  changeTabVisible(params){
+  setTabVisible(params){
     const { widgetId } = params;
     const widget = this.widgets.find(w => w.id === widgetId);
-    const widgets = this.widgets.map(w => {
+    this.widgets = this.widgets.map(w => {
       if(w.type === 'tab' && w.id === widgetId){
         return {
           ...w,
@@ -269,7 +286,6 @@ export default class AppBean extends EE {
       }
       return w;
     });
-    this.widgets = widgets;
   }
 
 
