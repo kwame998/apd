@@ -26,6 +26,7 @@ import HyperlinkDetail from './HyperlinkDetail';
 import StaticTextDetail from './StaticTextDetail';
 import DialogDetail from './DialogDetail';
 import SectionColDetail from './SectionColDetail';
+import SectionDetail from './SectionDetail';
 
 const mapState = state => ({
   selectedWidget: state.selectedWidget,
@@ -73,6 +74,7 @@ const Detail = ({visible,onCancel,form}) => {
           { selectedWidget.type === 'statictext' && <StaticTextDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'dialog' && <DialogDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'sectioncol' && <SectionColDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'section' && <SectionDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
         </Form>
       </div>
     </DraggableModal>

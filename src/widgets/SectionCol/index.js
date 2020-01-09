@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useMappedState } from 'redux-react-hook';
+import { Divider } from 'antd';
 import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../../utils';
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from "react-contextmenu";
@@ -35,7 +36,7 @@ const SectionCol = ({widget}) => {
     drag(drop(rootRef.current));
   },[]);
   const { detail = {} } = widget;
-  const { width = 'auto' } = detail;
+  const { label,width = 'auto' } = detail;
   const rootStyle = useMemo(
     () => ({
       width,
@@ -53,6 +54,7 @@ const SectionCol = ({widget}) => {
         className={styles.root}
         style={rootStyle}
       >
+        {!!label && <Divider orientation="left">{label}</Divider>}
         {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
       </div>
     </ContextMenuTrigger>

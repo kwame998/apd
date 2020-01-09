@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useMappedState, useDispatch } from 'redux-react-hook';
+import { Divider } from 'antd';
 import { getWidgetComponent, getWidgetDOMPosition,getWidgetAccept } from '../../utils';
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from 'react-contextmenu';
@@ -39,6 +40,9 @@ const Section = ({ widget }) => {
       backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : null,
     }),
     [isOverCurrent, selected]);
+
+  const { detail = {} } = widget;
+  const { label } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
@@ -49,6 +53,7 @@ const Section = ({ widget }) => {
            className={styles.root}
            style={rootStyle}
       >
+        {!!label && <Divider orientation="left">{label}</Divider>}
         {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
       </div>
     </ContextMenuTrigger>
