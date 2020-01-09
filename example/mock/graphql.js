@@ -64,6 +64,7 @@ const typeDefs = `
     woNum: String
     desc: String
     created_by: Person
+    created_time: Date
     status: Int
     assocEQ(pagination:Pagination, where:String, sorter: [SortItem]): EquipmentList
     assocItem(pagination:Pagination, where:String, sorter: [SortItem]): ItemList
