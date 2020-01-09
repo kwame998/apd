@@ -1,6 +1,5 @@
 import EE from 'eventemitter3'
 import request from './request';
-import React, { useEffect,useState,useMemo } from 'react';
 
 export default class AppBean extends EE {
 
