@@ -6,9 +6,6 @@ export default {
     [
       'umi-plugin-react',
       {
-        dva: {
-          immer: true
-        }
       },
     ]
   ],
