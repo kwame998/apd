@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import AppDesigner from '../../dist';
 import AppRenderer from '../../../apd-renderer/dist'
 import { connect } from 'dva';
 import { Tabs } from 'antd';
 import 'antd/lib/tabs/style';
 import styles from './index.less';
+import AppBean from '../utils/appbean';
 const { TabPane } = Tabs;
 
 const demoData = [
@@ -47,7 +48,7 @@ const demoData = [
   { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col1', id: 'canvas_tabgroup1_tab3_row1_col1_text1', title: '文本框',
     detail: {label:'工单编号',dataAttribute: 'woNum'}},
   { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col1', id: 'canvas_tabgroup1_tab3_row1_col1_text2', title: '文本框',
-    detail: {label:'工单描述',dataAttribute: 'woNum'}},
+    detail: {label:'工单描述',dataAttribute: 'desc'}},
   { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col2', id: 'canvas_tabgroup1_tab3_row1_col2_text3', title: '文本框',
     detail: {label:'创建人',dataAttribute: 'created_by.name'}},
   { type: 'textbox', parentId: 'canvas_tabgroup1_tab3_row1_col2', id: 'canvas_tabgroup1_tab3_row1_col2_text4', title: '文本框',
@@ -96,102 +97,16 @@ const demoData = [
     detail: { label: '取消',event: 'dialogClose' }},
 ];
 
-const AppDemo = ({dispatch,model}) => {
+const AppDemo = () => {
   const [widgets,setWidgets] = useState(demoData);
-  const events = {
-    fetch: (modelName,pagination,filter,sorter) => {
-      dispatch({type:`${modelName}/find`,payload: {pagination,filter,sorter}});
-    },
-    fetchTab: (modelName,tabId) => {
-      const gql = tabId === 'canvas_tabgroup2_tab1' ?
-        `
-        assocItem{
-          list{
-            id
-            itemNum
-            desc
-            amount
-            cost
-          }
-          count
-        }
-        `
-        :
-        `
-        assocPerson{
-          list{
-            id
-            personID
-            name
-            email
-          }
-          count
-        }
-        `;
-      dispatch({type:`${modelName}/findItem`,payload: {gql}});
-    },
-    selectRecord: (modelName,record) => {
-      const gql = `
-        id
-        woNum
-        desc
-        assocEQ{
-          list{
-            id
-            eqNum
-            desc
-            status
-          }
-          count
-        }
-      `;
-      dispatch({type:`${modelName}/findOne`,payload: {id:record.id,gql}});
-      const tabgroup = widgets.find(w => w.type === 'tabgroup' && w.detail.isMain);
-      if(tabgroup){
-        const tab = widgets.find(w => w.type === 'tab' && w.parentId === tabgroup.id && w.detail.type === 'insert');
-        if(tab)
-          events.changeTab(modelName,tab.id);
-      }
-    },
-    toggleRecord: (modelName,record) => {},
-    changeTab: (modelName,tabId) => {
-      dispatch({type:`${modelName}/setValue`,payload: {tab:tabId}});
-    },
-    dialogOpen: (dialogId)=>{
-      setWidgets(widgets.map(w => {
-        if(w.type === 'dialog' && w.detail.dialogId === dialogId){
-          return {
-            ...w,
-            detail: {
-              ...w.detail,
-              visible:true,
-            }
-          };
-        }
-        return w;
-      }));
-    },
-    dialogClose: (dialogId)=>{
-      setWidgets(widgets.map(w => {
-        if(w.type === 'dialog' && w.detail.dialogId === dialogId){
-          return {
-            ...w,
-            detail: {
-              ...w.detail,
-              visible:false,
-            }
-          };
-        }
-        return w;
-      }));
-    },
-    duplicate: () => {},
-    insert: () => {},
-    save: () => {},
-    previous: () => {},
-    next: () => {},
-    routeWF: () => {},
-  };
+  const [item,setItem] = useState({});
+  const [data,setData] = useState(widgets);
+  const model = useMemo(()=>{
+    const appBean = new AppBean(data);
+    appBean.on('widgetsUpdated',(w)=>setData(w));
+    appBean.on('itemUpdated',(i)=>setItem(i));
+    return appBean
+  },[]);
   return (
     <div className={styles.root}>
       <Tabs type="card">
@@ -200,7 +115,7 @@ const AppDemo = ({dispatch,model}) => {
         </TabPane>
         <TabPane tab="预览" key="2">
           <div style={{padding: 16,minHeight: 800}}>
-            <AppRenderer widgets={widgets} events={events} model={model} />
+            <AppRenderer model={model} item={item} widgets={data}/>
           </div>
         </TabPane>
       </Tabs>
@@ -208,6 +123,4 @@ const AppDemo = ({dispatch,model}) => {
   );
 };
 
-export default connect((model) => ({
-  model: model
-}))(AppDemo);
+export default AppDemo;
