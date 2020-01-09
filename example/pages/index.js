@@ -100,10 +100,9 @@ const demoData = [
 const AppDemo = () => {
   const [widgets,setWidgets] = useState(demoData);
   const [item,setItem] = useState({});
-  const [data,setData] = useState(widgets);
   const model = useMemo(()=>{
-    const appBean = new AppBean(data);
-    appBean.on('widgetsUpdated',(w)=>setData(w));
+    const appBean = new AppBean(widgets);
+    appBean.on('widgetsUpdated',(w)=>setWidgets(w));
     appBean.on('itemUpdated',(i)=>setItem(i));
     return appBean
   },[]);
@@ -115,7 +114,7 @@ const AppDemo = () => {
         </TabPane>
         <TabPane tab="预览" key="2">
           <div style={{padding: 16,minHeight: 800}}>
-            <AppRenderer model={model} item={item} widgets={data}/>
+            <AppRenderer model={model} item={item} widgets={widgets}/>
           </div>
         </TabPane>
       </Tabs>
