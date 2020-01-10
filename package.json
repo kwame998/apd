@@ -1,6 +1,6 @@
 {
   "name": "apd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "custom application designer",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -34,7 +34,7 @@
     "example": "example"
   },
   "devDependencies": {
-    "apd-renderer": "^0.0.4",
+    "apd-renderer": "^0.0.5",
     "eventemitter3": "^4.0.0",
     "father": "^2.16.0",
     "graphql": "^14.5.8",
