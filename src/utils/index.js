@@ -21,6 +21,8 @@ import Datasrc from '../widgets/Datasrc';
 import Dialog from '../widgets/Dialog';
 
 export function getWidgetComponent(widget) {
+  if(!widget)
+    return null;
   switch (widget.type){
     case 'tabgroup':
       return <TabGroup widget={widget} key={widget.id} />;
@@ -68,6 +70,8 @@ export function getWidgetComponent(widget) {
 }
 
 export function getWidgetAccept(widget) {
+  if(!widget)
+    return [];
   switch (widget.type){
     case 'canvas':
       return ['tabgroup','section','sectionrow','table','textbox','multilinetextbox','attachments','blankline','hyperlink',
