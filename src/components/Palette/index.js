@@ -7,12 +7,12 @@ import { Tooltip } from 'antd';
 
 
 const widgets = [
-  { type: 'tabgroup', title: '标签组',detail: { label: '标签组', }, icon:require('../assets/widgets/tabgroup.gif') },
+  { type: 'tabgroup', title: '标签组',detail: { label: '', }, icon:require('../assets/widgets/tabgroup.gif') },
   { type: 'tab', title: '标签',detail: { label: '标签', }, icon:require('../assets/widgets/tab.gif') },
   { type: 'attachments', title: '附件', detail: { label: '附件', }, icon:require('../assets/widgets/attachments.gif')},
-  { type: 'section', title: '部分',detail: { label: '部分', }, icon:require('../assets/widgets/section.gif') },
-  { type: 'sectionrow', title: '部分行',detail: { label: '部分行', }, icon:require('../assets/widgets/sectionrow.gif') },
-  { type: 'sectioncol', title: '部分列',detail: { label: '部分列', }, icon:require('../assets/widgets/sectioncol.gif') },
+  { type: 'section', title: '部分',detail: { label: '', }, icon:require('../assets/widgets/section.gif') },
+  { type: 'sectionrow', title: '部分行',detail: { label: '', }, icon:require('../assets/widgets/sectionrow.gif') },
+  { type: 'sectioncol', title: '部分列',detail: { label: '', }, icon:require('../assets/widgets/sectioncol.gif') },
   { type: 'table', title: '表格', detail: { label: '表格', }, icon:require('../assets/widgets/table.gif') },
   { type: 'tablecol', title: '表格列', detail: { label: '表格列', }, icon:require('../assets/widgets/tablecol.gif') },
   { type: 'combobox', title: '下拉框', detail: { label: '下拉框', }, icon:require('../assets/widgets/combobox.gif')},
