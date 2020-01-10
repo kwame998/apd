@@ -71,15 +71,6 @@ const Toolbar = () => {
       <div className={styles.root} ref={rootRef} style={rootStyle}>
         { expanded &&
           <>
-            <Tooltip placement="bottom" title="导入">
-              <img src={require('../assets/icons/nav_icon_import.gif')}
-                   onClick={()=>dispatch({ type: 'import' })} />
-            </Tooltip>
-            <Tooltip placement="bottom" title="导出">
-              <img style={{marginRight:0}}  src={require('../assets/icons/nav_icon_export.gif')}
-                   onClick={()=>dispatch({ type: 'export' })} />
-            </Tooltip>
-            <Divider type="vertical" />
             <Tooltip placement="bottom" title="控件选用板">
               <img src={require('../assets/icons/nav_icon_toolbox.gif')} onClick={()=>setPaletteVisible(!paletteVisible)}/>
             </Tooltip>

@@ -38,7 +38,6 @@ export default class AppBean extends EE {
     this.on('selectRecord',this.selectRecord);
     this.on('findByTab',this.findByTab);
     this.on('findByTable',this.findByTable);
-    this.on('changeAppTab',this.changeAppTab);
     this.on('dialogOpen',this.dialogOpen);
     this.on('dialogClose',this.dialogClose);
   }
@@ -46,11 +45,6 @@ export default class AppBean extends EE {
   updateWidgets(widgets){
     this.widgets = widgets;
     this.emit(`widgetsUpdated`,this.widgets);
-  }
-
-  changeAppTab(params){
-    const { widgetId } = params;
-    this.emit(`appTabChanged`,widgetId);
   }
 
   setItem(payload){
@@ -242,7 +236,7 @@ export default class AppBean extends EE {
       const tab = this.widgets.find(w => w.type === 'tab' && w.parentId === tabgroup.id && w.detail.type === 'insert');
       if(tab) {
         this.emit('findOne',{ modelName,widgetId: tab.id,value });
-        this.emit('changeAppTab', { widgetId: tab.id });
+        this.emit('changeAppTab', tab.id);
       }
     }
   }
