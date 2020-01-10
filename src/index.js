@@ -11,11 +11,11 @@ const store = makeStore();
 
 const AppDesigner = ({height = 800,lang = "zh",data,onChange = () => {}}) => {
   const i18n = useMemo(() => locale[lang.toLowerCase()], [lang]);
-  useEffect(() => {
+  useEffect(() => store.subscribe(() => onChange(store.getState().widgets)),[]);
+  useEffect(()=>{
     if(data)
       store.dispatch({ type: 'setValue', payload: {widgets:data} });
-    return store.subscribe(() => onChange(store.getState().widgets))
-  },[]);
+  },[data]);
   return (
     <DndProvider backend={HTML5Backend}>
       <StoreContext.Provider value={store}>

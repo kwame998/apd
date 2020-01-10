@@ -84,6 +84,9 @@ const Canvas = ({height}) => {
     [isOverCurrent,height,selected],);
   return (
     <>
+    {
+      !!widget 
+      && 
       <div ref={rootRef}
            className={classNames(styles.root,'canvas')}
            style={rootStyle}
@@ -99,6 +102,7 @@ const Canvas = ({height}) => {
         <Toolbar />
         <Menu />
       </div>
+    }
     </>
   );
 };
