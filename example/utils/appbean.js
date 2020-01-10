@@ -169,6 +169,8 @@ export default class AppBean extends EE {
       app: modelName,
       pagination: pagination || { currentPage: 1, pageSize: 10 },
     });
+    if(!response.data[`${modelName}_find`])
+      return;
     if(this.modelName === modelName){
       this.items = response.data[`${modelName}_find`].list;
       this.total = response.data[`${modelName}_find`].count;
@@ -186,6 +188,8 @@ export default class AppBean extends EE {
       app: modelName,
       id: value,
     });
+    if(!response.data[`${modelName}_findOne`])
+      return;
     if(this.modelName === modelName){
       this.setItem(response.data[`${modelName}_findOne`]);
     }else {
@@ -203,6 +207,8 @@ export default class AppBean extends EE {
       id: this.item.id,
       pagination: pagination || { currentPage: 1, pageSize: 5 },
     });
+    if(!response.data[`${modelName}_findOne`])
+      return;
     if(this.modelName === modelName){
       this.setItem(response.data[`${modelName}_findOne`]);
     }
@@ -219,6 +225,8 @@ export default class AppBean extends EE {
       app: modelName,
       id: this.item.id,
     });
+    if(!response.data[`${modelName}_findOne`])
+      return;
     if(this.modelName === modelName){
       this.setItem(response.data[`${modelName}_findOne`]);
     }else {
