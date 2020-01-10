@@ -24,7 +24,7 @@ const Dialog = ({ widget }) => {
   const [{isDragging}, drag, preview] = useDrag({
     item: { type: 'dialog' },
     end:(item,monitor) => {
-      const canvas = rootRef.current.parentNode;
+      const canvas = rootRef.current.parentNode.parentNode;
       const canvasRect = canvas.getBoundingClientRect();
       let x = monitor.getSourceClientOffset().x - canvasRect.left + canvas.scrollLeft;
       let y = monitor.getSourceClientOffset().y - canvasRect.top + canvas.scrollTop;
