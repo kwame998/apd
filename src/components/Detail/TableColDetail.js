@@ -13,6 +13,7 @@ const TableColDetail = ({ widget, getFieldDecorator }) => {
   return (
     <>
       <Form.Item label="标题">{getFieldDecorator('label',{ initialValue: detail.label })(<Input />)}</Form.Item>
+      <Form.Item label="合并标题">{getFieldDecorator('parentLabel',{ initialValue: detail.parentLabel })(<Input />)}</Form.Item>
       <Form.Item label="属性">{getFieldDecorator('dataAttribute',{ initialValue: detail.dataAttribute })(<Input />)}</Form.Item>
       <Form.Item label="类型">{getFieldDecorator('type',{ initialValue: detail.type })(
         <Select style={{width:140}}>

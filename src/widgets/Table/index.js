@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState,forwardRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import styles from './index.less'
@@ -13,19 +13,22 @@ const mapState = state => ({
   widgets: state.widgets,
 });
 
-const TableCol = ({widget,isHeader,children}) => {
+const TableCol = ({widget,isHeader,rowSpan = 1,children}) => {
   const [collectProps, drag] = useDrag({item: widget});
   const selected = widget ? widget.selected : false;
+  const { detail } = widget;
+  const { width } = detail;
   const dispatch = useDispatch();
   const tdStyle = useMemo(
     () => ({
       backgroundColor: selected ? SELECTED_COLOR : null,
+      width: width
     }),
-    [selected],);
-  const { detail } = widget;
+    [selected,width],);
   return (
     <td ref={drag}
         style={tdStyle}
+        rowSpan={rowSpan}
         onClick={(e)=>{
           dispatch({ type: 'selectWidget', payload: widget.id });
           e.stopPropagation()
@@ -68,6 +71,50 @@ const TableFooter = ({widget,parent}) => {
   )
 };
 
+const TableHeader = forwardRef(({columns},ref)=>{
+  const hasParentLabel = columns.find(c => !!c.detail.parentLabel);
+  const colMap = [];
+  for(let i = 0;i < columns.length;i++){
+    const parentLabel = columns[i].detail.parentLabel;
+    if(parentLabel){
+      let j = i + 1;
+      for(;j < columns.length; j++){
+        const parentLabel1 = columns[j].detail.parentLabel;
+        if(!parentLabel1 || parentLabel1 !== parentLabel)
+          break;
+      }
+      colMap.push(<td key={i} colSpan={j-i} style={{textAlign:'center'}}>{parentLabel}</td>);
+      i = j - 1;
+    }else{
+      colMap.push(<TableCol key={`${i}`} isHeader={true} rowSpan={2} widget={columns[i]}>{columns[i].detail.label}</TableCol>);
+    }
+  }
+
+  return (
+    <thead>
+      {
+        !hasParentLabel &&
+        <tr ref={ref}>
+          {columns.map((column, i) => (
+            <TableCol key={`${i}`} isHeader={true} widget={column}>{column.detail.label}</TableCol>
+          ))}
+        </tr>
+      }
+      {
+        hasParentLabel &&
+        <>
+          <tr>{colMap.map(th => th)}</tr>
+          <tr>
+          {columns.filter(c => !!c.detail.parentLabel).map((column,i) => (
+            <TableCol key={`${i}`} isHeader={true} widget={column}>{column.detail.label}</TableCol>
+          ))}
+          </tr>
+        </>
+      }
+    </thead>
+  )
+});
+
 const Table = ({widget}) => {
   const { widgets } = useMappedState(mapState);
   const selected = widget ? widget.selected : false;
@@ -99,8 +146,18 @@ const Table = ({widget}) => {
     }),
     [isOverCurrent,selected],);
   const { detail } = widget;
-  const { label,pageSize = 20 } = detail;
+  const { label,pageSize = 20,width } = detail;
+
+  const tableStyle =  useMemo(
+    () => ({
+      width: width,
+    }),
+    [width],);
+
   const footerBtnGroup = widgets.find(d => d.parentId === widget.id && d.type === 'buttongroup');
+  const columns = widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol');
+
+
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props) => ({ widget })}>
       <div ref={rootRef}
@@ -135,22 +192,18 @@ const Table = ({widget}) => {
               <Icon type="vertical-align-middle" />
           </div>
         </div>
-        <table>
-          <thead>
-            <tr ref={trRef}>
-            {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol').map((column,i) => (
-              <TableCol key={`${i}`} isHeader={true} widget={column}>{column.detail.label}</TableCol>
-            ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {widgets && widgets.filter(d => d.parentId === widget.id && d.type === 'tablecol').map((column,i) => (
-                <TableCol key={`${i}`} isHeader={false} widget={column}></TableCol>
-              ))}
-            </tr>
-          </tbody>
-        </table>
+        <div style={width?{overflowX:'scroll'}:null}>
+          <table style={tableStyle}>
+            <TableHeader columns={columns} ref={trRef} />
+            <tbody>
+              <tr>
+                {columns.map((column,i) => (
+                  <TableCol key={`${i}`} isHeader={false} widget={column}></TableCol>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <TableFooter widget={footerBtnGroup} parent={widget} />
       </div>
     </ContextMenuTrigger>
