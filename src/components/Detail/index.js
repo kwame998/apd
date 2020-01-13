@@ -25,6 +25,7 @@ import RadioButtonDetail from './RadioButtonDetail';
 import HyperlinkDetail from './HyperlinkDetail';
 import StaticTextDetail from './StaticTextDetail';
 import DialogDetail from './DialogDetail';
+import SectionRowDetail from './SectionRowDetail';
 import SectionColDetail from './SectionColDetail';
 import SectionDetail from './SectionDetail';
 
@@ -73,6 +74,7 @@ const Detail = ({visible,onCancel,form}) => {
           { selectedWidget.type === 'hyperlink' && <HyperlinkDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'statictext' && <StaticTextDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'dialog' && <DialogDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
+          { selectedWidget.type === 'sectionrow' && <SectionRowDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'sectioncol' && <SectionColDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
           { selectedWidget.type === 'section' && <SectionDetail widget={selectedWidget} getFieldDecorator={getFieldDecorator}/> }
         </Form>

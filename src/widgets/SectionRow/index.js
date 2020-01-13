@@ -5,6 +5,7 @@ import { getWidgetAccept, getWidgetComponent, getWidgetDOMPosition } from '../..
 import { DROP_COLOR, SELECTED_COLOR } from '../../constants';
 import { ContextMenuTrigger } from "react-contextmenu";
 import styles from './index.less'
+import { Divider } from 'antd';
 
 const mapState = state => ({
   widgets: state.widgets,
@@ -39,6 +40,8 @@ const SectionRow = ({widget}) => {
       backgroundColor: isOverCurrent ? DROP_COLOR : selected ? SELECTED_COLOR : null,
     }),
     [isOverCurrent,selected],);
+  const { detail = {} } = widget;
+  const { label } = detail;
   return (
     <ContextMenuTrigger id="rightMenu" holdToDisplay={-1} collect={(props)=> ({ widget })}>
       <div
@@ -50,6 +53,7 @@ const SectionRow = ({widget}) => {
         className={styles.root}
         style={rootStyle}
       >
+        {!!label && <Divider orientation="left">{label}</Divider>}
         {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
       </div>
     </ContextMenuTrigger>
