@@ -54,7 +54,9 @@ const SectionRow = ({widget}) => {
         style={rootStyle}
       >
         {!!label && <Divider orientation="left">{label}</Divider>}
+        <div className={styles.body}>
         {widgets && widgets.filter(d => d.parentId === widget.id).map(item => getWidgetComponent(item))}
+        </div>
       </div>
     </ContextMenuTrigger>
   );
