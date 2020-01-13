@@ -34,6 +34,14 @@ const TableColDetail = ({ widget, getFieldDecorator }) => {
       )}
       </Form.Item>
       <Form.Item label="宽度">{getFieldDecorator('width',{ initialValue: detail.width })(<InputNumber min={1} precision={0.1}/>)}</Form.Item>
+      <Form.Item label="对齐方式">{getFieldDecorator('align',{ initialValue: detail.align })(
+        <Select style={{width:140}}>
+          <Option value="left">居左</Option>
+          <Option value="center">居中</Option>
+          <Option value="right">居右</Option>
+        </Select>
+      )}
+      </Form.Item>
       <Form.Item label="查找">{getFieldDecorator('lookup',{ initialValue: detail.lookup })(<Input />)}</Form.Item>
       <Form.Item label="输入方式">{getFieldDecorator('inputMode',{ initialValue: detail.inputMode })(
         <Select style={{width:140}}>

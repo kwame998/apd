@@ -4,7 +4,7 @@ export default [
   { type: 'tabgroup', parentId: 'workorder', id: 'canvas_tabgroup1', title: '标签组', detail: { isMain:true }},
   { type: 'tab', parentId: 'canvas_tabgroup1', id: 'canvas_tabgroup1_tab1', title: '标签', detail: { label: '列表',type:'list',icon:'arrow-left'}},
   { type: 'table', parentId: 'canvas_tabgroup1_tab1', id: 'canvas_tabgroup1_tab1_table1', title: '表格',
-    detail: { label: '',isMain: true,width:1400 }},
+    detail: { label: '',isMain: true,width:1400,bordered:true }},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab1_table1', id: 'canvas_tabgroup1_tab1_table1_col1', title: '表格列',
     detail: { label: '工单编号',dataAttribute:'woNum',event:'selectRecord',width: 400}},
   { type: 'tablecol', parentId: 'canvas_tabgroup1_tab1_table1', id: 'canvas_tabgroup1_tab1_table1_col2', title: '表格列',
