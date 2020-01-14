@@ -23,12 +23,7 @@ export default class AppBean extends EE {
 
   constructor(widgets) {
     super();
-    this.widgets = widgets;
-    const canvasWidgets = widgets.filter(d => d.type === 'canvas');
-    const widget = canvasWidgets[0] || {};
-    this.rootWidget =  widget;
-    const {detail = {}} = widget;
-    this.modelName = detail.modelName;
+    this.updateWidgets(widgets);
     this.initEvents();
   }
 
@@ -44,6 +39,11 @@ export default class AppBean extends EE {
 
   updateWidgets(widgets){
     this.widgets = widgets;
+    const canvasWidgets = widgets.filter(d => d.type === 'canvas');
+    const widget = canvasWidgets[0] || {};
+    this.rootWidget =  widget;
+    const {detail = {}} = widget;
+    this.modelName = detail.modelName;
     this.emit(`widgetsUpdated`,this.widgets);
   }
 
