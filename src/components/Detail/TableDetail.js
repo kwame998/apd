@@ -21,7 +21,7 @@ const TableDetail = ({ widget,getFieldDecorator }) => {
       <Form.Item label="关系">{getFieldDecorator('relationship',{ initialValue: detail.relationship })(<Input />)}</Form.Item>
       <Form.Item label="数据源标识">{getFieldDecorator('dataSrc',{ initialValue: detail.dataSrc })(<Input />)}</Form.Item>
       <Form.Item label="控制类">{getFieldDecorator('beanClass',{ initialValue: detail.beanClass })(<Input />)}</Form.Item>
-      <Form.Item label="宽度">{getFieldDecorator('width',{ initialValue: detail.width })(<InputNumber min={1} max={1000}/>)}</Form.Item>
+      <Form.Item label="宽度">{getFieldDecorator('width',{ initialValue: detail.width })(<InputNumber min={1} max={10000}/>)}</Form.Item>
       <Form.Item label="输入方式"> {getFieldDecorator('inputMode',{ initialValue: detail.inputMode })(
           <Select style={{width:140}}>
             <Option value="default">缺省</Option>
